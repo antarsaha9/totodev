@@ -1,7 +1,7 @@
 import React from "react";
 import { Dropdown } from "react-bootstrap";
 import Link from "../Link";
-const HeaderTop = () =>{
+const HeaderTop = () => {
   return (
     <div className="top-bar">
       <div className="container">
@@ -184,13 +184,21 @@ const HeaderTop = () =>{
                 </select>
               </li> */}
                   <Dropdown as="li">
-                    <Dropdown.Toggle as="a" bsPrefix="none" href="#" className="text-dark">
+                    <Dropdown.Toggle
+                      as="a"
+                      bsPrefix="none"
+                      href="#"
+                      className="text-dark"
+                    >
                       <span>
                         {" "}
                         Language <i className="fa fa-caret-down text-muted" />
                       </span>{" "}
                     </Dropdown.Toggle>
-                    <Dropdown.Menu align="right" className="dropdown-menu-right dropdown-menu-arrow">
+                    <Dropdown.Menu
+                      align="right"
+                      className="dropdown-menu-right dropdown-menu-arrow"
+                    >
                       <a href="#" className="dropdown-item">
                         English
                       </a>
@@ -209,12 +217,20 @@ const HeaderTop = () =>{
                     </Dropdown.Menu>
                   </Dropdown>
                   <Dropdown as="li">
-                    <Dropdown.Toggle href="#" className="text-dark" bsPrefix="none" as="a">
+                    <Dropdown.Toggle
+                      href="#"
+                      className="text-dark"
+                      bsPrefix="none"
+                      as="a"
+                    >
                       <span>
                         Currency <i className="fa fa-caret-down text-muted" />
                       </span>
                     </Dropdown.Toggle>
-                    <Dropdown.Menu align="right" className="dropdown-menu-right dropdown-menu-arrow">
+                    <Dropdown.Menu
+                      align="right"
+                      className="dropdown-menu-right dropdown-menu-arrow"
+                    >
                       <a href="#" className="dropdown-item">
                         USD
                       </a>
@@ -242,9 +258,11 @@ const HeaderTop = () =>{
                   </Link>
                 </li>
                 <li>
-                  <a href="login.html" className="text-dark">
-                    <i className="fa fa-sign-in mr-1" /> <span>Login</span>
-                  </a>
+                  <Link to="/login" className="text-dark">
+                    <a className="text-dark">
+                      <i className="fa fa-sign-in mr-1" /> <span>Login</span>
+                    </a>
+                  </Link>
                 </li>
                 <Dropdown as="li">
                   <Dropdown.Toggle
@@ -259,7 +277,10 @@ const HeaderTop = () =>{
                       <i className="fa fa-caret-down ml-1" />
                     </span>
                   </Dropdown.Toggle>
-                  <Dropdown.Menu align="right" className="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                  <Dropdown.Menu
+                    align="right"
+                    className="dropdown-menu dropdown-menu-right dropdown-menu-arrow"
+                  >
                     <a href="/mydash" className="dropdown-item">
                       <i className="dropdown-icon icon icon-user" /> My Profile
                     </a>
@@ -286,5 +307,5 @@ const HeaderTop = () =>{
       </div>
     </div>
   );
-}
-export default  HeaderTop;
+};
+export default HeaderTop;
