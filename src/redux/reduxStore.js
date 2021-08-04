@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { createWrapper } from "next-redux-wrapper";
-import rootReducer from "./rootReducer";
+import authSlice, { authReducer } from "./authSlice";
 
 const reduxStore = configureStore({
-  reducer: rootReducer,
+  reducer: {
+    [authSlice.name]: authReducer,
+  },
   devTools: true,
 });
 

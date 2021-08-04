@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { firebaseAuth } from "src/services/firebase";
-import { saveUser } from "~redux/auth/authAction";
+import { authActions } from "~redux/authSlice";
 
 const Auth = ({ children }) => {
   const dispatch = useDispatch();
@@ -15,13 +15,13 @@ const Auth = ({ children }) => {
     firebaseAuth.onAuthStateChanged((user) => {
       if (user?.uid)
         dispatch(
-          saveUser({
+          authActions.saveUserInfo({
             uid: user.uid,
             email: user.email,
             displayName: user.displayName,
           })
         );
-      else dispatch(saveUser(null));
+      else dispatch(authActions.saveUserInfo(null));
     });
   }, []);
 
