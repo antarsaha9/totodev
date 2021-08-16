@@ -1,14 +1,14 @@
 import React from "react";
-import ProfileCard from "./components/ProfileCard";
-import SingleComment from "./components/SingleComment";
-import ReplayForm from "./components/ReplayForm";
-import SliderBlock from "./components/SliderBlock";
-import Map from "./components/Map";
-import CommentImage from "../../assets/images/users/male/1.jpg"
 import { Nav, Tab } from "react-bootstrap";
+import CommentImage from "../../assets/images/users/male/1.jpg";
 import FollowCard from "../../components/Cards/FollowCard";
-import {FollowerData} from "./data"
-const ProfileBody = () =>{
+import Map from "./components/Map";
+import ProfileCard from "./components/ProfileCard";
+import ReplayForm from "./components/ReplayForm";
+import SingleComment from "./components/SingleComment";
+import SliderBlock from "./components/SliderBlock";
+import { FollowerData } from "./data";
+const ProfileBody = () => {
   return (
     <>
       {/*Section*/}
@@ -24,7 +24,7 @@ const ProfileBody = () =>{
                 </div>
                 <div className="card-body">
                   <div className="map-header">
-                   <Map/>
+                    <Map />
                   </div>
                 </div>
               </div>
@@ -167,9 +167,12 @@ const ProfileBody = () =>{
                           </div>
                         </div>
                       </Tab.Pane>
-                      <Tab.Pane eventKey="second" className="userprof-tab border-bottom">
-                       <SingleComment
-                          className="p-5" 
+                      <Tab.Pane
+                        eventKey="second"
+                        className="userprof-tab border-bottom"
+                      >
+                        <SingleComment
+                          className="p-5"
                           title="Joanne Scott"
                           image={CommentImage}
                           star="4"
@@ -179,38 +182,37 @@ const ProfileBody = () =>{
                           text="Ut enim ad minim veniam, quis Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et nostrud exercitation ullamco laboris commodo consequat."
                           tags={[
                             {
-                              active:true,
-                              text:"Helpful"
+                              active: true,
+                              text: "Helpful",
                             },
                             {
-                              active:false,
-                              text:"comment"
+                              active: false,
+                              text: "comment",
                             },
                             {
-                              active:false,
-                              text:"report"
-                            }
+                              active: false,
+                              text: "report",
+                            },
                           ]}
-                       >
-                         <SingleComment 
-                          className="mt-5"
-                          title="Rose Slater"
-                          image={CommentImage}
-                          star={false}
-                          date="Dec 22st "
-                          time="6.00"
-                          location="Brezil"
-                          text="Ut enim ad minim veniam, quis Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et nostrud exercitation ullamco laboris commodo consequat."
-                          tags={[
-                            {
-                              active:false,
-                              text:"comment"
-                            }
-                          ]}
-                       />
-
-                       </SingleComment>
-                       <SingleComment 
+                        >
+                          <SingleComment
+                            className="mt-5"
+                            title="Rose Slater"
+                            image={CommentImage}
+                            star={false}
+                            date="Dec 22st "
+                            time="6.00"
+                            location="Brezil"
+                            text="Ut enim ad minim veniam, quis Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et nostrud exercitation ullamco laboris commodo consequat."
+                            tags={[
+                              {
+                                active: false,
+                                text: "comment",
+                              },
+                            ]}
+                          />
+                        </SingleComment>
+                        <SingleComment
                           className="mt-5 border-top p-5"
                           title="Edward"
                           image={CommentImage}
@@ -221,33 +223,42 @@ const ProfileBody = () =>{
                           text="Ut enim ad minim veniam, quis Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et nostrud exercitation ullamco laboris commodo consequat."
                           tags={[
                             {
-                              active:true,
-                              text:"Helpful"
+                              active: true,
+                              text: "Helpful",
                             },
                             {
-                              active:false,
-                              text:"comment"
+                              active: false,
+                              text: "comment",
                             },
                             {
-                              active:false,
-                              text:"report"
-                            }
+                              active: false,
+                              text: "report",
+                            },
                           ]}
-                       />
+                        />
                         <div className="p-5 border-top">
-                            <ReplayForm/>
+                          <ReplayForm />
                         </div>
                       </Tab.Pane>
                       <Tab.Pane eventKey="third">
                         <div className="p-5">
                           <div className="row">
-                           {FollowerData.map(({name,email,image},index)=>{
-                             return(
-                              <div className="col-lg-6 col-md-12" key={index + "flwdat"}>
-                                <FollowCard name={name} image={image} email={email} />
-                              </div>
-                             )
-                           })}
+                            {FollowerData.map(
+                              ({ name, email, image }, index) => {
+                                return (
+                                  <div
+                                    className="col-lg-6 col-md-12"
+                                    key={index + "flwdat"}
+                                  >
+                                    <FollowCard
+                                      name={name}
+                                      image={image}
+                                      email={email}
+                                    />
+                                  </div>
+                                );
+                              }
+                            )}
                           </div>
                         </div>
                       </Tab.Pane>
@@ -257,7 +268,7 @@ const ProfileBody = () =>{
               </Tab.Container>
               {/*Related Posts*/}
               <h3 className="mb-5 mt-4">User Products</h3>
-                            <SliderBlock/>
+              <SliderBlock />
               {/*/Related Posts*/}
             </div>
           </div>
@@ -266,5 +277,5 @@ const ProfileBody = () =>{
       {/*/Section*/}
     </>
   );
-}
+};
 export default ProfileBody;

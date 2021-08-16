@@ -1,7 +1,11 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Dropdown } from "react-bootstrap";
-import Link from "../Link";
+import { useSelector } from "react-redux";
+import { Link } from "..";
+
 const HeaderTop = () => {
+  const { user } = useSelector((store) => store.auth);
+
   return (
     <div className="top-bar">
       <div className="container">
@@ -252,54 +256,57 @@ const HeaderTop = () => {
           <div className="col-xl-4 col-lg-4 col-sm-8 col-5">
             <div className="top-bar-right">
               <ul className="custom">
-                <li>
-                  <Link to="/register" className="text-dark">
-                    <i className="fa fa-user mr-1" /> <span>Register</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/login" className="text-dark">
-                    <a className="text-dark">
-                      <i className="fa fa-sign-in mr-1" /> <span>Login</span>
-                    </a>
-                  </Link>
-                </li>
-                <Dropdown as="li">
-                  <Dropdown.Toggle
-                    href="#"
-                    className="text-dark"
-                    bsPrefix="none"
-                    as="a"
-                  >
-                    <i className="fa fa-home mr-1" />
-                    <span>
-                      My Dashboard
-                      <i className="fa fa-caret-down ml-1" />
-                    </span>
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu
-                    align="right"
-                    className="dropdown-menu dropdown-menu-right dropdown-menu-arrow"
-                  >
-                    <a href="/mydash" className="dropdown-item">
-                      <i className="dropdown-icon icon icon-user" /> My Profile
-                    </a>
-                    <a className="dropdown-item" href="#">
-                      <i className="dropdown-icon icon icon-speech" /> Inbox
-                    </a>
-                    <a className="dropdown-item" href="#">
-                      <i className="dropdown-icon icon icon-bell" />{" "}
-                      Notifications
-                    </a>
-                    <a href="mydash.html" className="dropdown-item">
-                      <i className="dropdown-icon  icon icon-settings" />{" "}
-                      Account Settings
-                    </a>
-                    <a className="dropdown-item" href="#">
-                      <i className="dropdown-icon icon icon-power" /> Log out
-                    </a>
-                  </Dropdown.Menu>
-                </Dropdown>
+                {!!!user ? (
+                  <Fragment>
+                    <li>
+                      <Link to="/register" className="text-dark">
+                        <i className="fa fa-user mr-1" /> <span>Register</span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/login" className="text-dark">
+                        <i className="fa fa-sign-in mr-1" /> <span>Login</span>
+                      </Link>
+                    </li>
+                  </Fragment>
+                ) : (
+                  <Dropdown as="li">
+                    <Dropdown.Toggle
+                      className="text-dark cursor-pointer"
+                      bsPrefix="none"
+                      as="span"
+                    >
+                      <i className="fa fa-home mr-1" />
+                      <span>
+                        My Dashboard
+                        <i className="fa fa-caret-down ml-1" />
+                      </span>
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu
+                      align="right"
+                      className="dropdown-menu dropdown-menu-right dropdown-menu-arrow"
+                    >
+                      <Link to="/profile" className="dropdown-item">
+                        <i className="dropdown-icon icon icon-user" /> My
+                        Profile
+                      </Link>
+                      <a className="dropdown-item" href="#">
+                        <i className="dropdown-icon icon icon-speech" /> Inbox
+                      </a>
+                      <a className="dropdown-item" href="#">
+                        <i className="dropdown-icon icon icon-bell" />{" "}
+                        Notifications
+                      </a>
+                      <a href="mydash.html" className="dropdown-item">
+                        <i className="dropdown-icon  icon icon-settings" />{" "}
+                        Account Settings
+                      </a>
+                      <a className="dropdown-item" href="#">
+                        <i className="dropdown-icon icon icon-power" /> Log out
+                      </a>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                )}
               </ul>
             </div>
           </div>

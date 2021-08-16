@@ -1,20 +1,26 @@
 import React from "react";
-
-import PageWrapper from "../components/core/PageWrapper";
+import NewsletterSection from "~sections/Innerpages/Newsletter/NewsletterSection";
+import ProfileBody from "~sections/profile/ProfileBody";
 import BreadcrumbSectionTwo from "../components/Breadcrumb/BreadcrumbSectionTwo";
-import ProfileBody from "../sections/profile/ProfileBody";
-import NewsLetterSection from "../sections/Innerpages/Newsletter";
-// import "../assets/scss/colors6.scss"
+import PageWrapper from "../components/core/PageWrapper";
+
 const headerConfig = {
-  bannerInner: <BreadcrumbSectionTwo title="User Profile2" nestedPageName="Pages" currentPageName="User Profile2"/>,
-  bannerClasses:"bg-background3"
-}
+  bannerInner: (
+    <BreadcrumbSectionTwo
+      title="User Profile2"
+      nestedPageName="Pages"
+      currentPageName="User Profile2"
+    />
+  ),
+  bannerClasses: "bg-background3",
+};
+
 const Profile = () => {
   return (
     <>
       <PageWrapper themeConfig={headerConfig}>
-        <ProfileBody/>
-        <NewsLetterSection/>
+        <ProfileBody />
+        <NewsletterSection />
       </PageWrapper>
     </>
   );
