@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { getUserProfile } from "src/services/profileService";
 import NewsletterSection from "~sections/Innerpages/Newsletter/NewsletterSection";
 import ProfileBody from "~sections/profile/ProfileBody";
 import BreadcrumbSectionTwo from "../components/Breadcrumb/BreadcrumbSectionTwo";
@@ -16,6 +17,12 @@ const headerConfig = {
 };
 
 const Profile = () => {
+  useEffect(() => {
+    getUserProfile().then((data) => {
+      console.log(data);
+    });
+  }, []);
+
   return (
     <>
       <PageWrapper themeConfig={headerConfig}>

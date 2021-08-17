@@ -7,9 +7,11 @@ class API {
   });
 
   static setHeader = (id_token) => {
+    const idToken = id_token || localStorage?.getItem("idToken");
+
     API.axios.defaults.headers = {
       common: {
-        authorization: id_token,
+        authorization: idToken,
       },
     };
   };

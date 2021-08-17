@@ -1,9 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { signInToAWS } from "src/services/authService";
 import { firebaseAuth } from "src/services/firebase";
-import { getUserProfile } from "src/services/profileService";
 import { authActions } from "~redux/authSlice";
 
 const Auth = ({ children }) => {
@@ -14,30 +12,28 @@ const Auth = ({ children }) => {
   console.log(loading, pathname);
 
   useEffect(() => {
-    firebaseAuth.onAuthStateChanged(async (user) => {
-      if (user?.uid) {
-        const idToken = await user.getIdToken();
-        const userObject = {
-          uid: user.uid,
-          email: user.email,
-          displayName: user.displayName,
-        };
+    const unregisterAuthObserver = firebaseAuth.onAuthStateChanged(
+      async (user) => {
+        if (user?.uid) {
+          const idToken = localStorage.getItem("idToken");
 
-        await signInToAWS(userObject, idToken).then((data) => {
-          console.log(data);
-        });
+          const userObject = {
+            uid: user.uid,
+            email: user.email,
+            displayName: user.displayName,
+          };
 
-        const test = await getUserProfile();
-        console.log(test);
+          dispatch(
+            authActions.saveUserInfo({
+              ...userObject,
+              idToken,
+            })
+          );
+        } else dispatch(authActions.saveUserInfo(null));
+      }
+    );
 
-        dispatch(
-          authActions.saveUserInfo({
-            ...userObject,
-            idToken,
-          })
-        );
-      } else dispatch(authActions.saveUserInfo(null));
-    });
+    return () => unregisterAuthObserver();
   }, []);
 
   return children;

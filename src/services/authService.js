@@ -16,7 +16,11 @@ export const signupWithEmailPassword = ({ email, password, name }) =>
     }
   });
 
-export const signInToAWS = async (data, idToken) => {
+export const setAPIHeader = (idToken) => {
   API.setHeader(idToken);
+};
+
+export const signInToAWS = (data, idToken) => {
+  setAPIHeader(idToken);
   return API.post("/login", data);
 };
