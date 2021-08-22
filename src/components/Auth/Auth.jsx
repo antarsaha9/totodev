@@ -16,11 +16,13 @@ const Auth = ({ children }) => {
       async (user) => {
         if (user?.uid) {
           const idToken = localStorage.getItem("idToken");
+          const seller_id = localStorage.getItem("seller_id");
 
           const userObject = {
             uid: user.uid,
             email: user.email,
             displayName: user.displayName,
+            seller_id,
           };
 
           dispatch(

@@ -33,12 +33,17 @@ const Login = () => {
         };
 
         user.getIdToken().then((idToken) => {
+          localStorage.setItem("idToken", idToken);
+          document.cookie = `idToken=${idToken}; path=/`;
+
           signInToAWS(userObject, idToken).then((data) => {
-            console.log(data);
-            console.log(idToken);
-            localStorage.setItem("idToken", idToken);
-            NotificationManager.success("Successfully logged in");
-            router.push("/");
+            if (data) {
+              console.log(data);
+              console.log(data.id);
+              localStorage.setItem("seller_id", data.id);
+              NotificationManager.success("Successfully logged in");
+              router.push("/dashboard");
+            }
           });
         });
 

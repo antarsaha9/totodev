@@ -1,10 +1,10 @@
 import React from "react";
-
-import PageWrapper from "../../components/core/PageWrapper";
 // import MenuNavbar from "../components/myDashBord/MenuNav";
 import BreadcrumbSectionTwo from "../../components/Breadcrumb/BreadcrumbSectionTwo";
-import NewsLetterSection from "../../sections/Innerpages/Newsletter";
+import PageWrapper from "../../components/core/PageWrapper";
 import EditSection from "../../sections/Dashboard/Edit";
+import NewsLetterSection from "../../sections/Innerpages/Newsletter";
+
 const headerConfig = {
   bannerInner: (
     <BreadcrumbSectionTwo
@@ -16,6 +16,7 @@ const headerConfig = {
   bannerClasses: "bg-background3",
   dashboardNav: true,
 };
+
 const Dashboard = () => {
   return (
     <>
@@ -26,4 +27,5 @@ const Dashboard = () => {
     </>
   );
 };
+
 export default Dashboard;

@@ -8,7 +8,8 @@ import ReplayForm from "./components/ReplayForm";
 import SingleComment from "./components/SingleComment";
 import SliderBlock from "./components/SliderBlock";
 import { FollowerData } from "./data";
-const ProfileBody = () => {
+
+const ProfileBody = ({ profile }) => {
   return (
     <>
       {/*Section*/}
@@ -17,7 +18,7 @@ const ProfileBody = () => {
           <div className="row">
             {/*Right Side Content*/}
             <div className="col-xl-3 col-lg-4 col-md-12">
-              <ProfileCard />
+              <ProfileCard profile={profile} />
               <div className="card mb-lg-0">
                 <div className="card-header">
                   <h3 className="card-title">Map location</h3>
@@ -63,7 +64,10 @@ const ProfileBody = () => {
                                 <span className="font-weight-semibold">
                                   Full Name :
                                 </span>{" "}
-                                <span className="text-muted">Jacob Smith</span>
+                                <span className="text-muted">
+                                  {" "}
+                                  {profile?.first_name} {profile?.last_name}
+                                </span>
                               </a>
                             </li>
                             <li>
@@ -71,7 +75,10 @@ const ProfileBody = () => {
                                 <span className="font-weight-semibold">
                                   Location :
                                 </span>{" "}
-                                <span className="text-muted">USA</span>
+                                <span className="text-muted">
+                                  {profile?.address} {profile?.city}{" "}
+                                  {profile?.country}
+                                </span>
                               </a>
                             </li>
                             <li>
@@ -90,7 +97,7 @@ const ProfileBody = () => {
                                   Website :
                                 </span>
                                 <span className="text-muted">
-                                  smithabgd.com
+                                  {profile?.website}
                                 </span>
                               </a>
                             </li>
@@ -101,7 +108,7 @@ const ProfileBody = () => {
                                 </span>
                                 <span className="text-muted">
                                   {" "}
-                                  georgemestayer@gmail.com
+                                  {profile?.email}
                                 </span>
                               </a>
                             </li>
@@ -111,31 +118,14 @@ const ProfileBody = () => {
                                   Phone :
                                 </span>{" "}
                                 <span className="text-muted">
-                                  +125 254 3562
+                                  {profile?.phone}
                                 </span>
                               </a>
                             </li>
                           </ul>
                           <h3 className="card-title mb-3 ">Biography</h3>
                           <div className="mb-0 profie-img">
-                            <p>
-                              At vero eos et accusamus et iusto odio dignissimos
-                              ducimus qui blanditiis praesentium voluptatum
-                              deleniti atcorrupti quos dolores et quas molestias
-                              excepturi sint occaecati cupiditate non provident,
-                              similique sunt in culpa qui officia deserunt
-                              mollitia animi, id est laborum et dolorum fuga.
-                            </p>
-                            <p className="mb-0">
-                              On the other hand, we denounce with righteous
-                              indignation and dislike men who are so beguiled
-                              and demoraliz the charms of pleasure of the
-                              moment, so blinded by desire, that they cannot
-                              foresee the pain and trouble thena bound to ensue;
-                              and equal blame belongs to those who fail in their
-                              duty through weakness of will, which is the same
-                              as saying through shrinking from toil and pain.
-                            </p>
+                            <p className="mb-0">{profile?.about}</p>
                           </div>
                         </div>
                         <div className="card-footer bg-white br-bl-3 br-br-3 border-bottom">

@@ -4,14 +4,13 @@ import { NotificationManager } from "react-notifications";
 class API {
   static axios = _axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
+    withCredentials: true,
   });
 
   static setHeader = (id_token) => {
-    const idToken = id_token || localStorage?.getItem("idToken");
-
     API.axios.defaults.headers = {
       common: {
-        authorization: idToken,
+        authorization: id_token,
       },
     };
   };
@@ -34,7 +33,7 @@ class API {
   static get = async (url, config) => {
     try {
       const response = await API.axios.get(url, config);
-      return response.data;
+      return response.data?.data;
     } catch (error) {
       return API.handleError(error);
     }
@@ -43,6 +42,15 @@ class API {
   static post = async (url, data, config) => {
     try {
       const response = await API.axios.post(url, data, config);
+      return response.data?.data;
+    } catch (error) {
+      return API.handleError(error);
+    }
+  };
+
+  static put = async (url, data, config) => {
+    try {
+      const response = await API.axios.put(url, data, config);
       return response.data;
     } catch (error) {
       return API.handleError(error);

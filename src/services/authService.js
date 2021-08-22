@@ -17,7 +17,8 @@ export const signupWithEmailPassword = ({ email, password, name }) =>
   });
 
 export const setAPIHeader = (idToken) => {
-  API.setHeader(idToken);
+  const token = idToken || localStorage?.getItem("idToken");
+  API.setHeader(token);
 };
 
 export const signInToAWS = (data, idToken) => {

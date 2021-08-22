@@ -18,4 +18,5 @@ const Register = () => {
     </PageWrapper>
   );
 };
+
 export default Register;

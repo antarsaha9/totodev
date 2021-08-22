@@ -34,7 +34,7 @@ const App = ({ Component, pageProps }) => {
     Router.onRouteChangeError = (err, url) => {
       setLoader(false);
     };
-  }, [Router]);
+  }, []);
 
   if (loader) {
     return <Loader show={loader} />;
