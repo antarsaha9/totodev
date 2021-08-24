@@ -16,14 +16,6 @@ const EditSection = () => {
   const [profile, setProfile] = useState(null);
 
   const handleFormSubmit = async (values) => {
-    // console.log(values);
-
-    // const test = await getUploadUrl(values.img);
-    // const test = await uploadFile(
-    //   "https://test-multipart-12345.s3.us-east-2.amazonaws.com/profile_image/profile-pic-linkdint.jpg?Content-Type=image%2Fjpeg&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAQ4EN24MFFNPCHQJE%2F20210822%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20210822T044830Z&X-Amz-Expires=3000&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEL3%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMiJGMEQCIFPf%2F7LjBlT4wGKaImM229%2FYz6nxoNO5y9t8nkoegIowAiBBq80NHCWoi3WVE2ckbloQwu%2F%2BiXUG8EOqAfKLtmK93CqYAgjm%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F8BEAAaDDA2MDQyNzAwMjYzNCIMDObRDAUOwH6%2Ffo5bKuwBD0lFewUhpZ4L%2BSJpr%2B6XYOzK27pd60fdfiDEQpnUJw6XG1CVca0UoRWj7mPXeDju2%2B39AKWSZysaSLa2eXHQsbD2gpiBNvgYqyL3KkSZ2uO3QMqK%2F9Ioq3NdHcRiZy7EM6DJxPOtpL7HDHaWnW5zVOANgS645Pv6qm7xpuI0Pa1Mr%2FWwZQD7QjjuKfTDzXMkUE%2BK%2FLApFywb5jKMvArjgeh1lyCy%2BGQ80VNLW0H%2BRgBav6Z5S1Xua8KjEd6H70tr3xG8t6e7WgHraxMxWuw1NAiskeKoXkFGqMys9GNLMCNEYrQqXRe1mNN4L8Uwna6HiQY6mwFLdPtdEI357%2BFKFzNwIVOuX620p8dIB4HOonpAATRFb7HTKPHA3Vg%2FSfQDQzZIhegNYzOqoSnsao93YBLtF9UThJEcAy%2FDvoKTkOhwdJzlu00EZC4IKPMyhjTfB%2FoV3NiWVouDa0pipf20dWbGgK7EpL%2BOMhIa3lzF6Q7SzXE3%2Btc9sjq1F1oIxhRUI9LnySikUAKvnjYxkW7vdQ%3D%3D&X-Amz-Signature=676c11a46d8ee8f51b21ebb45ec717350bf4555557a48defed09500c745c1b02&X-Amz-SignedHeaders=host%3Bx-amz-acl&x-amz-acl=public-read",
-    //   values.img
-    // );
-    // console.log(test);
     const data = await updateProfile(values);
     NotificationManager.success(data);
   };
@@ -297,7 +289,6 @@ const EditSection = () => {
                           <FormLabel>About Me</FormLabel>
                           <FormControl
                             type="text"
-                            // className="form-control"
                             placeholder="Enter About your description"
                             name="about"
                             as="textarea"

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getMyProfile } from "src/services/profileService";
+import { getSellerReviews } from "src/services/reviewService";
 import NewsletterSection from "~sections/Innerpages/Newsletter/NewsletterSection";
 import ProfileBody from "~sections/profile/ProfileBody";
 import BreadcrumbSectionTwo from "../components/Breadcrumb/BreadcrumbSectionTwo";
@@ -18,16 +19,28 @@ const headerConfig = {
 
 const Profile = () => {
   const [profile, setProfile] = useState(null);
+  const [review, setReview] = useState(null);
+
+  const loadData = async () => {
+    const promiseList = [];
+
+    promiseList.push(getMyProfile());
+    promiseList.push(getSellerReviews());
+
+    const [profileData, reviewData] = await Promise.all(promiseList);
+
+    setProfile(profileData);
+    setReview(reviewData);
+    console.log(profileData, reviewData);
+  };
 
   useEffect(() => {
-    getMyProfile().then((data) => {
-      setProfile(data);
-    });
+    loadData();
   }, []);
 
   return (
     <PageWrapper themeConfig={headerConfig}>
-      <ProfileBody profile={profile} />
+      <ProfileBody profile={profile} review={review} />
       <NewsletterSection profile={profile} />
     </PageWrapper>
   );

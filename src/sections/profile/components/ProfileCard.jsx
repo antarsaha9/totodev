@@ -10,10 +10,15 @@ const ProfileCard = ({ profile }) => {
       <div className="item-user">
         <div className="profile-pic wideget-user-img mb-0 pt-3">
           <Image
-            src={profile?.image_url || UserImage}
+            src={
+              profile?.image_url ? `http://${profile?.image_url}` : UserImage
+            }
+            blurDataURL={UserImage}
             className="brround"
             alt="user"
             placeholder="blur"
+            height={100}
+            width={100}
           />
         </div>
       </div>
@@ -99,21 +104,19 @@ const ProfileCard = ({ profile }) => {
       <div className="card-body item-user">
         <h4 className="mb-4">Contact Info</h4>
         <div>
-          <h6>
+          <h6 className="d-flex  mb-2">
             <span className="font-weight-semibold">
-              <i className="fa fa-map-marker mr-2 mb-2" />
+              <i className="fa fa-map-marker mr-2" />
             </span>
-            <a href="#" className="text-body">
-              {" "}
+            <span className="text-body">
               {profile?.address} {profile?.city} {profile?.country}
-            </a>
+            </span>
           </h6>
           <h6>
             <span className="font-weight-semibold">
               <i className="fa fa-envelope mr-3 mb-2" />
             </span>
-            <a href="#" className="text-body">
-              {" "}
+            <a href={`mailto:${profile?.email}`} className="text-body">
               {profile?.email}
             </a>
           </h6>
@@ -121,10 +124,7 @@ const ProfileCard = ({ profile }) => {
             <span className="font-weight-semibold">
               <i className="fa fa-phone mr-3  mb-2" />
             </span>
-            <a href="#" className="text-body">
-              {" "}
-              {profile?.phone}
-            </a>
+            <span className="text-body">{profile?.phone}</span>
           </h6>
           {/* <h6>
             <span className="font-weight-semibold">

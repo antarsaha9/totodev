@@ -9,7 +9,9 @@ import SingleComment from "./components/SingleComment";
 import SliderBlock from "./components/SliderBlock";
 import { FollowerData } from "./data";
 
-const ProfileBody = ({ profile }) => {
+const ProfileBody = ({ profile, review }) => {
+  console.log(review?.comments);
+
   return (
     <>
       {/*Section*/}
@@ -161,47 +163,51 @@ const ProfileBody = ({ profile }) => {
                         eventKey="second"
                         className="userprof-tab border-bottom"
                       >
-                        <SingleComment
-                          className="p-5"
-                          title="Joanne Scott"
-                          image={CommentImage}
-                          star="4"
-                          date="Dec 21st "
-                          time="13.00"
-                          location="Brezil"
-                          text="Ut enim ad minim veniam, quis Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et nostrud exercitation ullamco laboris commodo consequat."
-                          tags={[
-                            {
-                              active: true,
-                              text: "Helpful",
-                            },
-                            {
-                              active: false,
-                              text: "comment",
-                            },
-                            {
-                              active: false,
-                              text: "report",
-                            },
-                          ]}
-                        >
+                        {review?.comments.map((item, ind) => (
                           <SingleComment
-                            className="mt-5"
-                            title="Rose Slater"
+                            className="p-5"
+                            title="Joanne Scott"
                             image={CommentImage}
-                            star={false}
-                            date="Dec 22st "
-                            time="6.00"
+                            star="4"
+                            date="Dec 21st "
+                            time="13.00"
                             location="Brezil"
                             text="Ut enim ad minim veniam, quis Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et nostrud exercitation ullamco laboris commodo consequat."
                             tags={[
                               {
+                                active: true,
+                                text: "Helpful",
+                              },
+                              {
                                 active: false,
                                 text: "comment",
                               },
+                              {
+                                active: false,
+                                text: "report",
+                              },
                             ]}
-                          />
-                        </SingleComment>
+                            key={ind}
+                          >
+                            <SingleComment
+                              className="mt-5"
+                              title="Rose Slater"
+                              image={CommentImage}
+                              star={false}
+                              date="Dec 22st "
+                              time="6.00"
+                              location="Brezil"
+                              text="Ut enim ad minim veniam, quis Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et nostrud exercitation ullamco laboris commodo consequat."
+                              tags={[
+                                {
+                                  active: false,
+                                  text: "comment",
+                                },
+                              ]}
+                            />
+                          </SingleComment>
+                        ))}
+
                         <SingleComment
                           className="mt-5 border-top p-5"
                           title="Edward"
