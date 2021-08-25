@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import React from "react";
 import { Nav, Tab } from "react-bootstrap";
 import CommentImage from "../../assets/images/users/male/1.jpg";
@@ -166,13 +167,13 @@ const ProfileBody = ({ profile, review }) => {
                         {review?.comments.map((item, ind) => (
                           <SingleComment
                             className="p-5"
-                            title="Joanne Scott"
+                            title={item.name}
                             image={CommentImage}
-                            star="4"
-                            date="Dec 21st "
-                            time="13.00"
-                            location="Brezil"
-                            text="Ut enim ad minim veniam, quis Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et nostrud exercitation ullamco laboris commodo consequat."
+                            star={item.rating}
+                            date={format(new Date(item.created_at), "MMM do")}
+                            time={format(new Date(item.created_at), "HH:mm")}
+                            location={item.address}
+                            text={item.review}
                             tags={[
                               {
                                 active: true,
@@ -187,27 +188,33 @@ const ProfileBody = ({ profile, review }) => {
                                 text: "report",
                               },
                             ]}
-                            key={ind}
+                            key={item.id}
                           >
-                            <SingleComment
-                              className="mt-5"
-                              title="Rose Slater"
-                              image={CommentImage}
-                              star={false}
-                              date="Dec 22st "
-                              time="6.00"
-                              location="Brezil"
-                              text="Ut enim ad minim veniam, quis Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et nostrud exercitation ullamco laboris commodo consequat."
-                              tags={[
-                                {
-                                  active: false,
-                                  text: "comment",
-                                },
-                              ]}
-                            />
+                            {item.comments?.map((item, ind) => (
+                              <SingleComment
+                                className="mt-5"
+                                title={item.name}
+                                image={CommentImage}
+                                star={false}
+                                date={format(
+                                  new Date(item.created_at),
+                                  "MMM do"
+                                )}
+                                time={format(
+                                  new Date(item.created_at),
+                                  "HH:mm"
+                                )}
+                                tags={[
+                                  {
+                                    active: false,
+                                    text: "comment",
+                                  },
+                                ]}
+                              />
+                            ))}
                           </SingleComment>
                         ))}
-
+                        {/* 
                         <SingleComment
                           className="mt-5 border-top p-5"
                           title="Edward"
@@ -231,7 +238,7 @@ const ProfileBody = ({ profile, review }) => {
                               text: "report",
                             },
                           ]}
-                        />
+                        /> */}
                         <div className="p-5 border-top">
                           <ReplayForm />
                         </div>
