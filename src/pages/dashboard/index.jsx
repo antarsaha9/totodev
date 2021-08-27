@@ -1,4 +1,5 @@
 import React from "react";
+import withAuth from "~components/Auth/withAuth";
 // import MenuNavbar from "../components/myDashBord/MenuNav";
 import BreadcrumbSectionTwo from "../../components/Breadcrumb/BreadcrumbSectionTwo";
 import PageWrapper from "../../components/core/PageWrapper";
@@ -28,4 +29,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default withAuth(Dashboard);

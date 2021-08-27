@@ -3,13 +3,18 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { firebaseAuth } from "src/services/firebase";
 import { authActions } from "~redux/authSlice";
+import protectedPaths from "./protectedPaths";
 
 const Auth = ({ children }) => {
   const dispatch = useDispatch();
-  const { loading } = useSelector((store) => store.auth);
+  const { loading, user } = useSelector((store) => store.auth);
   const { pathname } = useRouter();
 
-  console.log(loading, pathname);
+  useEffect(() => {
+    if (protectedPaths.includes(pathname)) {
+      console.log("kdflakdsfads");
+    }
+  }, [pathname, loading, user]);
 
   useEffect(() => {
     const unregisterAuthObserver = firebaseAuth.onAuthStateChanged(

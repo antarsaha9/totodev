@@ -10,9 +10,7 @@ const ProfileCard = ({ profile }) => {
       <div className="item-user">
         <div className="profile-pic wideget-user-img mb-0 pt-3">
           <Image
-            src={
-              profile?.image_url ? `http://${profile?.image_url}` : UserImage
-            }
+            src={profile?.image_url || UserImage}
             blurDataURL={UserImage}
             className="brround"
             alt="user"

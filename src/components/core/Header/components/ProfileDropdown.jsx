@@ -1,7 +1,8 @@
+import { useRouter } from "next/router";
 import React from "react";
 import { Dropdown } from "react-bootstrap";
+import { signOut } from "src/services/authService";
 import styled from "styled-components";
-import cartImage from "../../../../assets/images/media/pictures/small/01.jpg";
 
 const dropdownItems = [
   {
@@ -81,7 +82,15 @@ const DropdownItem = ({ icon, title }) => {
     </a>
   );
 };
+
 const ProfileDropdownBlock = () => {
+  const router = useRouter();
+
+  const handleSignOut = async () => {
+    await signOut();
+    router.push("/");
+  };
+
   return (
     <ProfileDropdown className="d-md-flex profile-1" as={Dropdown}>
       <Dropdown.Toggle className="nav-link icon" as="a" bsPrefix="none">
@@ -92,22 +101,22 @@ const ProfileDropdownBlock = () => {
         align="right"
         className="dropdown-menu-right dropdown-menu-arrow"
       >
-          <div className="drop-heading">
-            <div className="text-center">
-              <h5 className="text-dark mb-1">Jacob Smith</h5>
-              <small className="text-muted fs-16 text-primary font-weight-semibold">
-                $478.99
-              </small>
-            </div>
+        <div className="drop-heading">
+          <div className="text-center">
+            <h5 className="text-dark mb-1">Jacob Smith</h5>
+            <small className="text-muted fs-16 text-primary font-weight-semibold">
+              $478.99
+            </small>
           </div>
-          <div className="dropdown-divider m-0"></div>
-          {dropdownItems.map(({ icon, title },index) => {
-            return (
-              <DropdownItem icon={icon} title={title}  key={index + "prdr"}/>
-            );
-          })}
+        </div>
+        <div className="dropdown-divider m-0"></div>
+        {dropdownItems.map(({ icon, title }, index) => {
+          return (
+            <DropdownItem icon={icon} title={title} key={index + "prdr"} />
+          );
+        })}
         <div className="dropdown-divider mt-0" />
-        <a className="dropdown-item" href="#">
+        <a className="dropdown-item cursor-pointer" onClick={handleSignOut}>
           <i className="dropdown-icon ti-unlock" /> Logout
         </a>
       </Dropdown.Menu>

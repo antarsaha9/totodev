@@ -1,10 +1,18 @@
+import { useRouter } from "next/router";
 import React, { Fragment } from "react";
 import { Dropdown } from "react-bootstrap";
 import { useSelector } from "react-redux";
+import { signOut } from "src/services/authService";
 import { Link } from "..";
 
 const HeaderTop = () => {
+  const router = useRouter();
   const { user } = useSelector((store) => store.auth);
+
+  const handleSignOut = async () => {
+    await signOut();
+    router.push("/");
+  };
 
   return (
     <div className="top-bar">
@@ -297,11 +305,14 @@ const HeaderTop = () => {
                         <i className="dropdown-icon icon icon-bell" />{" "}
                         Notifications
                       </a>
-                      <a href="mydash.html" className="dropdown-item">
+                      <a href="/" className="dropdown-item">
                         <i className="dropdown-icon  icon icon-settings" />{" "}
                         Account Settings
                       </a>
-                      <a className="dropdown-item" href="#">
+                      <a
+                        className="dropdown-item cursor-pointer"
+                        onClick={handleSignOut}
+                      >
                         <i className="dropdown-icon icon icon-power" /> Log out
                       </a>
                     </Dropdown.Menu>
@@ -315,4 +326,5 @@ const HeaderTop = () => {
     </div>
   );
 };
+
 export default HeaderTop;

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getMyProfile } from "src/services/profileService";
 import { getSellerReviews } from "src/services/reviewService";
+import withAuth from "~components/Auth/withAuth";
 import NewsletterSection from "~sections/Innerpages/Newsletter/NewsletterSection";
 import ProfileBody from "~sections/profile/ProfileBody";
 import BreadcrumbSectionTwo from "../components/Breadcrumb/BreadcrumbSectionTwo";
@@ -46,4 +47,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default withAuth(Profile);

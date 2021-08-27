@@ -1,26 +1,38 @@
 import { Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import {
+  Button,
   Container,
   FormControl,
   FormGroup,
   FormLabel,
+  Image,
+  ProgressBar,
   Row,
+  Spinner,
 } from "react-bootstrap";
 import { NotificationManager } from "react-notifications";
+import { createYupObject } from "src/services/helper";
 import { getMyProfile, updateProfile } from "src/services/profileService";
 import * as yup from "yup";
 import SelectBox from "~components/Forms/SelectBox";
 
 const EditSection = () => {
   const [profile, setProfile] = useState(null);
+  const [progress, setProgress] = useState(0);
 
   const handleFormSubmit = async (values) => {
-    const data = await updateProfile(values);
+    const data = await updateProfile(values, setProgress);
     NotificationManager.success(data);
   };
 
-  console.log(profile);
+  const handleFileSelect = (e, setFieldValue) => {
+    const file = e.target.files[0];
+    const url = URL.createObjectURL(file);
+
+    setFieldValue("img", file);
+    setFieldValue("image_url", url);
+  };
 
   useEffect(() => {
     getMyProfile().then((data) => {
@@ -300,6 +312,15 @@ const EditSection = () => {
                           ></FormControl>
                         </FormGroup>
                       </div>
+
+                      <Image
+                        className="mb-3"
+                        src={values?.image_url}
+                        width="64px"
+                        height="64px"
+                        roundedCircle
+                      />
+
                       <div className="col-md-12">
                         <div className="form-group mb-0">
                           <label className="form-label">Upload Image</label>
@@ -309,7 +330,7 @@ const EditSection = () => {
                               className="custom-file-input"
                               accept="image/*"
                               onChange={(e) =>
-                                setFieldValue("img", e.target.files[0])
+                                handleFileSelect(e, setFieldValue)
                               }
                             />
                             <label className="custom-file-label">
@@ -318,16 +339,36 @@ const EditSection = () => {
                           </div>
                         </div>
                       </div>
+
+                      {progress > 0 && (
+                        <div className="col-md-12 mt-3">
+                          <ProgressBar
+                            variant="success"
+                            now={progress}
+                            label={`${progress}%`}
+                          />
+                        </div>
+                      )}
                     </div>
                   </div>
                   <div className="card-footer">
-                    <button
+                    <Button
+                      variant="primary"
                       type="submit"
-                      className="btn ripple  btn-secondary"
                       disabled={isSubmitting}
                     >
-                      Updated Profile
-                    </button>
+                      {isSubmitting && (
+                        <Spinner
+                          className="mr-2"
+                          as="span"
+                          animation="border"
+                          size="sm"
+                          role="status"
+                          aria-hidden="true"
+                        />
+                      )}
+                      <span className="visually-hidden">Update Profile</span>
+                    </Button>
                   </div>
                 </div>
               </div>
@@ -339,27 +380,29 @@ const EditSection = () => {
   );
 };
 
-const initialValue = {
-  first_name: "",
-  last_name: "New Name",
-  email: "",
-  phone: "",
-  address: "",
-  city: "",
-  country: "India",
-  postal_code: "",
-  google_id: "",
-  facebook_id: "",
-  twitter_id: "",
-  pinterest_id: "",
-  about: "",
-  image_url: "",
+const yupData = {
+  // key: [value, yup rules]
+  first_name: ["", yup.string().required("${path} is required")],
+  last_name: ["", yup.string().required("${path} is required")],
+  email: [
+    "",
+    yup.string().email("Invalid email").required("${path} is required"),
+  ],
+  phone: [""],
+  address: [""],
+  city: [""],
+  country: [""],
+  postal_code: [""],
+  google_id: [""],
+  facebook_id: [""],
+  twitter_id: [""],
+  pinterest_id: [""],
+  about: [""],
+  image_url: [""],
 };
 
-const formSchema = yup.object().shape({
-  first_name: yup.string().required("${path} is required"),
-  last_name: yup.string().required("${path} is required"),
-  email: yup.string().email("Invalid email").required("${path} is required"),
-});
+const initialValue = createYupObject(yupData).initialValue;
+
+const formSchema = yup.object().shape(createYupObject(yupData).shape);
 
 export default EditSection;

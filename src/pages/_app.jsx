@@ -1,16 +1,3 @@
-// import Router from "next/router";
-// import { useEffect, useState } from "react";
-// import Auth from "~components/Auth/Auth";
-// import { reduxWrapper } from "~redux/reduxStore";
-// import Layout from "../components/core/Layout";
-// import Loader from "../components/Loader";kw
-// import "../../node_modules/slick-carousel/slick/slick.css";
-// import "../assets/scss/style.scss";
-// import "../assets/scss/colors6.scss"
-// import "../assets/fonts/feather/feather.css"
-// import "../assets/fonts/font-awesome/css/font-awesome.min.css"
-// import "../assets/fonts/simple-line-icons/simple-line-icons.css"
-// import "../assets/fonts/themify/themify.css"
 import Router from "next/router";
 import { useEffect, useState } from "react";
 import { NotificationContainer } from "react-notifications";

@@ -7,16 +7,16 @@ export const getMyProfile = (idToken) => {
   return API.post("/getMyProfile");
 };
 
-export const updateProfile = async (values) => {
+export const updateProfile = async (values, setProgress) => {
   setAPIHeader();
 
   if (values.img) {
     const { url: uploadUrl } = await getUploadUrl(values.img);
 
-    await uploadFile(uploadUrl, values.img);
+    await uploadFile(uploadUrl, values.img, setProgress);
 
     const temp = new URL(uploadUrl);
-    values.image_url = temp.host + temp.pathname;
+    values.image_url = `http://${temp.host}${temp.pathname}`;
   }
 
   return API.post("/updateProfile", values);

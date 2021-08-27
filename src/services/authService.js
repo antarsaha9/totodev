@@ -25,3 +25,10 @@ export const signInToAWS = (data, idToken) => {
   setAPIHeader(idToken);
   return API.post("/login", data);
 };
+
+export const signOut = async () => {
+  const p1 = firebaseAuth.signOut();
+  const p2 = API.post("/logout");
+
+  return Promise.all([p1, p2]);
+};

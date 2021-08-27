@@ -38,11 +38,17 @@ const Login = () => {
 
           signInToAWS(userObject, idToken).then((data) => {
             if (data) {
-              console.log(data);
-              console.log(data.id);
               localStorage.setItem("seller_id", data.id);
               NotificationManager.success("Successfully logged in");
-              router.push("/dashboard");
+
+              if (
+                window.history.length > 1 &&
+                document.referrer.indexOf(window.location.host) !== -1
+              ) {
+                router.back();
+              } else {
+                router.replace("/dashboard");
+              }
             }
           });
         });
