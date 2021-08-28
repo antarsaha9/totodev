@@ -1,7 +1,6 @@
 import { Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import {
-  Button,
   Container,
   FormControl,
   FormGroup,
@@ -9,12 +8,12 @@ import {
   Image,
   ProgressBar,
   Row,
-  Spinner,
 } from "react-bootstrap";
 import { NotificationManager } from "react-notifications";
 import { createYupObject } from "src/services/helper";
 import { getMyProfile, updateProfile } from "src/services/profileService";
 import * as yup from "yup";
+import LoadingButton from "~components/Buttons/LoadingButton";
 import SelectBox from "~components/Forms/SelectBox";
 
 const EditSection = () => {
@@ -352,23 +351,9 @@ const EditSection = () => {
                     </div>
                   </div>
                   <div className="card-footer">
-                    <Button
-                      variant="primary"
-                      type="submit"
-                      disabled={isSubmitting}
-                    >
-                      {isSubmitting && (
-                        <Spinner
-                          className="mr-2"
-                          as="span"
-                          animation="border"
-                          size="sm"
-                          role="status"
-                          aria-hidden="true"
-                        />
-                      )}
-                      <span className="visually-hidden">Update Profile</span>
-                    </Button>
+                    <LoadingButton loading={isSubmitting}>
+                      Update Profile
+                    </LoadingButton>
                   </div>
                 </div>
               </div>

@@ -1,20 +1,10 @@
-import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { firebaseAuth } from "src/services/firebase";
 import { authActions } from "~redux/authSlice";
-import protectedPaths from "./protectedPaths";
 
 const Auth = ({ children }) => {
   const dispatch = useDispatch();
-  const { loading, user } = useSelector((store) => store.auth);
-  const { pathname } = useRouter();
-
-  useEffect(() => {
-    if (protectedPaths.includes(pathname)) {
-      console.log("kdflakdsfads");
-    }
-  }, [pathname, loading, user]);
 
   useEffect(() => {
     const unregisterAuthObserver = firebaseAuth.onAuthStateChanged(

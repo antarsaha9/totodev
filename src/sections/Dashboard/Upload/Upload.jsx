@@ -1,9 +1,10 @@
 import { Formik } from "formik";
 import React, { useState } from "react";
-import { Container } from "react-bootstrap";
+import { Container, FormControl, FormGroup, FormLabel } from "react-bootstrap";
 import { NotificationManager } from "react-notifications";
 import { createYupObject } from "src/services/helper";
 import * as yup from "yup";
+import LoadingButton from "~components/Buttons/LoadingButton";
 import SidebarCard from "~components/Cards/SidebarCard";
 import SelectBox from "./components/SelectBox";
 
@@ -62,29 +63,39 @@ const UploadSection = () => {
                         </div>
                       </div>
                       <div className="col-sm-12 col-md-12">
-                        <div className="form-group">
-                          <label className="form-label text-dark">
-                            Enter Name
-                          </label>
-                          <input
+                        <FormGroup>
+                          <FormLabel>Enter Name</FormLabel>
+                          <FormControl
                             type="text"
-                            className="form-control"
                             placeholder="Enter Name"
+                            name="item_name"
+                            value={values.item_name}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            isInvalid={touched.item_name && errors.item_name}
                           />
-                        </div>
+                          {touched.item_name && errors.item_name && (
+                            <FormControl.Feedback type="invalid">
+                              {errors.item_name}
+                            </FormControl.Feedback>
+                          )}
+                        </FormGroup>
                       </div>
                       <div className="col-md-12">
-                        <div className="form-group">
-                          <label className="form-label text-dark">
-                            Description
-                          </label>
-                          <textarea
-                            className="form-control h-auto"
-                            name="example-textarea-input"
-                            rows={6}
+                        <FormGroup>
+                          <FormLabel>Description</FormLabel>
+                          <FormControl
+                            className="h-auto"
+                            type="text"
                             placeholder="Enter your description"
-                          />
-                        </div>
+                            name="description"
+                            as="textarea"
+                            rows="6"
+                            value={values.description}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                          ></FormControl>
+                        </FormGroup>
                       </div>
                       <div className="col-md-12">
                         <div className="form-group">
@@ -144,16 +155,28 @@ const UploadSection = () => {
                       </div>
 
                       <div className="col-md-12">
-                        <div className="form-group">
-                          <label className="form-label text-dark">
+                        <FormGroup>
+                          <FormLabel>
                             Tags <span className="text-danger">*</span>
-                          </label>
-                          <textarea
-                            className="form-control h-100"
+                          </FormLabel>
+                          <FormControl
+                            className="h-auto"
+                            type="text"
                             placeholder="Enter Item tags..."
+                            name="tags"
+                            as="textarea"
                             rows="3"
-                          ></textarea>
-                        </div>
+                            value={values.tags}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            isInvalid={touched.tags && errors.tags}
+                          ></FormControl>
+                          {touched.tags && errors.tags && (
+                            <FormControl.Feedback type="invalid">
+                              {errors.tags}
+                            </FormControl.Feedback>
+                          )}
+                        </FormGroup>
                       </div>
                       <div className="col-md-12">
                         <div className="form-group">
@@ -272,9 +295,9 @@ const UploadSection = () => {
                     </div>
                   </div>
                   <div className="card-footer text-right">
-                    <a href="#" className="btn ripple  btn-primary">
+                    <LoadingButton loading={isSubmitting}>
                       Submit Now
-                    </a>
+                    </LoadingButton>
                   </div>
                 </div>
               </div>
@@ -344,23 +367,9 @@ const UploadSection = () => {
 
 const yupData = {
   // key: [value, yup rules]
-  first_name: ["", yup.string().required("${path} is required")],
-  last_name: ["", yup.string().required("${path} is required")],
-  email: [
-    "",
-    yup.string().email("Invalid email").required("${path} is required"),
-  ],
-  phone: [""],
-  address: [""],
-  city: [""],
-  country: [""],
-  postal_code: [""],
-  google_id: [""],
-  facebook_id: [""],
-  twitter_id: [""],
-  pinterest_id: [""],
-  about: [""],
-  image_url: [""],
+  item_name: ["", yup.string().required("name is required")],
+  description: ["", yup.string().required("${path} is required")],
+  tags: ["", yup.string().required("${path} are required")],
 };
 
 const initialValue = createYupObject(yupData).initialValue;
