@@ -1,8 +1,15 @@
 import { Formik } from "formik";
 import React, { useState } from "react";
-import { Container, FormControl, FormGroup, FormLabel } from "react-bootstrap";
+import {
+  Container,
+  FormControl,
+  FormGroup,
+  FormLabel,
+  ProgressBar,
+} from "react-bootstrap";
 import { NotificationManager } from "react-notifications";
 import { createYupObject } from "src/services/helper";
+import { handleLargeFileUpload } from "src/services/uploadService";
 import * as yup from "yup";
 import LoadingButton from "~components/Buttons/LoadingButton";
 import SidebarCard from "~components/Cards/SidebarCard";
@@ -13,7 +20,9 @@ const UploadSection = () => {
   const [progress, setProgress] = useState(0);
 
   const handleFormSubmit = async (values) => {
-    NotificationManager.success(data);
+    console.log(values);
+    await handleLargeFileUpload(values.file);
+    NotificationManager.success("data");
   };
 
   return (
@@ -56,8 +65,8 @@ const UploadSection = () => {
                             ]}
                             filterBox={true}
                             defaultValue="Search Categories"
-                            name="category"
-                            defaultValue={values.category}
+                            name="category_name"
+                            defaultValue={values.category_name}
                             setFieldValue={setFieldValue}
                           />
                         </div>
@@ -101,31 +110,20 @@ const UploadSection = () => {
                         <div className="form-group">
                           <label className="form-label">Upload Image</label>
                           <div className="custom-file">
-                            <input
+                            <FormControl
                               type="file"
                               className="custom-file-input"
                               name="example-file-input-custom"
+                              accept="image/*"
+                              isInvalid={touched.img && errors.img}
+                              onChange={(e) =>
+                                setFieldValue("img", e.target.files[0])
+                              }
                             />
                             <label className="custom-file-label">
-                              Choose file
+                              {values.img?.name || "Choose file"}
                             </label>
                           </div>
-                        </div>
-                      </div>
-                      <div className="col-md-12">
-                        <div className="form-group">
-                          <label className="form-label text-dark">Image1</label>
-                          <SelectBox
-                            data={["Image2-1", "Image1-1"]}
-                            defaultValue="Image1"
-                          />
-                        </div>
-                        <div className="form-group">
-                          <label className="form-label text-dark">Image2</label>
-                          <SelectBox
-                            data={["Image2-1", "Image1-1"]}
-                            defaultValue="Image2"
-                          />
                         </div>
                       </div>
                       <div className="col-sm-6 col-md-6">
@@ -133,25 +131,43 @@ const UploadSection = () => {
                           <label className="form-label">
                             File Included<span className="text-danger">*</span>
                           </label>
-                          <input
-                            type="email"
-                            className="form-control"
-                            placeholder="Enter here"
-                          />
+                          <div className="custom-file">
+                            <FormControl
+                              type="file"
+                              className="custom-file-input"
+                              name="example-file-input-custom"
+                              isInvalid={touched.file && errors.file}
+                              onChange={(e) =>
+                                setFieldValue("file", e.target.files[0])
+                              }
+                            />
+                            <label className="custom-file-label">
+                              {values.file?.name || "Choose file"}
+                            </label>
+                          </div>
                         </div>
                       </div>
                       <div className="col-sm-6 col-md-6">
-                        <div className="form-group">
-                          <label className="form-label">
-                            Item Dimensions
+                        <FormGroup>
+                          <FormLabel>
+                            Price
                             <span className="text-danger">*</span>
-                          </label>
-                          <input
-                            type="email"
-                            className="form-control"
-                            placeholder="Enter Dimensions"
+                          </FormLabel>
+                          <FormControl
+                            type="number"
+                            placeholder="Price"
+                            name="price"
+                            value={values.price}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            isInvalid={touched.price && errors.price}
                           />
-                        </div>
+                          {touched.price && errors.price && (
+                            <FormControl.Feedback type="invalid">
+                              {errors.price}
+                            </FormControl.Feedback>
+                          )}
+                        </FormGroup>
                       </div>
 
                       <div className="col-md-12">
@@ -164,8 +180,8 @@ const UploadSection = () => {
                             type="text"
                             placeholder="Enter Item tags..."
                             name="tags"
-                            as="textarea"
-                            rows="3"
+                            // as="textarea"
+                            // rows="3"
                             value={values.tags}
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -178,122 +194,17 @@ const UploadSection = () => {
                           )}
                         </FormGroup>
                       </div>
-                      <div className="col-md-12">
-                        <div className="form-group">
-                          <div className="row">
-                            <div className="col-md-3">
-                              <label className="form-label">Item Theme:</label>
-                            </div>
-                            <div className="col-md-9">
-                              <SelectBox
-                                data={[
-                                  "Default Theme",
-                                  "Light Theme",
-                                  "Dark Theme",
-                                  "Sidebar light Theme",
-                                  "Sidebar Dark Theme",
-                                  "RTL",
-                                ]}
-                                defaultValue="Choose Theme"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-md-12">
-                        <div className="form-group ">
-                          <div className="row">
-                            <div className="col-md-3">
-                              <label className="form-label" id="inputEmail4">
-                                Color Theme:
-                              </label>
-                            </div>
-                            <div className="col-md-9">
-                              <div className="custom-controls-stacked d-flex">
-                                <label className="custom-control custom-radio mr-4">
-                                  <input
-                                    type="radio"
-                                    className="custom-control-input"
-                                    name="example-radios"
-                                    defaultValue="option1"
-                                    defaultChecked
-                                  />
-                                  <span className="custom-control-label">
-                                    Light
-                                  </span>
-                                </label>
-                                <label className="custom-control custom-radio">
-                                  <input
-                                    type="radio"
-                                    className="custom-control-input"
-                                    name="example-radios"
-                                    defaultValue="option2"
-                                  />
-                                  <span className="custom-control-label">
-                                    Dark
-                                  </span>
-                                </label>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-md-12">
-                        <div className="form-group mb-0">
-                          <div className="row">
-                            <div className="col-md-3">
-                              <label className="form-label">
-                                Responsive Layout:
-                              </label>
-                            </div>
-                            <div className="col-md-9">
-                              <label className="custom-switch pl-0">
-                                <input
-                                  type="checkbox"
-                                  name="custom-switch-checkbox"
-                                  className="custom-switch-input"
-                                />
-                                <span className="custom-switch-indicator" />
-                                <span className="custom-switch-description">
-                                  On/Off
-                                </span>
-                              </label>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* <div className="form-group">
-                <label className="form-label text-dark">Price</label>
-                <input type="text" className="form-control" placeholder="$24" />
-              </div>
-              <div className="form-group">
-                <label className="form-label text-dark">Message</label>
-                <textarea
-                  className="form-control h-auto"
-                  name="example-textarea-input"
-                  rows={6}
-                  placeholder="text here.."
-                />
-              </div>
-              <div className="custom-controls-stacked">
-                <label className="custom-control custom-checkbox">
-                  <input
-                    type="checkbox"
-                    className="custom-control-input"
-                    name="example-checkbox1"
-                    defaultValue="option1"
-                  />
-                  <span className="custom-control-label">
-                    I Agree, et iusto odio dignissimos ducimus qui blanditiis
-                    praesentium voluptatum deleniti atcorrupti quos dolores et
-                    quas molestias excepturi sint occaecati cupiditate non
-                    provident
-                  </span>
-                </label>
-              </div> */}
                     </div>
+
+                    {progress > 0 && (
+                      <ProgressBar
+                        now={progress}
+                        label={`${progress}%`}
+                        variant="primary"
+                      />
+                    )}
                   </div>
+
                   <div className="card-footer text-right">
                     <LoadingButton loading={isSubmitting}>
                       Submit Now
@@ -366,10 +277,16 @@ const UploadSection = () => {
 };
 
 const yupData = {
-  // key: [value, yup rules]
-  item_name: ["", yup.string().required("name is required")],
-  description: ["", yup.string().required("${path} is required")],
-  tags: ["", yup.string().required("${path} are required")],
+  category_name: ["Angular", yup.string().required("name is required")],
+  item_name: ["Test Item", yup.string().required("name is required")],
+  description: [
+    "This is a short description",
+    yup.string().required("${path} is required"),
+  ],
+  tags: ["website, ecommerce", yup.string().required("${path} is required")],
+  price: ["645", yup.number().required("${path} is required")],
+  file: ["", yup.mixed().required("${path} is required")],
+  img: ["", yup.mixed().required("${path} is required")],
 };
 
 const initialValue = createYupObject(yupData).initialValue;
