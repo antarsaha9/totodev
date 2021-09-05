@@ -9,10 +9,10 @@ import {
 } from "react-bootstrap";
 import { NotificationManager } from "react-notifications";
 import { createYupObject } from "src/services/helper";
-import { handleLargeFileUpload } from "src/services/uploadService";
 import * as yup from "yup";
 import LoadingButton from "~components/Buttons/LoadingButton";
 import SidebarCard from "~components/Cards/SidebarCard";
+import { addSellerItem } from "~services/itemService";
 import SelectBox from "./components/SelectBox";
 
 const UploadSection = () => {
@@ -20,9 +20,10 @@ const UploadSection = () => {
   const [progress, setProgress] = useState(0);
 
   const handleFormSubmit = async (values) => {
-    console.log(values);
-    await handleLargeFileUpload(values.file);
-    NotificationManager.success("data");
+    const data = await addSellerItem(values, setProgress);
+
+    if (data) NotificationManager.success("Item added successfully");
+    else NotificationManager.error("Couldn't add item");
   };
 
   return (
@@ -178,7 +179,7 @@ const UploadSection = () => {
                           <FormControl
                             className="h-auto"
                             type="text"
-                            placeholder="Enter Item tags..."
+                            placeholder="Use comma to separate"
                             name="tags"
                             // as="textarea"
                             // rows="3"

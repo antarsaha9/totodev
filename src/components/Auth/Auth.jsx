@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { firebaseAuth } from "src/services/firebase";
 import { authActions } from "~redux/authSlice";
+import { removeAPIHeader, setAPIHeader } from "~services/authService";
 
 const Auth = ({ children }) => {
   const dispatch = useDispatch();
@@ -20,13 +21,18 @@ const Auth = ({ children }) => {
             seller_id,
           };
 
+          setAPIHeader();
+
           dispatch(
             authActions.saveUserInfo({
               ...userObject,
               idToken,
             })
           );
-        } else dispatch(authActions.saveUserInfo(null));
+        } else {
+          removeAPIHeader();
+          dispatch(authActions.saveUserInfo(null));
+        }
       }
     );
 

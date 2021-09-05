@@ -21,6 +21,10 @@ export const setAPIHeader = (idToken) => {
   API.setHeader(token);
 };
 
+export const removeAPIHeader = () => {
+  delete API.axios.defaults.headers;
+};
+
 export const signInToAWS = (data, idToken) => {
   setAPIHeader(idToken);
   return API.post("/login", data);

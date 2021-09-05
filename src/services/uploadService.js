@@ -19,7 +19,7 @@ export const uploadFile = (url, file, setProgress) => {
           (progressEvent.loaded * 100) / progressEvent.total
         );
 
-        if (setProgress) setProgress(percentCompleted);
+        setProgress(percentCompleted);
       },
     };
   }
@@ -53,7 +53,7 @@ export const getBufferFromObject = (file) =>
     reader.readAsArrayBuffer(file);
   });
 
-export const handleLargeFileUpload = async (file) => {
+export const uploadLargePrivateFile = async (file, setProgress) => {
   const maxChunkSize = 10485760; //10 MB
   const partCount = Math.ceil(file.size / maxChunkSize);
 
@@ -63,15 +63,24 @@ export const handleLargeFileUpload = async (file) => {
     partCount,
   });
 
+  const progressList = [];
+  let totalProgress = 0;
+
   const fileBuffer = await getBufferFromObject(file);
 
   const promiseList = urls.map((url, ind) => {
+    progressList[ind] = 0;
+
     const part =
       ind < partCount - 1
         ? fileBuffer.slice(maxChunkSize * ind, maxChunkSize * (ind + 1))
         : fileBuffer.slice(ind * maxChunkSize);
 
-    return uploadFile(url, part);
+    return uploadFile(url, part, (progress) => {
+      progressList[ind] = progress;
+      totalProgress = progressList.reduce((total, value) => total + value, 0);
+      setProgress(Math.floor(totalProgress / partCount));
+    });
   });
 
   const resultList = await Promise.all(promiseList);
@@ -80,11 +89,9 @@ export const handleLargeFileUpload = async (file) => {
     PartNumber: ind + 1,
   }));
 
-  const testq = await API.post("/completeMultipartUpload", {
+  return API.post("/completeMultipartUpload", {
     objectPath,
     uploadId,
     parts: etags,
   });
-
-  console.log(testq);
 };
