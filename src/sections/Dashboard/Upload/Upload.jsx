@@ -56,14 +56,7 @@ const UploadSection = () => {
                       <div className="col-sm-12 col-md-12">
                         <div className="form-group">
                           <SelectBox
-                            data={[
-                              "HTML",
-                              "Wordpress",
-                              "Angular",
-                              "PHP",
-                              "PSD",
-                              "Others",
-                            ]}
+                            data={categoryList}
                             filterBox={true}
                             defaultValue="Search Categories"
                             name="category_name"
@@ -277,8 +270,19 @@ const UploadSection = () => {
   );
 };
 
+const categoryList = [
+  "HTML",
+  "CSS",
+  "Javascript",
+  "Wordpress",
+  "Angular",
+  "PHP",
+  "PSD",
+  "Others",
+];
+
 const yupData = {
-  category_name: ["Angular", yup.string().required("name is required")],
+  category_name: ["HTML", yup.string().required("name is required")],
   item_name: ["Test Item", yup.string().required("name is required")],
   description: [
     "This is a short description",

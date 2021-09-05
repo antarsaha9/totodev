@@ -51,7 +51,7 @@ const SelectBox = ({ data, defaultValue = "Select", filterBox }) => {
   return (
     <MenuWrapper>
       <Menu
-        menuButton={<MenuButton type="button">{value}</MenuButton>}
+        menuButton={<MenuButton>{value}</MenuButton>}
         onChange={(e) => e.open && setFilter("")}
       >
         {filterBox ? (
