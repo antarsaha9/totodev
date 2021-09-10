@@ -1,21 +1,34 @@
 import React from "react";
+import { Dropdown } from "react-bootstrap";
 // import Image from "next/image";
 import styled from "styled-components";
-const ProductImage = styled.div`
-  min-width:70px;
-  max-width:70px;
-  min-height:70px;
-  max-height:70px;
-`
+import { Link } from "~components/core";
+
+const ProductImage = styled.img`
+  height: 60px;
+  min-height: 60px;
+  width: 80px;
+  min-width: 80px;
+`;
+
+const DropdownButton = styled(Dropdown.Toggle)`
+  &:after {
+    display: none;
+  }
+`;
+
 const ProductRow = ({
-  image,
-  title,
+  image_url,
+  item_name,
   date,
-  tag,
+  tags,
   price,
-  badge,
-  badgeText,
+  item_status,
+  id,
+  handleItemStatusChange,
 }) => {
+  const badge = item_status === "PUBLISHED" ? "success" : "danger";
+
   return (
     <div className="row ml-0 mr-0 border-top">
       <div className="col-md-6 col-sm-6">
@@ -31,29 +44,21 @@ const ProductRow = ({
               <span className="custom-control-label" />
             </label>
             <div className="media mt-0 mb-0">
-              <ProductImage className="card-aside-img">
-                <a href="#" >
-                <img
-                src={image.src}
-                alt="cart-image"
-                className="br-4"
-                />
-                </a>
-              </ProductImage>
+              <ProductImage src={image_url} />
               <div className="media-body">
                 <div className="card-item-desc ml-4 p-0">
                   <a href="#" className="text-dark">
-                    <h4 className="text-over">{title}</h4>
+                    <h4 className="text-over">{item_name}</h4>
                   </a>
                   {date ? (
                     <div className="text-muted">
                       <i className="fa fa-clock-o mr-1" /> {date}
                     </div>
                   ) : null}
-                  {tag ? (
-                    <div className="text-muted">
+                  {tags ? (
+                    <div className="text-muted text-capitalize mt-1">
                       <i className="fa fa-tag mr-1" />
-                      {tag}
+                      {tags}
                     </div>
                   ) : null}
                 </div>
@@ -69,35 +74,47 @@ const ProductRow = ({
       </div>
       <div className="col-md-2 col-sm-6">
         <div className="card-body">
-          <a href="#" className={`badge badge-${badge}`}>
-            {badgeText}
-          </a>
+          <span className={`badge badge-${badge}`}>{item_status}</span>
         </div>
       </div>
       <div className="col-md-2 col-sm-6">
         <div className="card-body">
-          <div className="btn-list">
-            <a
-              href="edit-posts.html"
+          <div className="btn-list d-flex">
+            <Link
               className="btn ripple  btn-secondary btn-sm text-white"
-              data-toggle="tooltip"
-              data-original-title="Edit"
+              to={{ pathname: "/dashboard/upload", query: { id } }}
             >
               <i className="fa fa-pencil" />
-            </a>
-            <a
-              className="btn ripple  btn-info btn-sm text-white"
-              data-toggle="tooltip"
-              data-original-title="Delete"
-            >
-              <i className="fa fa-trash-o" />
-            </a>
+            </Link>
+
+            <Dropdown>
+              <DropdownButton size="sm" variant="success">
+                <i className="fa fa-ellipsis-v" />
+              </DropdownButton>
+
+              <Dropdown.Menu>
+                {item_status !== "PUBLISHED" ? (
+                  <Dropdown.Item
+                    onClick={handleItemStatusChange(id, "PUBLISH")}
+                  >
+                    Publish
+                  </Dropdown.Item>
+                ) : (
+                  <Dropdown.Item
+                    onClick={handleItemStatusChange(id, "SUSPEND")}
+                  >
+                    Suspend
+                  </Dropdown.Item>
+                )}
+                <Dropdown.Item onClick={handleItemStatusChange(id, "DELETE")}>
+                  Delete
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
           </div>
         </div>
       </div>
     </div>
   );
-}
-export default  ProductRow;
-
-// "../../../assets/images/" +
+};
+export default ProductRow;

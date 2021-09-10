@@ -62,15 +62,14 @@ const SelectBox = ({
   const handleFilterChange = (e) => setFilter(e.target.value);
   const handleMenuClick = (item) => () => {
     setvalue(item);
+    console.log(item);
     if (name && setFieldValue) setFieldValue(name, item);
   };
 
   return (
     <MenuWrapper>
       <Menu
-        menuButton={
-          <MenuButton onClick={(e) => e.preventDefault()}>{value}</MenuButton>
-        }
+        menuButton={<MenuButton>{value}</MenuButton>}
         onChange={(e) => e.open && setFilter("")}
       >
         {filterBox ? (

@@ -16,6 +16,7 @@ const headerConfig = {
   bannerClasses: "bg-background3",
   dashboardNav: true,
 };
+
 const Dashboard = () => {
   return (
     <>

@@ -1,5 +1,5 @@
 import { useScrollPosition } from "@n8tb1t/use-scroll-position";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import styled from "styled-components";
 import brandLogo from "../../../assets/images/brand/logo1.png";
@@ -80,22 +80,31 @@ const HeaderButton = styled.button`
 `;
 
 const Header = () => {
-  const gContext = useContext(GlobalHeaderContext);
   const [showScrolling, setShowScrolling] = useState(false);
   const [showReveal, setShowReveal] = useState(false);
+  const [isAlive, setAlive] = useState(true);
+
+  const gContext = useContext(GlobalHeaderContext);
 
   useScrollPosition(({ prevPos, currPos }) => {
-    if (currPos.y < 0) {
-      setShowScrolling(true);
-    } else {
-      setShowScrolling(false);
-    }
-    if (currPos.y < -300) {
-      setShowReveal(true);
-    } else {
-      setShowReveal(false);
+    if (isAlive) {
+      if (currPos.y < 0) {
+        setShowScrolling(true);
+      } else {
+        setShowScrolling(false);
+      }
+      if (currPos.y < -300) {
+        setShowReveal(true);
+      } else {
+        setShowReveal(false);
+      }
     }
   });
+
+  useEffect(() => {
+    return () => setAlive(false);
+  }, []);
+
   return (
     <>
       <div className="headerstyle1">

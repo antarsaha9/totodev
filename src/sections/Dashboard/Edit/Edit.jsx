@@ -20,9 +20,10 @@ const EditSection = () => {
   const [profile, setProfile] = useState(null);
   const [progress, setProgress] = useState(0);
 
-  const handleFormSubmit = async (values) => {
+  const handleFormSubmit = async (values, { resetForm }) => {
     const data = await updateProfile(values, setProgress);
     NotificationManager.success(data);
+    resetForm();
   };
 
   const handleFileSelect = (e, setFieldValue) => {
