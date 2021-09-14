@@ -1,22 +1,50 @@
-import React from "react";
-
-import PageWrapper from "../components/core/PageWrapper";
+import React, { useEffect, useState } from "react";
+import { getMyProfile } from "src/services/profileService";
+import { getSellerReviews } from "src/services/reviewService";
+import withAuth from "~components/Auth/withAuth";
+import NewsletterSection from "~sections/Innerpages/Newsletter/NewsletterSection";
+import ProfileBody from "~sections/profile/ProfileBody";
 import BreadcrumbSectionTwo from "../components/Breadcrumb/BreadcrumbSectionTwo";
-import ProfileBody from "../sections/profile/ProfileBody";
-import NewsLetterSection from "../sections/Innerpages/Newsletter";
-// import "../assets/scss/colors6.scss"
+import PageWrapper from "../components/core/PageWrapper";
+
 const headerConfig = {
-  bannerInner: <BreadcrumbSectionTwo title="User Profile2" nestedPageName="Pages" currentPageName="User Profile2"/>,
-  bannerClasses:"bg-background3"
-}
+  bannerInner: (
+    <BreadcrumbSectionTwo
+      title="User Profile2"
+      nestedPageName="Pages"
+      currentPageName="User Profile2"
+    />
+  ),
+  bannerClasses: "bg-background3",
+};
+
 const Profile = () => {
+  const [profile, setProfile] = useState(null);
+  const [review, setReview] = useState(null);
+
+  const loadData = async () => {
+    const promiseList = [];
+
+    promiseList.push(getMyProfile());
+    promiseList.push(getSellerReviews());
+
+    const [profileData, reviewData] = await Promise.all(promiseList);
+
+    setProfile(profileData);
+    setReview(reviewData);
+    console.log(profileData, reviewData);
+  };
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
   return (
-    <>
-      <PageWrapper themeConfig={headerConfig}>
-        <ProfileBody/>
-        <NewsLetterSection/>
-      </PageWrapper>
-    </>
+    <PageWrapper themeConfig={headerConfig}>
+      <ProfileBody profile={profile} review={review} />
+      <NewsletterSection profile={profile} />
+    </PageWrapper>
   );
 };
-export default Profile;
+
+export default withAuth(Profile);

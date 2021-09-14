@@ -1,8 +1,9 @@
 import React from "react";
-import PageWrapper from "../../components/core/PageWrapper";
+import withAuth from "~components/Auth/withAuth";
 import BreadcrumbSectionTwo from "../../components/Breadcrumb/BreadcrumbSectionTwo";
-import NewsLetterSection from "../../sections/Innerpages/Newsletter";
+import PageWrapper from "../../components/core/PageWrapper";
 import PurchaseSection from "../../sections/Dashboard/Purchase";
+import NewsLetterSection from "../../sections/Innerpages/Newsletter";
 const headerConfig = {
   bannerInner: (
     <BreadcrumbSectionTwo
@@ -24,4 +25,4 @@ const Dashboard = () => {
     </>
   );
 };
-export default Dashboard;
+export default withAuth(Dashboard);

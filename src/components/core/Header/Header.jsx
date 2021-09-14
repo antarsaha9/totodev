@@ -1,23 +1,22 @@
-import React, { useState, useContext } from "react";
-import styled from "styled-components";
-import { Container } from "react-bootstrap";
 import { useScrollPosition } from "@n8tb1t/use-scroll-position";
-import brandLogo from '../../../assets/images/brand/logo1.png'
+import React, { useContext, useEffect, useState } from "react";
+import { Container } from "react-bootstrap";
+import styled from "styled-components";
+import brandLogo from "../../../assets/images/brand/logo1.png";
 import GlobalHeaderContext from "../../../context/GlobalHeaderContext";
+import NestedMenu from "../NestedMenu";
 import Offcanvas from "../Offcanvas";
+import HeaderMiddle from "./HeaderMiddle";
 import HeaderTop from "./HeaderTop";
 import Menu from "./Menu";
-import NestedMenu from "../NestedMenu";
-import HeaderBottom from "./HeaderMiddle";
 
 const SiteHeader = styled.header`
-.smllogo{
-  margin-top:5px;
-}
-.smllogo{
-  margin-top:5px;
-}
-
+  .smllogo {
+    margin-top: 5px;
+  }
+  .smllogo {
+    margin-top: 5px;
+  }
 `;
 
 const ToggleButton = styled.button``;
@@ -81,22 +80,31 @@ const HeaderButton = styled.button`
 `;
 
 const Header = () => {
-  const gContext = useContext(GlobalHeaderContext);
   const [showScrolling, setShowScrolling] = useState(false);
   const [showReveal, setShowReveal] = useState(false);
+  const [isAlive, setAlive] = useState(true);
+
+  const gContext = useContext(GlobalHeaderContext);
 
   useScrollPosition(({ prevPos, currPos }) => {
-    if (currPos.y < 0) {
-      setShowScrolling(true);
-    } else {
-      setShowScrolling(false);
-    }
-    if (currPos.y < -300) {
-      setShowReveal(true);
-    } else {
-      setShowReveal(false);
+    if (isAlive) {
+      if (currPos.y < 0) {
+        setShowScrolling(true);
+      } else {
+        setShowScrolling(false);
+      }
+      if (currPos.y < -300) {
+        setShowReveal(true);
+      } else {
+        setShowReveal(false);
+      }
     }
   });
+
+  useEffect(() => {
+    return () => setAlive(false);
+  }, []);
+
   return (
     <>
       <div className="headerstyle1">
@@ -110,7 +118,7 @@ const Header = () => {
         >
           <div className="header-main">
             <HeaderTop />
-            <HeaderBottom />
+            <HeaderMiddle />
             <div
               className={`sticky-wrapper ${showScrolling ? "scrolling" : ""} ${
                 showReveal ? "reveal-header " : ""
@@ -148,22 +156,18 @@ const Header = () => {
                 style={{ width: 434 }}
               >
                 <div className="container">
-                  <a id="horizontal-navtoggle" className="animated-arrow" onClick={() => gContext.toggleOffCanvas()}>
+                  <a
+                    id="horizontal-navtoggle"
+                    className="animated-arrow"
+                    onClick={() => gContext.toggleOffCanvas()}
+                  >
                     <span />
                   </a>
                   <span className="smllogo">
-                    <img
-                      src={brandLogo.src}
-                      width={120}
-                      alt="img"
-                    />
+                    <img src={brandLogo.src} width={120} alt="img" />
                   </span>
                   <span className="smllogo-white">
-                    <img
-                      src={brandLogo.src}
-                      width={120}
-                      alt="img"
-                    />
+                    <img src={brandLogo.src} width={120} alt="img" />
                   </span>
                   <a href="tel:245-6325-3256" className="callusbtn">
                     <i className="fa fa-phone" aria-hidden="true" />

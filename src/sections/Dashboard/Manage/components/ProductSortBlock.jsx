@@ -1,33 +1,27 @@
 import React from "react";
 import styled from "styled-components";
-import SelectBox from "./SelectBox"
+import SelectBox from "./SelectBox";
 const SortSelect = styled.div`
-.rc-menu-button{
-  max-height:1.775rem !important;
-  min-height:1.775rem !important;
-  min-width: 150px !important;
-  padding-left: 8px;
-  padding-right: 20px;
-  &:after{
-      right:4%;
+  .rc-menu-button {
+    max-height: 1.775rem !important;
+    min-height: 1.775rem !important;
+    min-width: 150px !important;
+    padding-left: 8px;
+    padding-right: 20px;
+    &:after {
+      right: 4%;
+    }
   }
-}
-`
-const ProductSortBlock = () => {
+`;
+const ProductSortBlock = ({ totalProducts }) => {
   return (
     <div className="p-5 bg-white item2-gl-nav d-flex">
-      <h6 className="mb-0 mt-1 card-title">67 Manged Items</h6>
+      <h6 className="mb-0 mt-1 card-title">{totalProducts} Manged Items</h6>
       <div className="ml-auto">
         <SortSelect className="d-flex select2-sm text-left">
           <label className="mr-2 mt-1 mb-sm-1">Sort By:</label>
           <SelectBox
-            data={[
-              "Best Seller",
-              "Newest",
-              "Best Rated",
-              "Trending",
-              "Price"
-            ]}
+            data={["Best Seller", "Newest", "Best Rated", "Trending", "Price"]}
             defaultValue="Best Seller"
           />
         </SortSelect>
