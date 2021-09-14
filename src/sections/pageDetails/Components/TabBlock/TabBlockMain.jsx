@@ -1,14 +1,15 @@
 import React from "react";
-import { Tab, Nav } from "react-bootstrap";
-import RatingCard from "./RatingCard";
-import RatingReplyCard from "./RatingReplyCard";
-import RatingReplyUser from "../../../../assets/images/users/male/1.jpg";
+import { Nav, Tab } from "react-bootstrap";
 import commentImagePlaceHolder from "../../../../assets/images/png/1.png";
-import Pagination from "./Pagination";
-import RatingForm from "./RatingFrom";
+import RatingReplyUser from "../../../../assets/images/users/male/1.jpg";
 import CommentCard from "./CommentCard";
 import CommentForm from "./CommentForm";
-const TabBlockMain =()=> {
+import Pagination from "./Pagination";
+import RatingCard from "./RatingCard";
+import RatingForm from "./RatingFrom";
+import RatingReplyCard from "./RatingReplyCard";
+
+const TabBlockMain = ({ product }) => {
   return (
     <Tab.Container defaultActiveKey="details">
       <div className="border-0 mb-5">
@@ -38,43 +39,35 @@ const TabBlockMain =()=> {
               <h3 className="card-title mb-3 ">Description</h3>
               <div className="mb-0">
                 <p>
-                  At vero eos et accusamus et iusto odio dignissimos ducimus qui
+                  {product?.item_description ||
+                    `At vero eos et accusamus et iusto odio dignissimos ducimus qui
                   blanditiis praesentium voluptatum deleniti atcorrupti quos
                   dolores et quas molestias excepturi sint occaecati cupiditate
                   non provident, similique sunt in culpa qui officia deserunt
-                  mollitia animi, id est laborum et dolorum fuga.
-                </p>
-                <p>
-                  On the other hand, we denounce with righteous indignation and
-                  dislike men who are so beguiled and demoraliz the charms of
-                  pleasure of the moment, so blinded by desire, that they cannot
-                  foresee the pain and trouble thena bound to ensue; and equal
-                  blame belongs to those who fail in their duty through weakness
-                  of will, which is the same as saying through shrinking from
-                  toil and pain.
+                  mollitia animi, id est laborum et dolorum fuga.`}
                 </p>
               </div>
               <h4 className="card-title mb-3 ">Features</h4>
               <div className="row">
                 <div className="col-xl-6 col-md-6">
                   <ul className="list-unstyled widget-spec mb-0">
-                    <li >
+                    <li>
                       <i className="typcn typcn-chevron-right-outline text-muted" />
                       HTML Pages
                     </li>
-                    <li >
+                    <li>
                       <i className="typcn typcn-chevron-right-outline text-muted" />{" "}
                       Plugins
                     </li>
-                    <li >
+                    <li>
                       <i className="typcn typcn-chevron-right-outline text-muted" />{" "}
                       Light &amp; Dark Versions
                     </li>
-                    <li >
+                    <li>
                       <i className="typcn typcn-chevron-right-outline text-muted" />{" "}
                       Realtime Project Work
                     </li>
-                    <li >
+                    <li>
                       <i className="typcn typcn-chevron-right-outline text-muted" />{" "}
                       More Maps
                     </li>
@@ -86,23 +79,23 @@ const TabBlockMain =()=> {
                 </div>
                 <div className="col-xl-6 col-md-6">
                   <ul className="list-unstyled widget-spec mb-0">
-                    <li >
+                    <li>
                       <i className="typcn typcn-chevron-right-outline text-muted" />{" "}
                       Message Chat
                     </li>
-                    <li >
+                    <li>
                       <i className="typcn typcn-chevron-right-outline text-muted" />{" "}
                       Mail Inbox
                     </li>
-                    <li >
+                    <li>
                       <i className="typcn typcn-chevron-right-outline text-muted" />{" "}
                       Icons Set
                     </li>
-                    <li >
+                    <li>
                       <i className="typcn typcn-chevron-right-outline text-muted" />{" "}
                       Error Pages
                     </li>
-                    <li >
+                    <li>
                       <i className="typcn typcn-chevron-right-outline text-muted" />{" "}
                       Pricing Tabels
                     </li>
@@ -117,42 +110,42 @@ const TabBlockMain =()=> {
                 <div className="col-xl-4 col-md-6">
                   <div className="card text-center bg-light shadow-none mb-3">
                     <div className="card-body pt-3 pb-3">
-                      <p >100% Fully Responsive</p>
+                      <p>100% Fully Responsive</p>
                     </div>
                   </div>
                 </div>
                 <div className="col-xl-4 col-md-6">
                   <div className="card text-center bg-light shadow-none mb-3">
                     <div className="card-body pt-3 pb-3">
-                      <p >Bootstrap4 Framework</p>
+                      <p>Bootstrap4 Framework</p>
                     </div>
                   </div>
                 </div>
                 <div className="col-xl-4 col-md-6">
                   <div className="card text-center bg-light shadow-none mb-3">
                     <div className="card-body pt-3 pb-3">
-                      <p >W3C Validated</p>
+                      <p>W3C Validated</p>
                     </div>
                   </div>
                 </div>
                 <div className="col-xl-4 col-md-6">
                   <div className="card text-center bg-light mb-3 mb-lg-0 shadow-none">
                     <div className="card-body pt-3 pb-3">
-                      <p >Regular Updates</p>
+                      <p>Regular Updates</p>
                     </div>
                   </div>
                 </div>
                 <div className="col-xl-4 col-md-6">
                   <div className="card text-center bg-light mb-3 mb-lg-0 shadow-none">
                     <div className="card-body pt-3 pb-3">
-                      <p > Easy to Customize</p>
+                      <p> Easy to Customize</p>
                     </div>
                   </div>
                 </div>
                 <div className="col-xl-4 col-md-6">
                   <div className="card text-center bg-light mb-0 shadow-none">
                     <div className="card-body pt-3 pb-3">
-                      <p >24/7 Support</p>
+                      <p>24/7 Support</p>
                     </div>
                   </div>
                 </div>
@@ -329,5 +322,5 @@ const TabBlockMain =()=> {
       </div>
     </Tab.Container>
   );
-}
-export default  TabBlockMain;
+};
+export default TabBlockMain;

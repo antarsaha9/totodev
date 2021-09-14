@@ -1,6 +1,5 @@
 import React from "react";
 import { Dropdown } from "react-bootstrap";
-// import Image from "next/image";
 import styled from "styled-components";
 import { Link } from "~components/core";
 
@@ -25,7 +24,7 @@ const ProductRow = ({
   price,
   item_status,
   id,
-  handleItemStatusChange,
+  handleItemStatusChange = () => () => {},
 }) => {
   const badge = item_status === "PUBLISHED" ? "success" : "danger";
 
@@ -47,9 +46,9 @@ const ProductRow = ({
               <ProductImage src={image_url} />
               <div className="media-body">
                 <div className="card-item-desc ml-4 p-0">
-                  <a href="#" className="text-dark">
+                  <Link to={`/template/${id}`} className="text-dark">
                     <h4 className="text-over">{item_name}</h4>
-                  </a>
+                  </Link>
                   {date ? (
                     <div className="text-muted">
                       <i className="fa fa-clock-o mr-1" /> {date}
@@ -94,11 +93,18 @@ const ProductRow = ({
 
               <Dropdown.Menu>
                 {item_status !== "PUBLISHED" ? (
-                  <Dropdown.Item
-                    onClick={handleItemStatusChange(id, "PUBLISH")}
-                  >
-                    Publish
-                  </Dropdown.Item>
+                  <>
+                    <Dropdown.Item
+                      onClick={handleItemStatusChange(id, "PUBLISH")}
+                    >
+                      Publish
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      onClick={handleItemStatusChange(id, "DELETE")}
+                    >
+                      Delete
+                    </Dropdown.Item>
+                  </>
                 ) : (
                   <Dropdown.Item
                     onClick={handleItemStatusChange(id, "SUSPEND")}
@@ -106,9 +112,6 @@ const ProductRow = ({
                     Suspend
                   </Dropdown.Item>
                 )}
-                <Dropdown.Item onClick={handleItemStatusChange(id, "DELETE")}>
-                  Delete
-                </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </div>

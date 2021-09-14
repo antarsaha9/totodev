@@ -59,3 +59,7 @@ export const updateSellerItem = async (
 export const updateItemStatus = async (item_id, status) => {
   return API.post("/updateItemStatus", { item_id, status });
 };
+
+export const getItemDetails = async (item_id) => {
+  return API.post("/getAnItem", { item_id });
+};
