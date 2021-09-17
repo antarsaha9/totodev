@@ -8,6 +8,7 @@ import {
   FormLabel,
   ProgressBar,
 } from "react-bootstrap";
+import Form from 'react-bootstrap/Form';
 import { NotificationManager } from "react-notifications";
 import { createYupObject } from "src/services/helper";
 import styled from "styled-components";
@@ -97,14 +98,22 @@ const UploadSection = () => {
                       <div className="row">
                         <div className="col-sm-12 col-md-12">
                           <div className="form-group">
-                            <SelectBox
+                            {/* <SelectBox
                               data={categoryList}
                               filterBox={true}
                               defaultValue="Search Categories"
                               name="category_name"
                               defaultValue={values.category_name}
                               setFieldValue={setFieldValue}
-                            />
+                            /> */}
+                            <Form.Select 
+                              className="form-control" 
+                              aria-label="Select Category"
+                              value = {values.category_name}
+                              onChange={handleChange}
+                              name="category_name">
+                                {categoryList.map(c=><option value={c}>{c}</option>)}
+                              </Form.Select>
                           </div>
                         </div>
                         <div className="col-sm-12 col-md-12">

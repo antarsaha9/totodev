@@ -9,6 +9,7 @@ import {
   ProgressBar,
   Row,
 } from "react-bootstrap";
+import RForm, {Select} from "react-bootstrap/Form"
 import { NotificationManager } from "react-notifications";
 import { createYupObject } from "src/services/helper";
 import { getMyProfile, updateProfile } from "src/services/profileService";
@@ -23,7 +24,8 @@ const EditSection = () => {
   const handleFormSubmit = async (values, { resetForm }) => {
     const data = await updateProfile(values, setProgress);
     NotificationManager.success(data);
-    resetForm();
+    load();
+    // resetForm();
   };
 
   const handleFileSelect = (e, setFieldValue) => {
@@ -34,10 +36,13 @@ const EditSection = () => {
     setFieldValue("image_url", url);
   };
 
-  useEffect(() => {
+  const load=()=>{
     getMyProfile().then((data) => {
       setProfile(data);
     });
+  }
+  useEffect(() => {
+    load();
   }, []);
 
   return (
@@ -212,7 +217,30 @@ const EditSection = () => {
                       <div className="col-md-5">
                         <FormGroup>
                           <FormLabel>Country</FormLabel>
-                          <SelectBox
+                          <RForm.Select 
+                            className="form-control" 
+                            aria-label="Select Country"
+                            value = {values.country}
+                            onChange={handleChange}
+                            name="country">
+                            {[
+                              "Germany",
+                              "Real Estate",
+                              "Canada",
+                              "Usa",
+                              "Afghanistan",
+                              "Albania",
+                              "China",
+                              "Denmark",
+                              "Finland",
+                              "India",
+                              "Kiribati",
+                              "Kuwait",
+                              "Mexico",
+                              "Pakistan",
+                            ].map(c=><option value={c}>{c}</option>)}
+                          </RForm.Select>
+                          {/* <SelectBox
                             data={[
                               "Germany",
                               "Real Estate",
@@ -232,7 +260,7 @@ const EditSection = () => {
                             name="country"
                             defaultValue={values.country}
                             setFieldValue={setFieldValue}
-                          />
+                          /> */}
                           {touched.country && errors.country && (
                             <FormControl.Feedback type="invalid">
                               {errors.country}
