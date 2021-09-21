@@ -16,6 +16,7 @@ import * as yup from "yup";
 import LoadingButton from "~components/Buttons/LoadingButton";
 import SidebarCard from "~components/Cards/SidebarCard";
 import SelectBox from "~components/Forms/SelectBox";
+import Dropdown from "~components/Forms/Dropdown";
 import {
   addSellerItem,
   getMyItem,
@@ -53,8 +54,9 @@ const UploadSection = () => {
     else {
       const data = await addSellerItem(values, setProgress);
       showNotification(data, "add");
-      resetForm();
+      // resetForm();
       setProgress(0);
+      router.push("/dashboard/managed");
     }
   };
 
@@ -106,14 +108,14 @@ const UploadSection = () => {
                               defaultValue={values.category_name}
                               setFieldValue={setFieldValue}
                             /> */}
-                            <Form.Select 
+
+                            <Dropdown
+                              data={categoryList} 
                               className="form-control" 
-                              aria-label="Select Category"
-                              value = {values.category_name}
-                              onChange={handleChange}
-                              name="category_name">
-                                {categoryList.map(c=><option value={c}>{c}</option>)}
-                              </Form.Select>
+                              ariaLabel="Select Category"
+                              defaultValue = {values.category_name}
+                              handleChange={e=>setFieldValue('category_name', e.target.value)}
+                              name="category_name"/>
                           </div>
                         </div>
                         <div className="col-sm-12 col-md-12">
@@ -165,7 +167,7 @@ const UploadSection = () => {
                               <FormControl
                                 type="file"
                                 className="custom-file-input"
-                                name="example-file-input-custom"
+                                name="img"
                                 accept="image/*"
                                 isInvalid={touched.img && errors.img}
                                 onChange={(e) =>
@@ -342,14 +344,16 @@ const categoryList = [
 ];
 
 const yupData = {
-  category_name: ["", yup.string().required("name is required")],
-  item_name: ["", yup.string().required("name is required")],
-  item_description: ["", yup.string().required("${path} is required")],
+  category_name: [categoryList[0], yup.string().required("Caterory is required")],
+  item_name: ["", yup.string().required("Item name is required")],
+  item_description: ["", yup.string().required("Description is required")],
   // tags: ["", yup.string().required("${path} is required")],
   tags: ["", yup.string()],
-  price: ["", yup.number().required("${path} is required")],
-  file: ["", yup.mixed().required("${path} is required")],
-  img: ["", yup.mixed().required("${path} is required")],
+  price: ["", yup.number().required("Price is required")],
+  file: ["", yup.mixed().required("Item file is required")],
+  img: ["", yup.mixed().required("Item image is required")],
+  // file: ["", yup.mixed()],
+  // img: ["", yup.mixed()],
 };
 
 const initialValues = createYupObject(yupData).initialValue;

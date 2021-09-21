@@ -4,20 +4,30 @@ import {
   uploadLargePrivateFile,
 } from "~services/uploadService";
 import API from "./API";
+import { setAPIHeader } from "./authService";
 
 export const addSellerItem = async ({ img, file, ...values }, setProgress) => {
   values.tags = values.tags.split(",").filter((tag) => !!tag.trim());
+  var promises = [];
+  if (img) {
+    const { url: uploadUrl, access_url } = await getUploadUrl(img);
+    const p1 = uploadFile(uploadUrl, img);
+    promises.push(p1);
+    p1.then(()=>{
+      values.image_url = access_url;
+    })
+  }
 
-  const { url: uploadUrl } = await getUploadUrl(img);
+  if (file) {
+    const p2 = uploadLargePrivateFile(file, setProgress);
+    promises.push(p2);
+    p2.then(({ file_url }) => {
+      values.file_url = file_url;
+    })
+  }
 
-  const p1 = uploadLargePrivateFile(file, setProgress);
-  const p2 = uploadFile(uploadUrl, img);
-
-  const [data] = await Promise.all([p1, p2]);
-  values.file_url = data?.file_url;
-
-  const temp = new URL(uploadUrl);
-  values.image_url = `http://${temp.host}${temp.pathname}`;
+  if (promises.length)
+    await Promise.all(promises);
 
   return API.post("/addASellerItem", values);
 };
@@ -27,10 +37,12 @@ export const getSellerItemList = async (seller_id) => {
 };
 
 export const getMyItemList = async () => {
+  setAPIHeader();
   return API.post("/getMyItems");
 };
 
 export const getMyItem = async (item_id) => {
+  setAPIHeader();
   return API.post("/getMyItem", { item_id });
 };
 
@@ -38,6 +50,7 @@ export const updateSellerItem = async (
   { img, file, id: item_id, ...values },
   setProgress
 ) => {
+  setAPIHeader();
   values.tags = values.tags.split(",").filter((tag) => !!tag.trim());
 
   if (img) {
@@ -57,9 +70,14 @@ export const updateSellerItem = async (
 };
 
 export const updateItemStatus = async (item_id, status) => {
+  setAPIHeader();
   return API.post("/updateItemStatus", { item_id, status });
 };
 
 export const getItemDetails = async (item_id) => {
   return API.post("/getAnItem", { item_id });
+};
+
+export const getAdList = async () => {
+  return API.post("/getAdList");
 };
