@@ -16,7 +16,7 @@ import * as yup from "yup";
 import LoadingButton from "~components/Buttons/LoadingButton";
 import SidebarCard from "~components/Cards/SidebarCard";
 import SelectBox from "~components/Forms/SelectBox";
-import Dropdown from "~components/Forms/Dropdown";
+import Dropdown from "~components/Forms/DropdownFilter";
 import {
   addSellerItem,
   getMyItem,
@@ -111,11 +111,13 @@ const UploadSection = () => {
 
                             <Dropdown
                               data={categoryList} 
-                              className="form-control" 
+                              // className="form-control" 
                               ariaLabel="Select Category"
-                              defaultValue = {values.category_name}
-                              handleChange={e=>setFieldValue('category_name', e.target.value)}
-                              name="category_name"/>
+                              defaultValue={values.category_name}
+                              handleChange={e => setFieldValue('category_name', e)}
+                              name="category_name"
+                            />
+
                           </div>
                         </div>
                         <div className="col-sm-12 col-md-12">

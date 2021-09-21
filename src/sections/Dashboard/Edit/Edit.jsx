@@ -9,13 +9,13 @@ import {
   ProgressBar,
   Row,
 } from "react-bootstrap";
-import RForm, {Select} from "react-bootstrap/Form"
 import { NotificationManager } from "react-notifications";
 import { createYupObject } from "src/services/helper";
 import { getMyProfile, updateProfile } from "src/services/profileService";
 import * as yup from "yup";
 import LoadingButton from "~components/Buttons/LoadingButton";
 import SelectBox from "~components/Forms/SelectBox";
+import Dropdown from "~components/Forms/DropdownFilter";
 
 const EditSection = () => {
   const [profile, setProfile] = useState(null);
@@ -217,13 +217,13 @@ const EditSection = () => {
                       <div className="col-md-5">
                         <FormGroup>
                           <FormLabel>Country</FormLabel>
-                          <RForm.Select 
-                            className="form-control" 
+                          <Dropdown 
+                            // className="form-control" 
                             aria-label="Select Country"
                             value = {values.country}
-                            onChange={handleChange}
-                            name="country">
-                            {[
+                            onChange={e => setFieldValue('country', e)}
+                            name="country"
+                            data={[
                               "Germany",
                               "Real Estate",
                               "Canada",
@@ -239,7 +239,7 @@ const EditSection = () => {
                               "Mexico",
                               "Pakistan",
                             ].map(c=><option value={c}>{c}</option>)}
-                          </RForm.Select>
+                          />
                           {/* <SelectBox
                             data={[
                               "Germany",
