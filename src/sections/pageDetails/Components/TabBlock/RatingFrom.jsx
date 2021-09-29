@@ -1,61 +1,84 @@
 import React from 'react'
- 
-const RatingForm=()=>{
-return(
-<div className="card mt-5">
-              <div className="card-header">
-                <h3 className="card-title">Item Rating</h3>
-              </div>
-              <div className="card-body">
-                <div className="rating-stars d-flex mb-3">
-                  <label className="form-label mr-3 mt-1">Select Rating:</label>
-                  <input
-                    type="number"
-                    readOnly="readonly"
-                    className="rating-value star"
-                    name="rating-stars-value"
-                    defaultValue={3}
-                  />
-                  <div className="rating-stars-container mr-2">
-                    <div className="rating-star lg">
-                      <i className="fa fa-star" />
-                    </div>
-                    <div className="rating-star lg">
-                      <i className="fa fa-star" />
-                    </div>
-                    <div className="rating-star lg">
-                      <i className="fa fa-star" />
-                    </div>
-                    <div className="rating-star lg">
-                      <i className="fa fa-star" />
-                    </div>
-                    <div className="rating-star lg">
-                      <i className="fa fa-star" />
-                    </div>
-                  </div>
-                </div>
-                <div className="form-group reviewselect">
-                  <select className="form-control select2 custom-select">
-                    <option value={0}>SelectOptions</option>
-                    <option value={1}>Customer Support</option>
-                    <option value={2}>Design Qulity</option>
-                    <option value={3}>Other</option>
-                  </select>
-                </div>
-                <div className="form-group">
-                  <textarea
-                    className="form-control h-auto"
-                    name="example-textarea-input"
-                    placeholder="Comment"
-                    row="6"
-                    defaultValue={""}
-                  />
-                </div>
-                <a href="#" className="btn ripple  btn-primary">
-                  Save
-                </a>
-              </div>
+import StarRating from '~components/Widgets/StarRating';
+import { Formik } from "formik";
+import Form from 'react-bootstrap/Form';
+import { createYupObject } from "src/services/helper";
+import * as yup from "yup";
+import LoadingButton from '~components/Buttons/LoadingButton';
+import Dropdown from '~components/Forms/Dropdown';
+const RatingForm = function (props) {
+  const handleFormSubmit = function (values, { setSubmitting }) {
+    console.log(values);
+    props.reviewItem(values, () => setSubmitting(false));
+  }
+  return (
+    <Formik
+      initialValues={initialValue}
+      onSubmit={handleFormSubmit}
+      validationSchema={RatingFormSchema}
+      enableReinitialize={true}
+    >
+      {({
+        values,
+        errors,
+        touched,
+        handleChange,
+        handleBlur,
+        handleSubmit,
+        setFieldValue,
+        isSubmitting,
+      }) =>
+        <Form onSubmit={handleSubmit}>
+          {() => console.log(errors)}
+          <div className="card mt-5">
+            <div className="card-header">
+              <h3 className="card-title">Item Rating</h3>
             </div>
-)
+            <div className="card-body">
+              <div className="rating-stars d-flex mb-3">
+                <label className="form-label mr-3 mt-1">Select Rating:</label>
+                <StarRating starSize="lg" rating={values.rating} onChange={e => { setFieldValue('rating', e) }} />
+              </div>
+              <Form.Group controlId="review">
+                <Dropdown data={[
+                  "Customer Support",
+                  "Design Qulity",
+                  "Other",
+                ]}
+                  selected={values.scope}
+                  ariaLabel="Select options"
+                  handleChange={e => setFieldValue('scope', e)}
+                  name="scope" />
+              </Form.Group>
+
+              <Form.Group controlId="review">
+                <Form.Control
+                  as="textarea"
+                  placeholder="Comment"
+                  name="review"
+                  onChange={handleChange}
+                  // value={values.review}
+                  onBlur={handleBlur}
+                  isInvalid={touched.review && errors.review}
+                  row={6}
+                />
+              </Form.Group>
+              <LoadingButton loading={isSubmitting} className="ripple">
+                Save
+              </LoadingButton>
+            </div>
+          </div>
+        </Form>
+      }
+    </Formik>
+  )
 }
-export default  RatingForm;
+
+const { initialValue, shape } = createYupObject({
+  review: ["", yup.string().required("Please give rating!")],
+  rating: ['', yup.number()],
+  scope: ['', yup.string()],
+});
+const RatingFormSchema = yup.object().shape(shape);
+
+export default RatingForm;

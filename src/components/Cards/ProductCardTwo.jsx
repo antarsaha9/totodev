@@ -1,8 +1,10 @@
 import React from "react";
 import Tooltip from "../Tooltip";
+import Carousel from 'react-bootstrap/Carousel'
 import productImageDefault from "../../assets/images/media/pictures/thumb-list/5.jpg"
+import StarRating from '~components/Widgets/StarRating';
 import Image from "next/image";
-const  ProductCardTwo =({
+const ProductCardTwo = ({
   image = productImageDefault,
   tag,
   star = 5,
@@ -12,28 +14,37 @@ const  ProductCardTwo =({
   title,
   badge,
   className,
-})=> {
+}) => {
   return (
     <div className={`card overflow-hidden ${className}`}>
-      {badge? <div className="power-ribbon power-ribbon-top-left text-warning">
+      {badge ? <div className="power-ribbon power-ribbon-top-left text-warning">
         <span className="bg-warning">
           <i className="fa fa-bolt" />
         </span>
-      </div>:null}
-      
+      </div> : null}
+
       <div className="item-card9-img">
         <div className="item-card9-imgs">
           <a href="page-details.html" />
-          <Image
+          {/* <Image
             src={image}
             alt="prodct"
             className="cover-image"
-            placeholder="blur"
-          />
+            // placeholder="blur"
+          /> */}
+          <Carousel indicators={false}>
+            <Carousel.Item>
+              <img
+                className="d-block w-100"
+                src={image}
+                alt="First slide"
+              />
+            </Carousel.Item>
+          </Carousel>
         </div>
         <div className="item-card9-icons">
           <Tooltip className="item-card9-icons1 bg-pink mx-1" tip="Wishlist">
-          <i className="fa fa fa-heart-o" />
+            <i className="fa fa fa-heart-o" />
           </Tooltip>
           <Tooltip className="item-card9-icons1 bg-purple mx-1" tip="Share">
             <i className="icon icon-share" />
@@ -63,29 +74,7 @@ const  ProductCardTwo =({
           </div>
           <div className="d-md-flex">
             <div className="rating-stars d-flex">
-            <input type="number" readOnly="readonly" className="rating-value star" name="rating-stars-value" defaultValue={star} />
-            {star <= 5 ? (
-                  <>
-                    <div className="rating-stars-container mr-2">
-                      {Array.from(Array(Number(star)), (_, index) => {
-                        return (
-                          <div className="rating-star sm is--active" key={index + "pcstr"}>
-                            <i className="fa fa-star"></i>
-                          </div>
-                        );
-                      })}
-                      {Array.from(Array(5 - star), (_, index) => {
-                        return (
-                          <div className="rating-star sm" key={index + "pcstr"}>
-                            <i className="fa fa-star"></i>
-                          </div>
-                        );
-                      })}
-                    </div>
-                    ({star})
-                  </>
-                ) : null}
-              
+              <StarRating rating={star} />
             </div>
             <a href="#" className="ml-auto mt-1">
               <span className="text-muted fs-13">
@@ -108,4 +97,4 @@ const  ProductCardTwo =({
     </div>
   );
 }
-export default  ProductCardTwo;
+export default ProductCardTwo;

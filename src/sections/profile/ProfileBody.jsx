@@ -164,7 +164,7 @@ const ProfileBody = ({ profile, review }) => {
                         eventKey="second"
                         className="userprof-tab border-bottom"
                       >
-                        {review?.comments.map((item, ind) => (
+                        {review?.reviews.map((item, ind) => (
                           <SingleComment
                             className="p-5"
                             title={item.name}

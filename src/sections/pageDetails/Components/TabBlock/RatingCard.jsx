@@ -1,47 +1,25 @@
 import React from "react";
+import TimeFromNow from 'date-fns/formatDistanceToNow';
+import parseISO from 'date-fns/parseISO';
 
-const RatingCard =({star,title,text,userName,date,children}) =>{
+
+import StarRating from '~components/Widgets/StarRating';
+import { Link } from "~components/core";
+
+const RatingCard = ({ star, title, text, userName, userId, date, children }) => {
   return (
     <div className="card shadow-none">
       <div className="card-header bg-light shadow-none">
         <div className="rating-stars d-flex">
-          <input
-            type="number"
-            readOnly="readonly"
-            className="rating-value star"
-            name="rating-stars-value"
-            defaultValue={4}
-          />
-          <div className="rating-stars-container mr-2">{star <= 5 ? (
-            <>
-            <div className="review-star">
-                {Array.from(Array(Number(star)), (_, index) => {
-                return (
-                    <div className="rating-star lg is--active" key={index + "pcstr"}>
-                    <i className="fa fa-star"></i>
-                    </div>
-                );
-                })}
-                {Array.from(Array(5 - star), (_, index) => {
-                return (
-                    <div className="rating-star lg" key={index + "pcstr"}>
-                    <i className="fa fa-star"></i>
-                    </div>
-                );
-                })}
-            </div>
-            ({star})
-            </>
-        ) : null}
-          </div>
+          <StarRating rating={star} starSize="lg" editable={false} />
         </div>
         <div className="card-options">
           <span >
             by{" "}
-            <a href="#" className="text-primary">
+            <Link to={"userprofile?id=" + userId} className="text-primary">
               {userName}
-            </a>{" "}
-            <span className="text-muted">{date}</span>
+            </Link>{" "}
+            {date && <span className="text-muted">{TimeFromNow(new Date(date))}</span>}
           </span>
         </div>
       </div>
@@ -55,4 +33,4 @@ const RatingCard =({star,title,text,userName,date,children}) =>{
     </div>
   );
 }
-export default  RatingCard;
+export default RatingCard;
