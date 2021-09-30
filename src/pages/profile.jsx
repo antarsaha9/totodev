@@ -1,6 +1,8 @@
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { getMyProfile } from "src/services/profileService";
-import { getSellerReviews } from "src/services/reviewService";
+import { NotificationManager } from "react-notifications";
+import { getMyProfile, getSellerProfile } from "src/services/profileService";
+import { getSellerReviews, getMyReviews, addSellerReview } from "src/services/reviewService";
 import withAuth from "~components/Auth/withAuth";
 import NewsletterSection from "~sections/Innerpages/Newsletter/NewsletterSection";
 import ProfileBody from "~sections/profile/ProfileBody";
@@ -21,27 +23,48 @@ const headerConfig = {
 const Profile = () => {
   const [profile, setProfile] = useState(null);
   const [review, setReview] = useState(null);
-
-  const loadData = async () => {
-    const promiseList = [];
-
-    promiseList.push(getMyProfile());
-    promiseList.push(getSellerReviews());
-
-    const [profileData, reviewData] = await Promise.all(promiseList);
-
-    setProfile(profileData);
-    setReview(reviewData);
-    console.log(profileData, reviewData);
+  const user_id = (useRouter().query || {}).id;
+  const loadData = function () {
+    setProfile({ loading: true });
+    setReview({ loading: true });
+    if (user_id) {
+      console.debug("Profile ==> getting anothers details");
+      getSellerProfile(user_id).then(data => setProfile(data));
+      getSellerReviews(user_id).then(data => setReview(data.reviews));
+    } else {
+      console.debug("Profile ==> getting own details");
+      getMyProfile().then(data => setProfile(data));
+      getMyReviews().then(data => setReview(data.reviews));
+    }
   };
+
+  const reviewProfile = function (values, callback) {
+    if (profile.id) {
+      const payload = {
+        "review": values.review,
+        "name": values.name,
+        "email": values.email,
+        "member_id": profile.id
+      };
+      console.log(payload);
+
+      addSellerReview(payload).then(data => {
+        if (data) {
+          NotificationManager.success(data);
+          loadData();
+        }
+        if (callback) callback();
+      })
+    }
+  }
 
   useEffect(() => {
     loadData();
-  }, []);
+  }, [user_id]);
 
   return (
     <PageWrapper themeConfig={headerConfig}>
-      <ProfileBody profile={profile} review={review} />
+      <ProfileBody profile={profile} review={review} reviewProfile={reviewProfile} />
       <NewsletterSection profile={profile} />
     </PageWrapper>
   );

@@ -1,12 +1,12 @@
 import { Formik } from "formik";
 import React from "react";
-import { NotificationManager } from "react-notifications";
+import Form from "react-bootstrap/Form";
 import * as yup from "yup";
+import LoadingButton from "~components/Buttons/LoadingButton";
 
-const ReplayForm = () => {
-  const handleFormSubmit = async (values) => {
-    // const data = await updateProfile(values);
-    NotificationManager.success(data);
+const ReplayForm = function (props) {
+  const handleFormSubmit = (values, { setSubmitting }) => {
+    props.reviewProfile(values, () => setSubmitting(false));
   };
 
   return (
@@ -23,49 +23,49 @@ const ReplayForm = () => {
         handleChange,
         handleBlur,
         handleSubmit,
-        setFieldValue,
         isSubmitting,
       }) => (
-        <form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit}>
           <h3 className="card-title">Leave a reply</h3>
-          <div className="form-group">
-            <input
-              type="text"
-              className="form-control"
-              id="name"
+          <Form.Group>
+            <Form.Control
               placeholder="Your Name"
+              value={values.name}
               onChange={handleChange}
               onBlur={handleBlur}
+              name="name"
             />
-          </div>
-          <div className="form-group">
-            <input
-              type="email"
-              className="form-control"
-              id="email"
+          </Form.Group>
+          <Form.Group>
+            <Form.Control
               placeholder="Email address"
+              value={values.email}
               onChange={handleChange}
               onBlur={handleBlur}
+              name="email"
+              type="email"
             />
-          </div>
-          <div className="form-group">
-            <textarea
-              className="form-control h-auto"
-              name="example-textarea-input"
-              rows={6}
+          </Form.Group>
+          <Form.Group>
+            <Form.Control
+              as="textarea"
               placeholder="Comment"
+              className="h-auto"
+              value={values.review}
               onChange={handleChange}
               onBlur={handleBlur}
+              name="review"
+              rows={6}
             />
-          </div>
-          <button
-            className="btn ripple  btn-primary"
-            type="submit"
-            disabled={isSubmitting}
+          </Form.Group>
+          <LoadingButton
+            className="ripple"
+            variant="primary"
+            loading={isSubmitting}
           >
             Send Reply
-          </button>
-        </form>
+          </LoadingButton>
+        </Form>
       )}
     </Formik>
   );
@@ -74,8 +74,8 @@ const ReplayForm = () => {
 const initialValue = {};
 
 const formSchema = yup.object().shape({
-  first_name: yup.string().required("${path} is required"),
-  last_name: yup.string().required("${path} is required"),
+  name: yup.string().required("${path} is required"),
+  review: yup.string().required("${path} is required"),
   email: yup.string().email("Invalid email").required("${path} is required"),
 });
 

@@ -1,6 +1,7 @@
 import { format } from "date-fns";
 import React from "react";
 import { Nav, Tab } from "react-bootstrap";
+import LoaderSpinner from "~components/Cards/LoaderSpinner";
 import CommentImage from "../../assets/images/users/male/1.jpg";
 import FollowCard from "../../components/Cards/FollowCard";
 import Map from "./components/Map";
@@ -10,9 +11,7 @@ import SingleComment from "./components/SingleComment";
 import SliderBlock from "./components/SliderBlock";
 import { FollowerData } from "./data";
 
-const ProfileBody = ({ profile, review }) => {
-  console.log(review?.comments);
-
+const ProfileBody = ({ profile, review, reviewProfile, addSellerComment }) => {
   return (
     <>
       {/*Section*/}
@@ -164,7 +163,7 @@ const ProfileBody = ({ profile, review }) => {
                         eventKey="second"
                         className="userprof-tab border-bottom"
                       >
-                        {review?.reviews.map((item, ind) => (
+                        {review?.loading ? <LoaderSpinner /> : review?.map((item, ind) => (
                           <SingleComment
                             className="p-5"
                             title={item.name}
@@ -240,7 +239,7 @@ const ProfileBody = ({ profile, review }) => {
                           ]}
                         /> */}
                         <div className="p-5 border-top">
-                          <ReplayForm />
+                          <ReplayForm reviewProfile={reviewProfile} />
                         </div>
                       </Tab.Pane>
                       <Tab.Pane eventKey="third">

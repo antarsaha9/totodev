@@ -21,3 +21,7 @@ export const updateProfile = async (values, setProgress) => {
 
   return API.post("/updateProfile", values);
 };
+
+export const getSellerProfile = (member_id) => {
+  return API.post("/getProfile", { member_id });
+};
