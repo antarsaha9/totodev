@@ -81,7 +81,12 @@ const CartDropDownBlock = ({ cart }) => {
         className="dropdown-menu dropdown-menu-right dropdown-menu-arrow cart-dropdown"
       >
         {cart.loading ? <LoaderSpinner /> : <><div className="dropdown-list-block">
-          {cart.length ? cart.map(item => <CartProduct image={item.image_url} title={item.item_name} tag={item.category_name} price={item.price} />) : "Cart is empty"}
+          {cart.length ? cart.map((item, index) => <CartProduct
+            image={item.image_url}
+            title={item.item_name}
+            tag={item.category_name}
+            price={item.price}
+            key={"cart_item" + index} />) : "Cart is empty"}
         </div>
           <div className="dropdown-footer">
             <div className="btn-list">
@@ -96,7 +101,7 @@ const CartDropDownBlock = ({ cart }) => {
                 className="btn btn-secondary ripple mb-lg-0"
                 disabled={cart.length === 0}
                 to="/checkout"
-                // onClick={() => console.log("checkout called")}
+              // onClick={() => console.log("checkout called")}
               >
                 Checkout
               </Link>

@@ -35,7 +35,7 @@ const Checkout = ({ cart }) => {
       NotificationManager.success(JSON.stringify(data));
       setTimeout(() => {
         updateCart([]);
-        router.push('/pagelist');
+        router.push('/dashboard/purchase');
       }, 2000);
       // setCheckoutData(data);
     })

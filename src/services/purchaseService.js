@@ -6,13 +6,14 @@ export const getPurchasedItems = async () => {
 };
 
 export const checkout = function (values) {
-  const member_id = localStorage.getItem("seller_id");
-  if (member_id) return API.post("/makePurchase", values);
+  return API.post("/makePurchase", values);
 };
 
 export const completePayment = function (values) {
-  const member_id = localStorage.getItem("seller_id");
-  if (member_id) return API.post("/completePayment", values);
+  return API.post("/completePayment", values);
 };
 
+export const getDownloadUrl = function (values) {
+  return API.post("/getDownloadUrl", values);
+};
 
