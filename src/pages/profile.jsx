@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { NotificationManager } from "react-notifications";
 import { getMyProfile, getSellerProfile } from "src/services/profileService";
 import { getSellerReviews, getMyReviews, addSellerReview } from "src/services/reviewService";
+import { getMyItems } from "src/services/itemService";
 import withAuth from "~components/Auth/withAuth";
 import NewsletterSection from "~sections/Innerpages/Newsletter/NewsletterSection";
 import ProfileBody from "~sections/profile/ProfileBody";
@@ -23,18 +24,19 @@ const headerConfig = {
 const Profile = () => {
   const [profile, setProfile] = useState(null);
   const [review, setReview] = useState(null);
+  const [items, setItems] = useState(null);
   const user_id = (useRouter().query || {}).id;
   const loadData = function () {
     setProfile({ loading: true });
     setReview({ loading: true });
     if (user_id) {
       console.debug("Profile ==> getting anothers details");
-      getSellerProfile(user_id).then(data => setProfile(data));
-      getSellerReviews(user_id).then(data => setReview(data.reviews));
+      getSellerProfile(user_id).then(data => data && setProfile(data));
+      getSellerReviews(user_id).then(data => data && setReview(data.reviews));
     } else {
       console.debug("Profile ==> getting own details");
-      getMyProfile().then(data => setProfile(data));
-      getMyReviews().then(data => setReview(data.reviews));
+      getMyProfile().then(data => data && setProfile(data));
+      getMyReviews().then(data => data && setReview(data.reviews));
     }
   };
 
@@ -60,11 +62,14 @@ const Profile = () => {
 
   useEffect(() => {
     loadData();
+    setItems({ loading: true });
+    getMyItems().then(data => data && setItems(data.items));
+
   }, [user_id]);
 
   return (
     <PageWrapper themeConfig={headerConfig}>
-      <ProfileBody profile={profile} review={review} reviewProfile={reviewProfile} />
+      <ProfileBody profile={profile} review={review} reviewProfile={reviewProfile} sellerItems={items} />
       <NewsletterSection profile={profile} />
     </PageWrapper>
   );

@@ -4,10 +4,10 @@ import ProductInformationCard from "./ProductInformationCard";
 import ProfileCard from "./ProfileCard";
 import SidebarBuyCard from "./SidebarBuyCard";
 
-const Sidebar = ({ product }) => {
+const Sidebar = ({ product, addToCart }) => {
   return (
     <>
-      <SidebarBuyCard product={product} />
+      <SidebarBuyCard {...{ product, addToCart }} />
       <div className="card bg-primary text-white border-0 overflow-hidden">
         <div className="power-ribbon power-ribbon-top-left text-warning">
           <span className="bg-warning">

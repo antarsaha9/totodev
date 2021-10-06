@@ -4,14 +4,14 @@ import { Nav, Tab } from "react-bootstrap";
 import LoaderSpinner from "~components/Cards/LoaderSpinner";
 import CommentImage from "../../assets/images/users/male/1.jpg";
 import FollowCard from "../../components/Cards/FollowCard";
+import GridBlock from "./components/GridBlock";
 import Map from "./components/Map";
 import ProfileCard from "./components/ProfileCard";
 import ReplayForm from "./components/ReplayForm";
 import SingleComment from "./components/SingleComment";
-import SliderBlock from "./components/SliderBlock";
 import { FollowerData } from "./data";
 
-const ProfileBody = ({ profile, review, reviewProfile, addSellerComment }) => {
+const ProfileBody = ({ profile, review, reviewProfile, commentOnReview, sellerItems }) => {
   return (
     <>
       {/*Section*/}
@@ -270,7 +270,7 @@ const ProfileBody = ({ profile, review, reviewProfile, addSellerComment }) => {
               </Tab.Container>
               {/*Related Posts*/}
               <h3 className="mb-5 mt-4">User Products</h3>
-              <SliderBlock />
+              {sellerItems && sellerItems.loading ? <LoaderSpinner /> : <GridBlock items={sellerItems} />}
               {/*/Related Posts*/}
             </div>
           </div>

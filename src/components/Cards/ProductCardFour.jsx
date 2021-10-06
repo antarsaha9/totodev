@@ -3,6 +3,7 @@ import Tooltip from "../Tooltip";
 import productImageDefault from "../../assets/images/media/pictures/thumb-list/5.jpg"
 import Image from "next/image";
 import Carousel from 'react-bootstrap/Carousel'
+import StarRating from '~components/Widgets/StarRating';
 const ProductCardTwo = ({
   image = productImageDefault,
   tag,
@@ -56,27 +57,7 @@ const ProductCardTwo = ({
         </div>
         <div className="item-trans-rating">
           <div className="rating-stars block">
-            <input type="number" readOnly="readonly" className="rating-value star" name="rating-stars-value" defaultValue={star} />
-            {star <= 5 ? (
-              <>
-                <div className="rating-stars-container mr-2">
-                  {Array.from(Array(Number(star)), (_, index) => {
-                    return (
-                      <div className="rating-star sm is--active" key={index + "pcstr2"}>
-                        <i className="fa fa-star"></i>
-                      </div>
-                    );
-                  })}
-                  {Array.from(Array(5 - star), (_, index) => {
-                    return (
-                      <div className="rating-star sm" key={index + "pcstr"}>
-                        <i className="fa fa-star"></i>
-                      </div>
-                    );
-                  })}
-                </div>
-              </>
-            ) : null}
+            <StarRating editable={false} rating={star} />
           </div>
         </div>
       </div>

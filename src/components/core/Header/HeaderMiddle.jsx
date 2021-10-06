@@ -4,7 +4,7 @@ import CartDropDownBlock from "./components/CartDropdown"
 import NotiDropdownBlock from "./components/NotiDropdown"
 import MsgDropdownBlock from "./components/MsgDropdown"
 import ProfileDropdownBlock from "./components/ProfileDropdown";
-const HeaderBottom =() =>{
+const HeaderBottom =(props) =>{
   return (
     <header className="header-search header-logosec p-2 header-icons">
       <div className="container">
@@ -13,7 +13,7 @@ const HeaderBottom =() =>{
             <Link className="header-logo header-brand-img" to="/" ></Link>
           </div>
           <div className="d-flex ml-auto header-right-icons header-search-icon">
-            <CartDropDownBlock/>
+            <CartDropDownBlock {...props}/>
             <NotiDropdownBlock/>
             <MsgDropdownBlock/>
             <ProfileDropdownBlock/>

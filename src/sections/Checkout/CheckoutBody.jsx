@@ -1,10 +1,19 @@
-import React from "react";
-import { Nav, Tab } from "react-bootstrap";
+import React, { useState } from "react";
+import { Button, Nav, Tab } from "react-bootstrap";
 import { PayPalButton } from "react-paypal-button-v2";
+import LoaderSpinner from "~components/Cards/LoaderSpinner";
 import CreditCardForm from "./Components/CreditCardForm";
 import FormBlock from "./Components/FormBlock";
+import DropIn from "~components/Widgets/PaypalDropIn";
 
-const CheckoutBody = () => {
+const CheckoutBody = ({ checkoutData, confirmPayment }) => {
+  const [instance, setInstance] = useState(null)
+  const handleBuy = function (res) {
+    console.log(res);
+    // const { nonce } = res;
+    confirmPayment({ paymentMethodNonce: res.nonce, order_number: checkoutData.order_number })
+    // });
+  }
   return (
     <section className="sptb">
       <div className="container">
@@ -24,25 +33,25 @@ const CheckoutBody = () => {
               <div className="card-header">
                 <h3 className="card-title">Payment Method</h3>
               </div>
-              <Tab.Container defaultActiveKey="first">
+              <Tab.Container defaultActiveKey="second">
                 <div className="card-body">
-                  <div className="card-pay">
+                  {(!checkoutData || checkoutData.loading) ? <LoaderSpinner /> : <div className="card-pay">
                     <Nav className="tabs-menu nav" as="ul">
-                      <Nav.Item as="li">
+                      {/* <Nav.Item as="li">
                         <Nav.Link eventKey="first">
                           <i className="fa fa-credit-card" /> Credit Card
                         </Nav.Link>
-                      </Nav.Item>
+                      </Nav.Item> */}
                       <Nav.Item as="li">
                         <Nav.Link eventKey="second">
                           <i className="fa fa-paypal" /> Paypal
                         </Nav.Link>
                       </Nav.Item>
-                      <Nav.Item as="li">
+                      {/* <Nav.Item as="li">
                         <Nav.Link eventKey="third">
                           <i className="fa fa-university" /> Bank Transfer
                         </Nav.Link>
-                      </Nav.Item>
+                      </Nav.Item> */}
                     </Nav>
                     <Tab.Content>
                       <Tab.Pane eventKey="first">
@@ -61,7 +70,7 @@ const CheckoutBody = () => {
                           sequi nesciunt.{" "}
                         </p> */}
 
-                        <PayPalButton
+                        {/* <PayPalButton
                           amount="0.01"
                           onSuccess={(details, data) => {
                             console.log(details, data);
@@ -80,7 +89,17 @@ const CheckoutBody = () => {
                             label: "paypal",
                             height: 40,
                           }}
-                        />
+                        /> */}
+                        <div>
+                          <h2>Total payable: ${checkoutData.total_cost}</h2>
+                          <DropIn
+                            options={{ authorization: checkoutData.paypal_token }}
+                            onInstance={setInstance}
+                            onComplete={handleBuy}
+                          >
+                            {/* <Button onClick={handleBuy}>Buy</Button> */}
+                          </DropIn>
+                        </div>
                       </Tab.Pane>
                       <Tab.Pane eventKey="third">
                         <p>Bank account details</p>
@@ -104,7 +123,7 @@ const CheckoutBody = () => {
                         </p>
                       </Tab.Pane>
                     </Tab.Content>
-                  </div>
+                  </div>}
                 </div>
               </Tab.Container>
             </div>

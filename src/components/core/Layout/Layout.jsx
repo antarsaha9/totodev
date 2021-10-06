@@ -9,7 +9,8 @@ import DashboardNav from "../../DashboardNav";
 import FooterSection from "../../Footer";
 const Layout =({
   loader,
-  children
+  children,
+  ...rest
 }) =>{
   // const [preloader,setPreloader] = useState(loader);
   // useEffect(() => {
@@ -24,7 +25,7 @@ const Layout =({
             <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0"/>
       </Head>
       {/* <Loader show={preloader}/> */}
-      <Header/>
+      <Header {...rest}/>
       {sitectx.header.dashboardNav? <DashboardNav/> : null}
       
         {children}

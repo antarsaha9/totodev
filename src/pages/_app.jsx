@@ -4,12 +4,14 @@ import { NotificationContainer } from "react-notifications";
 import Auth from "~components/Auth/Auth";
 import { reduxWrapper } from "~redux/reduxStore";
 import "../assets/scss/style.scss";
-import Layout from "../components/core/Layout";
+import Layout from "~components/core/Layout";
 import Loader from "../components/Loader";
 import { GlobalHeaderProvider } from "../context/GlobalHeaderContext";
+import { getCart } from "~services/cartService";
 
 const App = ({ Component, pageProps }) => {
   const [loader, setLoader] = useState(false);
+  const [cart, setCart] = useState(null);
 
   useEffect(() => {
     Router.onRouteChangeStart = (url) => {
@@ -23,6 +25,13 @@ const App = ({ Component, pageProps }) => {
     };
   }, []);
 
+  useEffect(() => {
+    setCart({ loading: true });
+    getCart().then((data) => {
+      if (data) setCart(data.items);
+    });
+  }, []);
+
   if (loader) {
     return <Loader show={loader} />;
   }
@@ -30,8 +39,8 @@ const App = ({ Component, pageProps }) => {
   return (
     <Auth>
       <GlobalHeaderProvider>
-        <Layout>
-          <Component {...pageProps} />
+        <Layout cart={cart}>
+          <Component {...pageProps} cart={cart} />
         </Layout>
       </GlobalHeaderProvider>
       <NotificationContainer />

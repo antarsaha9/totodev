@@ -14,13 +14,13 @@ const SingleRow =({image,title,price}) =>{
           width="64"
           height="64"
           className="br-4"
-          placeholder="blur"
+          // placeholder="blur"
         />
         {/* </div> */}
       </td>
       <td>{title}</td>
       <td className="font-weight-bold fs-16">{price}</td>
-      <td>
+      {/* <td>
         <div className="input-group input-indec">
           <span className="input-group-btn">
             <button onClick={() => !(count === 0) ? setCount(count - 1) :0} 
@@ -45,7 +45,7 @@ const SingleRow =({image,title,price}) =>{
             </button>
           </span>
         </div>
-      </td>
+      </td> */}
       <td>
         <a
           href="/#"

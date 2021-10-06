@@ -1,6 +1,7 @@
 import React from "react";
+import { Button } from "react-bootstrap";
 
-const SidebarBuyCard = ({ product }) => {
+const SidebarBuyCard = ({ product, addToCart }) => {
   return (
     <div className="card  mt-5 mt-lg-0">
       <div className="licence-niceselect pt-4 pl-4 pr-4 pb-0">
@@ -58,10 +59,10 @@ const SidebarBuyCard = ({ product }) => {
         </div>
       </div>
       <div className="card-body item-user">
-        <a className="btn ripple  btn-primary btn-block btn-lg" href="#">
+        <Button variant="primary" className="ripple btn-block btn-lg" onClick={addToCart}>
           <i className="fe fe-shopping-cart mr-1" />
           Add to Cart
-        </a>
+        </Button>
         <a className="btn ripple  btn-info btn-block btn-lg" href="#">
           Buy Now
         </a>

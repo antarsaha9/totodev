@@ -36,7 +36,7 @@ const EditSection = () => {
     setFieldValue("image_url", url);
   };
 
-  const load=()=>{
+  const load = () => {
     getMyProfile().then((data) => {
       setProfile(data);
     });
@@ -136,7 +136,7 @@ const EditSection = () => {
                         <FormGroup>
                           <FormLabel>Phone Number</FormLabel>
                           <FormControl
-                            type="number"
+                            type="tel"
                             className="form-control"
                             placeholder="Phone Number"
                             name="phone"
@@ -217,11 +217,11 @@ const EditSection = () => {
                       <div className="col-md-5">
                         <FormGroup>
                           <FormLabel>Country</FormLabel>
-                          <Dropdown 
+                          <Dropdown
                             // className="form-control" 
                             aria-label="Select Country"
-                            value = {values.country}
-                            onChange={e => setFieldValue('country', e)}
+                            defaultValue={values.country}
+                            handleChange={e => setFieldValue('country', e)}
                             name="country"
                             data={[
                               "Germany",
@@ -238,7 +238,7 @@ const EditSection = () => {
                               "Kuwait",
                               "Mexico",
                               "Pakistan",
-                            ].map(c=><option value={c}>{c}</option>)}
+                            ].map(c => <option value={c}>{c}</option>)}
                           />
                           {/* <SelectBox
                             data={[

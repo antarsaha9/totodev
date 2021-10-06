@@ -79,7 +79,7 @@ const HeaderButton = styled.button`
   }
 `;
 
-const Header = () => {
+const Header = (props) => {
   const [showScrolling, setShowScrolling] = useState(false);
   const [showReveal, setShowReveal] = useState(false);
   const [isAlive, setAlive] = useState(true);
@@ -118,7 +118,7 @@ const Header = () => {
         >
           <div className="header-main">
             <HeaderTop />
-            <HeaderMiddle />
+            <HeaderMiddle {...props} />
             <div
               className={`sticky-wrapper ${showScrolling ? "scrolling" : ""} ${
                 showReveal ? "reveal-header " : ""

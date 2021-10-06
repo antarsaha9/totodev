@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { getItemDetails } from "~services/itemService";
+import { updateCart } from "~services/cartService";
 import { getItemComments, getItemReviews, addItemReview } from "~services/reviewService";
 import ProductOverviewCard from "./Components/Sidebar/ProductOverviewCard";
 import Sidebar from "./Components/Sidebar/Sidebar";
@@ -12,7 +13,7 @@ const PageDetailsBody = () => {
   const [product, setProduct] = useState({});
   const [reviews, setReviews] = useState([]);
   const [comments, setComments] = useState([]);
-  const { query } = useRouter();
+  const { query, reload } = useRouter();
 
   const reviewItem = function (values, callback) {
     addItemReview({ item_id: product.id, ...values }).then(data => {
@@ -40,6 +41,13 @@ const PageDetailsBody = () => {
     }
   }
 
+  const addToCart = function () {
+    updateCart({ items: [{ item_id: product.id, quantity: 1 }] }).then(data => {
+      NotificationManager.success(data);
+      reload()
+    })
+  }
+
   useEffect(() => {
     loadData();
   }, [query]);
@@ -58,7 +66,7 @@ const PageDetailsBody = () => {
           </div>
           {/*Right Side Content*/}
           <div className="col-xl-4 col-lg-4 col-md-12">
-            <Sidebar product={product} />
+            <Sidebar {...{ product, addToCart }} />
           </div>
           {/*Rightside Content*/}
         </div>

@@ -14,11 +14,11 @@ const headerConfig = {
   ),
   bannerClasses: "bg-background3",
 };
-const Cart = () => {
+const Cart = ({cart}) => {
   return (
     <>
       <PageWrapper themeConfig={headerConfig}>
-        <CardtBody />
+        <CardtBody cart={cart} />
         <NewsLetterSection />
       </PageWrapper>
     </>

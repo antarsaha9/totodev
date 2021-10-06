@@ -13,7 +13,7 @@ export const addSellerItem = async ({ img, file, ...values }, setProgress) => {
     const { url: uploadUrl, access_url } = await getUploadUrl(img);
     const p1 = uploadFile(uploadUrl, img);
     promises.push(p1);
-    p1.then(()=>{
+    p1.then(() => {
       values.image_url = access_url;
     })
   }
@@ -33,6 +33,11 @@ export const addSellerItem = async ({ img, file, ...values }, setProgress) => {
 };
 
 export const getSellerItemList = async (seller_id) => {
+  return API.post("/getSellerItems", { seller_id });
+};
+
+export const getMyItems = async () => {
+  const seller_id = localStorage.getItem("seller_id");
   return API.post("/getSellerItems", { seller_id });
 };
 
