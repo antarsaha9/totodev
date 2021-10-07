@@ -91,7 +91,7 @@ const CartDropDownBlock = ({ cart }) => {
           <div className="dropdown-footer">
             <div className="btn-list">
               <Link
-                to="cart"
+                to="/cart"
                 className="btn btn-primary  ripple mb-lg-0"
               >
                 View Cart

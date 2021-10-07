@@ -8,12 +8,15 @@ import BreadCrumbSection from "../sections/Innerpages/BreadCrumb";
 import NewsLetterSection from "../sections/Innerpages/Newsletter";
 import { NotificationManager } from "react-notifications";
 import { useRouter } from "next/router";
-import { updateCart } from "~services/cartService";
+import { useDispatch } from "react-redux";
+import { getCart } from "~services/cartService";
+import { appActions } from "~redux/appSlice";
 
 
 const Checkout = ({ cart }) => {
   const [checkoutData, setCheckoutData] = useState(null)
   const router = useRouter();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!cart || cart.loading) {
@@ -34,7 +37,12 @@ const Checkout = ({ cart }) => {
       NotificationManager.success("payment successful!");
       NotificationManager.success(JSON.stringify(data));
       setTimeout(() => {
-        updateCart([]);
+        dispatch(appActions.setCart({ loading: true }));
+        getCart().then((data) => {
+          if (data) {
+            dispatch(appActions.setCart(data.items));
+          };
+        });
         router.push('/dashboard/purchase');
       }, 2000);
       // setCheckoutData(data);

@@ -8,10 +8,13 @@ import Layout from "~components/core/Layout";
 import Loader from "../components/Loader";
 import { GlobalHeaderProvider } from "../context/GlobalHeaderContext";
 import { getCart } from "~services/cartService";
+import { useDispatch, useSelector } from "react-redux";
+import { appActions } from "~redux/appSlice";
 
 const App = ({ Component, pageProps }) => {
   const [loader, setLoader] = useState(false);
-  const [cart, setCart] = useState(null);
+  const { cart } = useSelector((store) => store.app)
+  const dispatch = useDispatch();
 
   useEffect(() => {
     Router.onRouteChangeStart = (url) => {
@@ -26,9 +29,11 @@ const App = ({ Component, pageProps }) => {
   }, []);
 
   useEffect(() => {
-    setCart({ loading: true });
+    dispatch(appActions.setCart({ loading: true }));
     getCart().then((data) => {
-      if (data) setCart(data.items);
+      if (data) {
+        dispatch(appActions.setCart(data.items));
+      };
     });
   }, []);
 
