@@ -21,7 +21,7 @@ function StarRating(props) {
     onChange(e.target.getAttribute('data'))
   }
   return (<>
-    <input type="number" readOnly="readonly" className="rating-value star" name="rating-stars-value" defaultValue={active_stars} />
+    {/* <input type="number" readOnly="readonly" className="rating-value star" name="rating-stars-value" defaultValue={active_stars} /> */}
     {active_stars <= 5 ? (
       <>
         <div className="rating-stars-container mr-2" {...(editable ? { onMouseLeave: handleHoverOut } : {})} >

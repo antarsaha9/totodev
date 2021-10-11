@@ -1,13 +1,15 @@
 import React from "react";
 import Image from 'next/image'
-
-const ProfileCard = ({ image, name, date }) => {
+import { Link } from "~components/core";
+import { format, parseISO } from 'date-fns';
+const ProfileCard = ({ product }) => {
+  const { seller_image_url: image, seller_name: name, seller_joined_at: date, seller_id } = product;
   return (
     <div className="card">
       <div className="card-body item-user">
         <div className="text-center">
           <a href="userprofile.html" className="mb-4">
-            <Image
+            {/* <Image
               src={image}
               alt="image"
               layout="fixed"
@@ -15,12 +17,12 @@ const ProfileCard = ({ image, name, date }) => {
               height="80"
               className="avatar avatar-xxl brround"
               placeholder="blur"
-            />
+            /> */}
           </a>
           <a href="userprofile.html">
             <h3 className="mt-2 mb-1 text-dark">{name}</h3>
           </a>
-          <span className="text-muted">{date}</span>
+          <span className="text-muted">Member since {date && format(parseISO(date), 'd LLLL yyyy')}</span>
         </div>
         <div className=" item-user-icons mt-2 mb-5 text-center">
           <a href="#" className="facebook-bg mt-0 ">
@@ -37,12 +39,12 @@ const ProfileCard = ({ image, name, date }) => {
           </a>
         </div>
         <div >
-          <a
-            href="profile.html"
+          <Link
+            to={{ pathname: "/profile", query: { id: seller_id } }}
             className="btn ripple btn-light btn-block btn-lg"
           >
             View Porfile
-          </a>
+          </Link>
         </div>
       </div>
     </div>
