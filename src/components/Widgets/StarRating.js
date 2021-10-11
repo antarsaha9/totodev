@@ -7,6 +7,7 @@ function StarRating(props) {
   const [hoverd_stars, setHoverdStars] = useState(null);
   const [ishovering, setIsHovering] = useState(false);
   const active_stars = (ishovering ? hoverd_stars : rating) || 0;
+  const cursorProperty = editable ? "pointer" : "default";
 
   function handleHover(e) {
     const component = e.target;
@@ -24,10 +25,10 @@ function StarRating(props) {
     {/* <input type="number" readOnly="readonly" className="rating-value star" name="rating-stars-value" defaultValue={active_stars} /> */}
     {active_stars <= 5 ? (
       <>
-        <div className="rating-stars-container mr-2" {...(editable ? { onMouseLeave: handleHoverOut } : {})} >
+        <div className="rating-stars-container mr-2" style={{ cursor: cursorProperty }} {...(editable ? { onMouseLeave: handleHoverOut } : {})} >
           {Array.from(Array(Number(5)), (_, index) => {
             const t = index + 1;
-            return <Star {...restProps} active={active_stars >= t} key={t + "pcstr2"} data={t} isHovering={ishovering} {...(editable ? { onMouseOver: handleHover, onClick: handleClick } : {})} />
+            return <Star {...restProps} active={active_stars >= t} key={t + "pcstr2"} data={t} isHovering={ishovering} {...(editable ? { onMouseOver: handleHover, onClick: handleClick } : {})} style={{ cursor: cursorProperty }} />
           })}
         </div>
       </>
@@ -35,9 +36,9 @@ function StarRating(props) {
   </>)
 }
 
-function Star({ active, isHovering, key, data, starSize = 'sm', ...args }) {
+function Star({ active, isHovering, key, data, starSize = 'sm', style, ...args }) {
   return (
-    <div className={`rating-star ${starSize} ${active ? " is--active" : ""} ${isHovering ? (active ? "is--hover" : "is--no-hover") : ""} `} >
+    <div className={`rating-star ${starSize} ${active ? " is--active" : ""}${isHovering ? (active ? " is--hover" : " is--no-hover") : ""}`} style={style} >
       <i className="fa fa-star" key={key} data={data} {...args}></i>
     </div>
   )

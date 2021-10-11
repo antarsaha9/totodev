@@ -54,25 +54,28 @@ const Sidebar = ({ product, addToCart, buyNow }) => {
             <span className="item-ratings fs-14">
               {Array.from(Array(Number(5)), (_, index) => {
                 const t = index + 1;
-                return <i key={t + "pcstr2"} className={`fa fa-star${product.overall_rating >= t ? "-o" : ""} text-warning mr-1`} />
+                return <i key={t + "pcstr2"} className={`fa fa-star${product.overall_rating >= t ? "" : "-o"} text-warning mr-1`} />
               })}
               <span className="ml-1">({product?.total_rating})</span>
             </span>
           </div>
-          {product?.stars?.map((rating, ind) => (
-            <div className="mb-3" key={"rating-" + ind}>
-              <small className="mb-0">
-                {product.stars.length - ind} Star
-                <span className="float-right text-muted">{rating}%</span>
-              </small>
-              <div className="progress h-1 mt-1">
-                <div
-                  className={`progress-bar bg-warning w-${rating}`}
-                  role="progressbar"
-                />
+          {product?.stars?.map((rating, ind) => {
+            const percentage_rating = parseInt((rating * 100) / product.total_rating) || 0;
+            return (
+              <div className="mb-3" key={"rating-" + ind}>
+                <small className="mb-0">
+                  {product.stars.length - ind} Star
+                  <span className="float-right text-muted">{percentage_rating}%</span>
+                </small>
+                <div className="progress h-1 mt-1">
+                  <div
+                    className={`progress-bar bg-warning w-${percentage_rating}`}
+                    role="progressbar"
+                  />
+                </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
           {/* <div className="mb-3">
             <small className="mb-0">
               4 Star<span className="float-right text-muted">50%</span>
