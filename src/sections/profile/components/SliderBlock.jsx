@@ -64,7 +64,7 @@ const SliderBlock = () => {
     // autoplay: true,
     swipe: true,
     infinite: true,
-    autoplaySpeed: 2000,
+    autoplaySpeed: 2,
     arrows: true,
     responsive: [
       {
@@ -86,7 +86,7 @@ const SliderBlock = () => {
 
   return (
     <SliderWrapper ref={elSlider} {...slickSettings}>
-      {sliderData.map(
+      {sliderData.slice(0,2).map(
         (
           {
             image,

@@ -3,11 +3,12 @@ import profileImage from "../../../../assets/images/users/female/3.jpg";
 import ProductInformationCard from "./ProductInformationCard";
 import ProfileCard from "./ProfileCard";
 import SidebarBuyCard from "./SidebarBuyCard";
+import { TiShoppingCart, TiMessages } from 'react-icons/ti';
 
-const Sidebar = ({ product, addToCart }) => {
+const Sidebar = ({ product, addToCart, buyNow }) => {
   return (
     <>
-      <SidebarBuyCard {...{ product, addToCart }} />
+      <SidebarBuyCard {...{ product, addToCart, buyNow }} />
       <div className="card bg-primary text-white border-0 overflow-hidden">
         <div className="power-ribbon power-ribbon-top-left text-warning">
           <span className="bg-warning">
@@ -20,55 +21,46 @@ const Sidebar = ({ product, addToCart }) => {
           </h5>
         </div>
       </div>
-      <div className="card">
+      {product.total_sales && <div className="card">
         <div className="card-body">
           <div className="d-flex">
-            <p className="mb-1  mr-3 mt-2">Total Slaes:</p>
+            <p className="mb-1  mr-3 mt-2">Total Sales:</p>
             <p className="mb-0 fs-25 font-weight-semibold">
-              <i className="typcn typcn-shopping-cart text-dark mr-1" />
-              567
+              {/* <i className="typcn typcn-shopping-cart text-dark mr-1" /> */}
+              <TiShoppingCart className="text-dark mr-1" style={{ marginBottom: "-4px" }} />
+              {product.total_sales}
             </p>
           </div>
         </div>
-      </div>
-      <div className="card">
+      </div>}
+      {product.total_comments && <div className="card">
         <div className="card-body">
           <div className="d-flex">
             <p className="mb-1 mr-3 mt-2">Total Comments:</p>
             <p className="mb-0 fs-25 ">
               <i className="typcn typcn-messages text-dark mr-1" />
-              <a href="#" className="text-dark font-weight-semibold">
-                12
-              </a>
+              <TiMessages className="text-dark mr-1" style={{ marginBottom: "-4px" }} />
+              <span className="text-dark font-weight-semibold">
+                {product.total_comments}
+              </span>
             </p>
           </div>
         </div>
-      </div>
+      </div>}
       <div className="card">
         <div className="card-body">
           <div className="item-rating-info d-flex mb-4">
             <h5 className="mr-3 ">Items Rating:</h5>
             <span className="item-ratings fs-14">
-              <a href="#">
-                <i className="fa fa-star text-warning "> </i>
-              </a>
-              <a href="#">
-                <i className="fa fa-star text-warning "> </i>
-              </a>
-              <a href="#">
-                <i className="fa fa-star text-warning "> </i>
-              </a>
-              <a href="#">
-                <i className="fa fa-star text-warning "> </i>
-              </a>
-              <a href="#">
-                <i className="fa fa-star-o text-warning mr-2"> </i>
-              </a>
-              ({product?.overall_rating || 567})
+              {Array.from(Array(Number(5)), (_, index) => {
+                const t = index + 1;
+                return <i key={t + "pcstr2"} className={`fa fa-star${product.overall_rating >= t ? "-o" : ""} text-warning mr-1`} />
+              })}
+              <span className="ml-1">({product?.total_rating})</span>
             </span>
           </div>
           {product?.stars?.map((rating, ind) => (
-            <div className="mb-3">
+            <div className="mb-3" key={"rating-" + ind}>
               <small className="mb-0">
                 {product.stars.length - ind} Star
                 <span className="float-right text-muted">{rating}%</span>
@@ -124,11 +116,7 @@ const Sidebar = ({ product, addToCart }) => {
           </div> */}
         </div>
       </div>
-      <ProfileCard
-        image={profileImage}
-        title="Vania Laurin"
-        date="Member since 8 November 2010"
-      />
+      <ProfileCard product={product} />
       <ProductInformationCard product={product} />
     </>
   );

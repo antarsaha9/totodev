@@ -3,7 +3,10 @@ import SingleRow from './Components/SingleRow'
 import cartImage from "../../assets/images/media/pictures/small/01.jpg"
 import LoaderSpinner from '~components/Cards/LoaderSpinner'
 import { Link } from '~components/core'
+import { removeFromCart } from 'src/helper'
+import { useDispatch } from 'react-redux'
 const CardtBody = ({ cart }) => {
+  const dispatch = useDispatch();
   return (
     <section className="sptb">
       <div className="container">
@@ -26,7 +29,13 @@ const CardtBody = ({ cart }) => {
                       </tr>
                     </thead>
                     <tbody>
-                      {(!cart || cart.loading) ? <LoaderSpinner /> : cart.map(item => <SingleRow title={item.item_name} price={"$" + item.price} image={item.image_url} />)}
+                      {(!cart || cart.loading) ? <LoaderSpinner /> : cart.map((item, index) =>
+                        <SingleRow
+                          title={item.item_name}
+                          price={"$" + item.price}
+                          image={item.image_url}
+                          remove={() => removeFromCart(cart, index, dispatch)}
+                        />)}
 
                     </tbody>
                   </table>

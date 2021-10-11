@@ -10,6 +10,7 @@ import { GlobalHeaderProvider } from "../context/GlobalHeaderContext";
 import { getCart } from "~services/cartService";
 import { useDispatch, useSelector } from "react-redux";
 import { appActions } from "~redux/appSlice";
+import { reloadCart } from "src/helper";
 
 const App = ({ Component, pageProps }) => {
   const [loader, setLoader] = useState(false);
@@ -29,12 +30,13 @@ const App = ({ Component, pageProps }) => {
   }, []);
 
   useEffect(() => {
-    dispatch(appActions.setCart({ loading: true }));
-    getCart().then((data) => {
-      if (data) {
-        dispatch(appActions.setCart(data.items));
-      };
-    });
+    reloadCart(dispatch)
+      // dispatch(appActions.setCart({ loading: true }));
+      // getCart().then((data) => {
+      //   if (data) {
+      //     dispatch(appActions.setCart(data.items));
+      //   };
+      // });
   }, []);
 
   if (loader) {

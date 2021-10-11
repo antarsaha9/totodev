@@ -1,8 +1,9 @@
 import React from "react";
 import Image from "next/image"
-const SingleRow =({image,title,price}) =>{
-    const [count, setCount] = React.useState(0);
-    // const uinpt =  React.useRef()
+import { Button } from "react-bootstrap";
+const SingleRow = ({ image, title, price, remove }) => {
+  // const [count, setCount] = React.useState(0);
+  // const uinpt =  React.useRef()
   return (
     <tr>
       <td>
@@ -14,7 +15,7 @@ const SingleRow =({image,title,price}) =>{
           width="64"
           height="64"
           className="br-4"
-          // placeholder="blur"
+        // placeholder="blur"
         />
         {/* </div> */}
       </td>
@@ -56,17 +57,18 @@ const SingleRow =({image,title,price}) =>{
         >
           <i className="icon icon-heart" />
         </a>
-        <a
-          href="/#"
-          className="btn btn-info btn-sm"
+        <Button
+          variant="info"
+          className="btn-sm"
           data-toggle="tooltip"
-          data-placement="top"
+          // data-placement="top"
           title="Remove"
+          onClick={remove}
         >
           <i className="icon icon-trash" />
-        </a>
+        </Button>
       </td>
     </tr>
   );
 }
-export default  SingleRow;
+export default SingleRow;

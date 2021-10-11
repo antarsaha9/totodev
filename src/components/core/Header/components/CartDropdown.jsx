@@ -2,6 +2,8 @@ import React from 'react'
 // import Image from 'next/image';
 import { Button, Dropdown, Spinner } from "react-bootstrap";
 import { FaSpinner } from 'react-icons/fa';
+import { useDispatch } from 'react-redux';
+import { removeFromCart } from 'src/helper';
 import styled from 'styled-components';
 import LoaderSpinner from '~components/Cards/LoaderSpinner';
 import { Link } from '~components/core';
@@ -68,6 +70,7 @@ const CartProduct = ({ image, title, tag, price, removeFromCart }) => {
 const CartDropDownBlock = ({ cart }) => {
   if (!cart)
     return ""
+  const dispatch = useDispatch();
   return (
     <CartDropdown className="d-md-flex notifications" as={Dropdown}>
       <Dropdown.Toggle className="nav-link icon" as="a" bsPrefix="none">
@@ -86,6 +89,7 @@ const CartDropDownBlock = ({ cart }) => {
             title={item.item_name}
             tag={item.category_name}
             price={item.price}
+            removeFromCart={() => removeFromCart(cart, index, dispatch)}
             key={"cart_item" + index} />) : "Cart is empty"}
         </div>
           <div className="dropdown-footer">

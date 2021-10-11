@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 
-const SidebarBuyCard = ({ product, addToCart }) => {
+const SidebarBuyCard = ({ product, addToCart, buyNow }) => {
   return (
     <div className="card  mt-5 mt-lg-0">
       <div className="licence-niceselect pt-4 pl-4 pr-4 pb-0">
@@ -63,9 +63,9 @@ const SidebarBuyCard = ({ product, addToCart }) => {
           <i className="fe fe-shopping-cart mr-1" />
           Add to Cart
         </Button>
-        <a className="btn ripple  btn-info btn-block btn-lg" href="#">
+        <Button variant="info" className="ripple btn-block btn-lg" onClick={buyNow}>
           Buy Now
-        </a>
+        </Button>
       </div>
       <div className="p-3 border-top text-center bg-light">
         {/* <i className="payment payment-maestro mr-2" /> */}

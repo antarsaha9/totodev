@@ -1,19 +1,23 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { getItemDetails } from "~services/itemService";
-import { updateCart } from "~services/cartService";
 import { getItemComments, getItemReviews, addItemReview } from "~services/reviewService";
 import ProductOverviewCard from "./Components/Sidebar/ProductOverviewCard";
 import Sidebar from "./Components/Sidebar/Sidebar";
 import SliderBlock from "./Components/SliderBlock";
 import TabBlockMain from "./Components/TabBlock/TabBlockMain";
 import { NotificationManager } from "react-notifications";
+import LoaderSpinner from "~components/Cards/LoaderSpinner";
+import { addToCart as _addToCart } from "src/helper";
+import { useDispatch, useSelector } from "react-redux";
 
 const PageDetailsBody = () => {
   const [product, setProduct] = useState({});
   const [reviews, setReviews] = useState([]);
   const [comments, setComments] = useState([]);
-  const { query, reload } = useRouter();
+  const { cart } = useSelector((store) => store.app)
+  const dispatch = useDispatch();
+  const { query, push } = useRouter();
 
   const reviewItem = function (values, callback) {
     addItemReview({ item_id: product.id, ...values }).then(data => {
@@ -42,10 +46,12 @@ const PageDetailsBody = () => {
   }
 
   const addToCart = function () {
-    updateCart({ items: [{ item_id: product.id, quantity: 1 }] }).then(data => {
-      NotificationManager.success(data);
-      reload()
-    })
+    _addToCart(cart, product.id, dispatch);
+  }
+
+  const buyNow = function () {
+    _addToCart([], product.id, dispatch);
+    push('/cart');
   }
 
   useEffect(() => {
@@ -66,7 +72,7 @@ const PageDetailsBody = () => {
           </div>
           {/*Right Side Content*/}
           <div className="col-xl-4 col-lg-4 col-md-12">
-            <Sidebar {...{ product, addToCart }} />
+            {product && product.loading ? <LoaderSpinner /> : <Sidebar {...{ product, addToCart, buyNow }} />}
           </div>
           {/*Rightside Content*/}
         </div>

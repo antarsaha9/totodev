@@ -1,7 +1,7 @@
 import React from "react";
 import BreadcrumbSectionTwo from "../components/Breadcrumb/BreadcrumbSectionTwo";
 import PageWrapper from "../components/core/PageWrapper";
-import CardtBody from "../sections/Cart/Cartbody";
+import CartBody from "../sections/Cart/Cartbody";
 import NewsLetterSection from "../sections/Innerpages/Newsletter";
 
 const headerConfig = {
@@ -18,7 +18,7 @@ const Cart = ({cart}) => {
   return (
     <>
       <PageWrapper themeConfig={headerConfig}>
-        <CardtBody cart={cart} />
+        <CartBody cart={cart} />
         <NewsLetterSection />
       </PageWrapper>
     </>

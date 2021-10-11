@@ -6,7 +6,7 @@ export const getCart = () => {
   return API.post("/getShoppingCart");
 };
 
-export const updateCart = async (values) => {
+export const updateCart = (items) => {
   setAPIHeader();
-  return API.post("/updateShoppingCart", values);
+  return API.post("/updateShoppingCart", {items});
 };
