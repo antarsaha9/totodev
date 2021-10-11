@@ -70,8 +70,8 @@ const TabBlockMain = ({ product, reviews, comments, reviewItem }) => {
                   <div className="row">
                     <div className="col-xl-6 col-md-6">
                       <ul className="list-unstyled widget-spec mb-0">
-                        {features.slice(0, features.length / 2).map(feature =>
-                          <li>
+                        {features.slice(0, features.length / 2).map((feature, index) =>
+                          <li key={"feature-" + index}>
                             <i className="fa fa-angle-double-right text-muted"></i>
                             {feature}
                           </li>
@@ -80,8 +80,8 @@ const TabBlockMain = ({ product, reviews, comments, reviewItem }) => {
                     </div>
                     <div className="col-xl-6 col-md-6">
                       <ul className="list-unstyled widget-spec mb-0">
-                        {features.slice(features.length / 2).map(feature =>
-                          <li>
+                        {features.slice(features.length / 2).map((feature, index) =>
+                          <li key={"feature-" + index}>
                             <i className="fa fa-angle-double-right text-muted" />
                             {feature}
                           </li>
