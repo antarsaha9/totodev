@@ -4,16 +4,18 @@ import Carousel from 'react-bootstrap/Carousel'
 import productImageDefault from "../../assets/images/media/pictures/thumb-list/5.jpg"
 import StarRating from '~components/Widgets/StarRating';
 import Image from "next/image";
+import { Button } from "react-bootstrap";
 const ProductCardTwo = ({
   image = productImageDefault,
   tag,
   star = 5,
   price,
   userName,
-  cartCount,
+  totalSales,
   title,
   badge,
   className,
+  buy
 }) => {
   return (
     <div className={`card overflow-hidden ${className}`}>
@@ -54,7 +56,7 @@ const ProductCardTwo = ({
           <a href="#" className="text-white">
             {tag}{" "}
           </a>
-          <h4 className=" mb-0">{price}</h4>
+          <h4 className=" mb-0">${price}</h4>
         </div>
       </div>
       <div className="card-body">
@@ -76,22 +78,22 @@ const ProductCardTwo = ({
             <div className="rating-stars d-flex">
               <StarRating rating={star} />
             </div>
-            <a href="#" className="ml-auto mt-1">
+            {totalSales && <div className="ml-auto mt-1">
               <span className="text-muted fs-13">
-                <i className="fe fe-shopping-cart text-muted mr-1" /> {cartCount} Sales
+                <i className="fe fe-shopping-cart text-muted mr-1" /> {totalSales} Sales
               </span>
-            </a>
+            </div>}
           </div>
         </div>
       </div>
       <div className="card-footer">
         <div className="btn ripple  btn-list m-md-0 p-md-0">
-          <a href="#" className="btn ripple  btn-primary mb-lg-0">
+          {/* <a href="#" className="btn ripple  btn-primary mb-lg-0">
             Live Preview
-          </a>
-          <a href="#" className="btn ripple  btn-secondary mb-lg-0">
+          </a> */}
+          <Button variant="secondary" className="ripple mb-lg-0" onClick={buy}>
             Buy Now
-          </a>
+          </Button>
         </div>
       </div>
     </div>

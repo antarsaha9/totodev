@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import SelectBox from "../../components/Forms/SelectBox";
 import RightSidebar from "./components/RightSidebar";
-import ProductCardList from "../../components/Cards/ProductCardList";
+import ProductCardList from "~components/Cards/ProductCardList";
 import { getAdList } from "~services/itemService";
 import ProductCardTwo from "../../components/Cards/ProductCardTwo";
 import { Nav, Tab } from "react-bootstrap";
+import { addToCart } from "src/helper";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/router";
 const SortSelectWrapper = styled.div`
   .rc-menu-button {
     width: 150px !important;
@@ -48,6 +51,14 @@ const PageListBoady = () => {
       // setLoading(false);
     })
   }, [])
+
+  const dispatch = useDispatch();
+  const { push } = useRouter();
+  const buyNow = function (item_id) {
+    console.log(item_id);
+    addToCart([], item_id, dispatch);
+    push('/cart');
+  }
   return (
     <section className="sptb">
       <div className="container">
@@ -119,6 +130,7 @@ const PageListBoady = () => {
                               className={category_name}
                               date={date}
                               key={"pl" + index}
+                              buy={() => buyNow(id)}
                             />
                           );
                         }
@@ -128,6 +140,7 @@ const PageListBoady = () => {
                       <div className="row">
                         {data.map(
                           ({
+                            id,
                             image_url,
                             tags,
                             overall_rating,
@@ -153,7 +166,7 @@ const PageListBoady = () => {
                                   className={category_name}
                                   date={date}
                                   key={"pl" + index}
-
+                                  buy={() => buyNow(id)}
                                 />
                               </div>
                             );

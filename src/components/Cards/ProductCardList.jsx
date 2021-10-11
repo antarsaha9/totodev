@@ -6,6 +6,7 @@ import userImageDefault from "../../assets/images/users/female/18.jpg"
 import productImageDefault from "../../assets/images/media/pictures/thumb-list/5.jpg"
 import StarRating from "~components/Widgets/StarRating";
 import { Link } from "~components/core";
+import { Button } from "react-bootstrap";
 const ProductCardList = ({
   id,
   image = productImageDefault,
@@ -17,7 +18,7 @@ const ProductCardList = ({
   userName = "user name",
   title,
   date,
-  // badge,
+  buy,
   className,
   online
 }) => {
@@ -45,7 +46,7 @@ const ProductCardList = ({
           </div>
           <div className="item-trans-rating">
             <div className="rating-stars block">
-              <StarRating rating={star} />
+              <StarRating rating={star} editable={false} />
 
             </div>
           </div>
@@ -70,7 +71,7 @@ const ProductCardList = ({
             </div>
             <div className="text-md-center w-35 border-left">
               <div className="card-body">
-                <h4 className=" text-dark fs-25 mb-4">{price}</h4>
+                <h4 className=" text-dark fs-25 mb-4">${price}</h4>
                 <p className="mb-1"><span className="text-muted fs-13"> {saleCount} Sales</span></p>
                 <p className="mb-0"><span className="text-muted fs-13">Last Updated:</span><span className="text-muted"> {date}</span></p>
               </div>
@@ -86,8 +87,8 @@ const ProductCardList = ({
               </div>
               <div className="footerimg-r ml-auto">
                 <div className="btn  btn-list">
-                  <a href="#" className="btn ripple  btn-primary"><i className="fe fe-airplay mr-1" />Live Preview</a>
-                  <a href="#" className="btn ripple  btn-secondary"><i className="fe fe-shopping-cart mr-1" />Buy Now</a>
+                  {/* <a href="#" className="btn ripple  btn-primary"><i className="fe fe-airplay mr-1" />Live Preview</a> */}
+                  <Button variant="secondary" className="ripple" onClick={buy}><i className="fe fe-shopping-cart mr-1" />Buy Now</Button>
                 </div>
               </div>
             </div>
