@@ -1,8 +1,7 @@
 import API from "./API";
 
 export const getPurchasedItems = async () => {
-  const member_id = localStorage.getItem("seller_id");
-  if (member_id) return API.post("/getPurchases", { member_id });
+  return API.post("/getPurchases");
 };
 
 export const checkout = function (values) {
@@ -17,3 +16,6 @@ export const getDownloadUrl = function (values) {
   return API.post("/getDownloadUrl", values);
 };
 
+export const getStatement = function () {
+  return API.post("/getStatement");
+};

@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import StatementsRowHead from "./components/Head";
 import ProductList from "./components/StatementsList";
-import productData from "./data";
 import Pagination from "../../../components/Pagination";
+import { getStatement } from "~services/purchaseService";
+import LoaderSpinner from "~components/Cards/LoaderSpinner";
 const StatementsSection = () => {
+  const [statement, setStatement] = useState([]);
+
+  useEffect(() => {
+    setStatement({ loading: true });
+    getStatement().then(data => {
+      setStatement(data?.data || []);
+    });
+  }, []);
   return (
     <>
       <Container className="spb">
@@ -19,30 +28,40 @@ const StatementsSection = () => {
                   <StatementsRowHead />
                 </thead>
                 <tbody>
-                  {productData.map(
+                  {(statement === null || statement.loading) ? <LoaderSpinner /> : statement.map(
                     (
                       {
-                        id,
-                        category,
+                        order_number,
+                        category_name,
                         date,
-                        author,
+                        first_name,
+                        last_name,
                         type,
-                        price,
-                        status,
-                        badgeClasstype,
-                        badgeClassstatus,
+                        total_item_cost,
+                        purchase_status,
                       },
                       index
                     ) => {
+                      var badgeClasstype = "", badgeClassstatus = "";
+                      if (type == 'SALE')
+                        badgeClasstype = "info"
+                      else if (type == 'PURCHASE')
+                        badgeClasstype = "success"
+
+                      if (purchase_status == 'DONE')
+                        badgeClassstatus = "primary"
+                      else
+                        badgeClassstatus = "danger"
+
                       return (
                         <ProductList
-                          id={id}
-                          category={category}
+                          id={order_number}
+                          category={category_name}
                           date={date}
-                          author={author}
+                          author={`${first_name} ${last_name}`.trim()}
                           type={type}
-                          price={price}
-                          status={status}
+                          price={total_item_cost}
+                          status={purchase_status}
                           badgeClasstype={badgeClasstype}
                           badgeClassstatus={badgeClassstatus}
                           key={index + "tr"}

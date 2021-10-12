@@ -1,4 +1,6 @@
 import React from "react";
+import { parseISO, format } from 'date-fns'
+import { Badge } from "react-bootstrap";
 
 const ProductList = ({
   id,
@@ -14,23 +16,21 @@ const ProductList = ({
   return (
     <tr>
       <td>
-        <a href="/" className="text-primary">
-          {id}
-        </a>
+        <span className="text-primary">{id}</span>
       </td>
       <td>{category}</td>
-      <td>{date}</td>
+      <td>{format(parseISO(date), 'dd-MM-yyyy')}</td>
       <td className="font-weight-semibold fs-16"> {author}</td>
       <td>
-        <a href="#" className={`badge ${badgeClasstype}`}>
+        <Badge classNamee={`badge ${badgeClasstype}`} variant={badgeClasstype}>
           {type}
-        </a>
+        </Badge>
       </td>
       <td className="font-weight-semibold fs-18">{price}</td>
       <td>
-        <a href="/" className={`badge ${badgeClassstatus}`}>
+        <Badge classNamee={`badge ${badgeClassstatus}`} variant={badgeClassstatus}>
           {status}
-        </a>
+        </Badge>
       </td>
     </tr>
   );
