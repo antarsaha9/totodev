@@ -30,3 +30,8 @@ export const getItemComments = async (item_id) => {
 };
 
 
+export const addItemComment = async (values) => {
+  // export const addItemReview = async ({ item_id, review, rating }) => {
+  // if (item_id)
+  return API.post("/addItemComment", values);
+};

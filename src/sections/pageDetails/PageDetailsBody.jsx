@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { getItemDetails } from "~services/itemService";
-import { getItemComments, getItemReviews, addItemReview } from "~services/reviewService";
+import { getItemComments, getItemReviews, addItemReview, addItemComment } from "~services/reviewService";
 import ProductOverviewCard from "./Components/Sidebar/ProductOverviewCard";
 import Sidebar from "./Components/Sidebar/Sidebar";
 import SliderBlock from "./Components/SliderBlock";
@@ -21,6 +21,14 @@ const PageDetailsBody = () => {
 
   const reviewItem = function (values, callback) {
     addItemReview({ item_id: product.id, ...values }).then(data => {
+      NotificationManager.success(data);
+      if (callback) callback();
+      loadData();
+    });
+  }
+
+  const commentItem = function (values, callback) {
+    addItemComment({ item_id: product.id, ...values }).then(data => {
       NotificationManager.success(data);
       if (callback) callback();
       loadData();
@@ -64,7 +72,7 @@ const PageDetailsBody = () => {
         <div className="row">
           <div className="col-xl-8 col-lg-8 col-md-12">
             <ProductOverviewCard product={product} />
-            <TabBlockMain {...{ product, comments, reviews, reviewItem }} />
+            <TabBlockMain {...{ product, comments, reviews, reviewItem, commentItem }} />
             <h3 className="mb-5 mt-6">Related Posts</h3>
             {/*Related Posts*/}
             <SliderBlock product={product} />

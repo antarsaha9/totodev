@@ -1,10 +1,8 @@
 import React from "react";
 import { Nav, Spinner, Tab } from "react-bootstrap";
 import LoaderSpinner from "~components/Cards/LoaderSpinner";
-import commentImagePlaceHolder from "../../../../assets/images/png/1.png";
 import RatingReplyUser from "../../../../assets/images/users/male/1.jpg";
-import CommentCard from "./CommentCard";
-import CommentForm from "./CommentForm";
+import CommentTab from "./CommentTab";
 import Pagination from "./Pagination";
 import RatingCard from "./RatingCard";
 import RatingForm from "./RatingFrom";
@@ -25,7 +23,7 @@ const features = [
   'Shoping Cart'
 ];
 
-const TabBlockMain = ({ product, reviews, comments, reviewItem }) => {
+const TabBlockMain = ({ product, reviews, comments, reviewItem, commentItem }) => {
   const { item_description, tags, } = product;
   return (
     <Tab.Container defaultActiveKey="details">
@@ -129,8 +127,8 @@ const TabBlockMain = ({ product, reviews, comments, reviewItem }) => {
                     <div className="col-md-12">
                       {reviews.map(review =>
                         <RatingCard
-                          title="Design Quality"
-                          text={review.review}
+                          title={review.review}
+                          // text={review.review}
                           star={review.rating}
                           userName={review.name}
                           date={review.created_at}
@@ -159,66 +157,8 @@ const TabBlockMain = ({ product, reviews, comments, reviewItem }) => {
               </>}
           </Tab.Pane>
           <Tab.Pane eventKey="comments">
-            {comments.loading ? <LoaderSpinner /> :
-              <>
-                <div className="border-left border-right p-5 bg-white border-bottom br-bl-3 br-br-3">
-                  <CommentCard
-                    image={commentImagePlaceHolder}
-                    title="Marco Theme"
-                    tags={[
-                      { text: "Helpul", active: true },
-                      { text: "comment", active: false },
-                      { text: "Report", active: false },
-                    ]}
-                    date="28 Dec 2019"
-                    text="Ut enim ad minim veniam, quis Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore."
-                  />
-                  <CommentCard
-                    image={commentImagePlaceHolder}
-                    title="Marco Theme"
-                    tags={[
-                      { text: "Helpul", active: true },
-                      { text: "comment", active: false },
-                      { text: "Report", active: false },
-                    ]}
-                    date="28 Dec 2019"
-                    text="Ut enim ad minim veniam, quis Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore."
-                  />
-                  <CommentCard
-                    image={commentImagePlaceHolder}
-                    title="Marco Theme"
-                    tags={[
-                      { text: "Helpul", active: true },
-                      { text: "comment", active: false },
-                      { text: "Report", active: false },
-                    ]}
-                    date="28 Dec 2019"
-                    text="Ut enim ad minim veniam, quis Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore."
-                  />
-                  <CommentCard
-                    image={commentImagePlaceHolder}
-                    title="Marco Theme"
-                    tags={[
-                      { text: "Helpul", active: true },
-                      { text: "comment", active: false },
-                      { text: "Report", active: false },
-                    ]}
-                    date="28 Dec 2019"
-                    text="Ut enim ad minim veniam, quis Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore."
-                  />
-                  <CommentCard
-                    image={commentImagePlaceHolder}
-                    title="Marco Theme"
-                    tags={[
-                      { text: "Helpul", active: true },
-                      { text: "comment", active: false },
-                      { text: "Report", active: false },
-                    ]}
-                    date="28 Dec 2019"
-                    text="Ut enim ad minim veniam, quis Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore."
-                  />
-                </div>
-                <CommentForm /></>}
+            <CommentTab comments={comments} submitComment={commentItem} />
+
           </Tab.Pane>
           <Tab.Pane eventKey="support">
             <div className="border-left border-right p-5 bg-white">
