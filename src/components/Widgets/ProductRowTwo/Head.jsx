@@ -13,21 +13,21 @@ const ProductRowHead = () => {
           <h3 className="card-title">Price</h3>
         </div>
       </div>
-      <div className="col-lg-2 col-md-12">
+      <div className="col-lg-3 col-md-12">
         <div className="card-body">
           <h3 className="card-title">Download</h3>
         </div>
       </div>
-      <div className="col-lg-2 col-md-12">
+      <div className="col-lg-3 col-md-12">
         <div className="card-body">
           <h3 className="card-title">Rating</h3>
         </div>
       </div>
-      <div className="col-lg-2 col-md-12">
+      {/* <div className="col-lg-2 col-md-12">
         <div className="card-body">
           <h3 className="card-title">Action</h3>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

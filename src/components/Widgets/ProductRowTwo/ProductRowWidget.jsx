@@ -14,7 +14,7 @@ const DropdownWrapper = styled(Dropdown)`
 
 const ProductRow = ({ image, title, date, tag, price, item_id, downloadItem, rating }) => {
   return (
-    <div className="row ml-0 mr-0">
+    <div className="row border-bottom ml-0 mr-0">
       <div className="col-lg-4 col-md-12">
         <div className="card-body">
           <div className="d-flex">
@@ -37,7 +37,7 @@ const ProductRow = ({ image, title, date, tag, price, item_id, downloadItem, rat
               </div>
               <div className="media-body">
                 <div className="card-item-desc ml-4 p-0">
-                  <Link to={"/pageDetails?id="+item_id} className="text-dark">
+                  <Link to={"/pageDetails?id=" + item_id} className="text-dark">
                     <h4 className="text-over">{title}</h4>
                   </Link>
                   {date ? (
@@ -62,7 +62,7 @@ const ProductRow = ({ image, title, date, tag, price, item_id, downloadItem, rat
           <h3 className="font-weight-semibold fs-20">${price}</h3>
         </div>
       </div>
-      <div className="col-lg-2 col-md-12">
+      <div className="col-lg-3 col-md-12">
         <div className="card-body">
           <Button onClick={downloadItem} variant="primary" class="ripple">Download Item</Button>
         </div>
@@ -79,14 +79,14 @@ const ProductRow = ({ image, title, date, tag, price, item_id, downloadItem, rat
           </Dropdown.Menu>
         </DropdownWrapper> */}
       </div>
-      <div className="col-lg-2 col-md-12">
+      <div className="col-lg-3 col-md-12">
         <div className="card-body">
           <div className="rating-stars d-flex mr-5">
             <StarRating editable={false} rating={rating} starSize="md" />
           </div>
         </div>
       </div>
-      <div className="col-lg-2 col-md-12">
+      {/* <div className="col-lg-2 col-md-12">
         <div className="card-body">
           <div className="btn-list">
             <a
@@ -105,7 +105,7 @@ const ProductRow = ({ image, title, date, tag, price, item_id, downloadItem, rat
             </a>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
