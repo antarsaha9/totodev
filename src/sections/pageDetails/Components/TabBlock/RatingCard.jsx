@@ -1,7 +1,5 @@
 import React from "react";
 import TimeFromNow from 'date-fns/formatDistanceToNow';
-import parseISO from 'date-fns/parseISO';
-
 
 import StarRating from '~components/Widgets/StarRating';
 import { Link } from "~components/core";
@@ -14,12 +12,12 @@ const RatingCard = ({ star, title, text, userName, userId, date, children }) => 
           <StarRating rating={star} starSize="lg" editable={false} />
         </div>
         <div className="card-options">
-          <span >
-            by{" "}
-            <Link to={"userprofile?id=" + userId} className="text-primary">
+          <span>
+            by{""}
+            <Link to={"/profile?id=" + userId} className="text-primary">
               {userName}
             </Link>{" "}
-            {date && <span className="text-muted">{TimeFromNow(new Date(date))}</span>}
+            {date && <span className="text-muted">{TimeFromNow(new Date(date), { addSuffix: true })}</span>}
           </span>
         </div>
       </div>
