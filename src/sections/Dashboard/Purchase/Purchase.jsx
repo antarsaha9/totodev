@@ -41,7 +41,7 @@ const PurchaseSection = () => {
 
           {productList.map(
             (order, index) => {
-              const { item_name, image_url, item_id, total_item_cost, category_name, purchase_date } = order;
+              const { item_name, image_url, item_id, total_item_cost, category_name, purchase_date, rating } = order;
               return (
                 <ProductRow
                   title={item_name}
@@ -51,6 +51,7 @@ const PurchaseSection = () => {
                   key={index + "tr"}
                   date={purchase_date}
                   item_id={item_id}
+                  rating={rating}
                   downloadItem={() => downloadItem(order)}
                 />
               );

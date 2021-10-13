@@ -39,7 +39,7 @@ const RatingForm = function (props) {
                 <label className="form-label mr-3 mt-1">Select Rating:</label>
                 <StarRating starSize="lg" rating={values.rating} onChange={e => { setFieldValue('rating', e) }} />
               </div>
-              <Form.Group controlId="review">
+              {/* <Form.Group controlId="review">
                 <Dropdown data={[
                   "Customer Support",
                   "Design Qulity",
@@ -49,7 +49,7 @@ const RatingForm = function (props) {
                   ariaLabel="Select options"
                   handleChange={e => setFieldValue('scope', e)}
                   name="scope" />
-              </Form.Group>
+              </Form.Group> */}
 
               <Form.Group controlId="review">
                 <Form.Control

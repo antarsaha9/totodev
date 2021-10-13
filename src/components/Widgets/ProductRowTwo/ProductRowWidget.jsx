@@ -4,6 +4,7 @@ import { Button, Dropdown } from "react-bootstrap";
 import styled from "styled-components";
 import { parseISO, format } from 'date-fns'
 import { Link } from "~components/core";
+import StarRating from "../StarRating";
 const DropdownWrapper = styled(Dropdown)`
   .dropdown-menu{
     /* transform:translateY(0)!important */
@@ -11,7 +12,7 @@ const DropdownWrapper = styled(Dropdown)`
   }
 `;
 
-const ProductRow = ({ image, title, date, tag, price, item_id, downloadItem }) => {
+const ProductRow = ({ image, title, date, tag, price, item_id, downloadItem, rating }) => {
   return (
     <div className="row ml-0 mr-0">
       <div className="col-lg-4 col-md-12">
@@ -81,30 +82,7 @@ const ProductRow = ({ image, title, date, tag, price, item_id, downloadItem }) =
       <div className="col-lg-2 col-md-12">
         <div className="card-body">
           <div className="rating-stars d-flex mr-5">
-            <input
-              type="number"
-              readOnly="readonly"
-              className="rating-value star"
-              name="rating-stars-value"
-              defaultValue={3}
-            />
-            <div className="rating-stars-container">
-              <div className="rating-star md is--active">
-                <i className="fa fa-star" />
-              </div>
-              <div className="rating-star md is--active">
-                <i className="fa fa-star" />
-              </div>
-              <div className="rating-star md is--active">
-                <i className="fa fa-star" />
-              </div>
-              <div className="rating-star md">
-                <i className="fa fa-star" />
-              </div>
-              <div className="rating-star md">
-                <i className="fa fa-star" />
-              </div>
-            </div>
+            <StarRating editable={false} rating={rating} starSize="md" />
           </div>
         </div>
       </div>
