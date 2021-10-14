@@ -36,10 +36,10 @@ function StarRating(props) {
   </>)
 }
 
-function Star({ active, isHovering, key, data, starSize = 'sm', style, ...args }) {
+function Star({ active, isHovering, data, starSize = 'sm', style, ...args }) {
   return (
     <div className={`rating-star ${starSize} ${active ? " is--active" : ""}${isHovering ? (active ? " is--hover" : " is--no-hover") : ""}`} style={style} >
-      <i className="fa fa-star" key={key} data={data} {...args}></i>
+      <i className="fa fa-star" data={data} {...args}></i>
     </div>
   )
 }
