@@ -40,7 +40,12 @@ const PageDetailsBody = () => {
     if (query && id) {
       setProduct({ loading: true });
       getItemDetails(id).then((data) => {
-        if (data) setProduct(data);
+        console.log('loadData', data);
+        if (data && typeof (data) !== typeof ("")) setProduct(data);
+        else {
+          push('/pagelist');
+          NotificationManager.success("Item not found!");
+        }
       });
       setReviews({ loading: true });
       getItemReviews(id).then((data) => {

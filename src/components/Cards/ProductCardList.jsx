@@ -17,7 +17,8 @@ const ProductCardList = ({
   price,
   saleCount,
   userImage = userImageDefault,
-  userName = "user name",
+  userName,
+  userId,
   title,
   date,
   buy,
@@ -90,7 +91,10 @@ const ProductCardList = ({
                 <span className="avatar brround mr-2 cover-image" style={{ background: `url(${userImage.src})` }}>
                   {online ? <span className="avatar-status bg-success" /> : <span className="avatar-status" />}
                 </span>
-                <a href="#" className="time-title text-muted p-0 leading-normal mt-2"> {userName} <i className="fe fe-check-circle text-success fs-12 ml-1" data-toggle="tooltip" data-placement="top" title="verified" /></a>
+                <Link to={{ pathname: paths.UserProfile, query: { id: userId } }} className="time-title text-muted p-0 leading-normal mt-2">
+                  {userName}
+                  <i className="fe fe-check-circle text-success fs-12 ml-1" data-toggle="tooltip" data-placement="top" title="verified" />
+                </Link>
               </div>
               <div className="footerimg-r ml-auto">
                 <div className="btn  btn-list">

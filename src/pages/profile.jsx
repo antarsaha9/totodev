@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { NotificationManager } from "react-notifications";
 import { getMyProfile, getSellerProfile } from "src/services/profileService";
 import { getSellerReviews, getMyReviews, addSellerReview } from "src/services/reviewService";
-import { getMyItems } from "src/services/itemService";
+import { getMyItems, getSellerItemList } from "src/services/itemService";
 import withAuth from "~components/Auth/withAuth";
 import NewsletterSection from "~sections/Innerpages/Newsletter/NewsletterSection";
 import ProfileBody from "~sections/profile/ProfileBody";
@@ -29,14 +29,17 @@ const Profile = () => {
   const loadData = function () {
     setProfile({ loading: true });
     setReview({ loading: true });
+    setItems({ loading: true });
     if (user_id) {
       console.debug("Profile ==> getting anothers details");
       getSellerProfile(user_id).then(data => data && setProfile(data));
       getSellerReviews(user_id).then(data => data && setReview(data.reviews));
+      getSellerItemList(user_id).then(data => data && setItems(data.items));
     } else {
       console.debug("Profile ==> getting own details");
       getMyProfile().then(data => data && setProfile(data));
       getMyReviews().then(data => data && setReview(data.reviews));
+      getMyItems().then(data => data && setItems(data.items));
     }
   };
 
@@ -62,9 +65,6 @@ const Profile = () => {
 
   useEffect(() => {
     loadData();
-    setItems({ loading: true });
-    getMyItems().then(data => data && setItems(data.items));
-
   }, [user_id]);
 
   return (

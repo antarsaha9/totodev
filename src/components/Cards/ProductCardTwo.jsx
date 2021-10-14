@@ -18,7 +18,9 @@ const ProductCardTwo = ({
   title,
   badge,
   className,
-  buy
+  buy,
+  id,
+  userId
 }) => {
   const [buying, setBuying] = useState(false);
   const _buy = function () {
@@ -35,7 +37,7 @@ const ProductCardTwo = ({
 
       <div className="item-card9-img">
         <div className="item-card9-imgs">
-          <a href="page-details.html" />
+          <Link to={{ pathname: paths.PageDetail, query: { id } }} />
           {/* <Image
             src={image}
             alt="prodct"
@@ -74,13 +76,13 @@ const ProductCardTwo = ({
           </a>
           <div className="mt-0 fs-13 mb-4">
             by{" "}
-            <a href="#" >
+            <Link to={{ pathname: paths.UserProfile, query: { id: userId } }} >
               {userName}
-            </a>{" "}
+            </Link>{" "}
             in{" "}
-            <a href="#" >
+            <Link to={{ pathname: paths.PageDetail, query: { id } }} >
               {title}
-            </a>
+            </Link>
           </div>
           <div className="d-md-flex">
             <div className="rating-stars d-flex">

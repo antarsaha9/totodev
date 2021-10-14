@@ -112,6 +112,7 @@ const PageListBoady = () => {
                           price,
                           seller_image,
                           seller_name,
+                          seller_id,
                           saleCount,
                           item_name,
                           category_name,
@@ -127,6 +128,7 @@ const PageListBoady = () => {
                               price={price}
                               userImage={seller_image}
                               userName={seller_name}
+                              userId={seller_id}
                               saleCount={saleCount}
                               title={item_name}
                               className={category_name}
@@ -153,6 +155,7 @@ const PageListBoady = () => {
                             item_name,
                             category_name,
                             date,
+                            seller_id
                           }, index) => {
                             return (
                               <div className="col-lg-6 col-md-6 col-xl-4" key={"pld" + index}>
@@ -163,6 +166,7 @@ const PageListBoady = () => {
                                   price={price}
                                   userImage={seller_image}
                                   userName={seller_name}
+                                  userId={seller_id}
                                   saleCount={saleCount}
                                   title={item_name}
                                   className={category_name}

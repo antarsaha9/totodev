@@ -59,7 +59,7 @@ const Sidebar = ({ product, addToCart, buyNow }) => {
               <span className="ml-1">({product?.total_rating})</span>
             </span>
           </div>
-          {product?.stars?.map((rating, ind) => {
+          {product?.stars?.slice().reverse().map((rating, ind) => {
             const percentage_rating = parseInt((rating * 100) / product.total_rating) || 0;
             return (
               <div className="mb-3" key={"rating-" + ind}>

@@ -19,7 +19,7 @@ const ProductList = ({
         <span className="text-primary">{id}</span>
       </td>
       <td>{category}</td>
-      <td>{format(parseISO(date), 'dd-MM-yyyy')}</td>
+      <td>{format(parseISO(date), 'MMM-dd-yyyy')}</td>
       <td className="font-weight-semibold fs-16"> {author}</td>
       <td>
         <Badge classNamee={`badge ${badgeClasstype}`} variant={badgeClasstype}>

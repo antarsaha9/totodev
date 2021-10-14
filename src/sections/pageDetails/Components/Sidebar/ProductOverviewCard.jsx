@@ -4,7 +4,7 @@ import LoaderSpinner from "~components/Cards/LoaderSpinner";
 import productThumbnail from "../../../../assets/images/media/pictures/thumb-list/thumb-2.jpg";
 
 const ProductOverviewCard = ({ product }) => {
-  console.log(product);
+  console.log('ProductOverviewCard', product);
   return (
     <>{product.loading ? <LoaderSpinner /> :
       <div className="card overflow-hidden">

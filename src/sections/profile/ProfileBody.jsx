@@ -20,7 +20,7 @@ const ProfileBody = ({ profile, review, reviewProfile, commentOnReview, sellerIt
           <div className="row">
             {/*Right Side Content*/}
             <div className="col-xl-3 col-lg-4 col-md-12">
-              <ProfileCard profile={profile} />
+              {(!profile || profile.loading) ? <LoaderSpinner /> : <ProfileCard profile={profile} />}
               <div className="card mb-lg-0">
                 <div className="card-header">
                   <h3 className="card-title">Map location</h3>
@@ -42,13 +42,13 @@ const ProfileBody = ({ profile, review, reviewProfile, commentOnReview, sellerIt
                       <div className="tabs-menu1">
                         <Nav className="nav" as="ul">
                           <Nav.Item as="li">
-                            <Nav.Link eventKey="first">Description</Nav.Link>
+                            <Nav.Link eventKey="first" className="mb-0">Description</Nav.Link>
                           </Nav.Item>
                           <Nav.Item as="li">
-                            <Nav.Link eventKey="second">Reviews</Nav.Link>
+                            <Nav.Link eventKey="second" className="mb-0">Reviews</Nav.Link>
                           </Nav.Item>
                           <Nav.Item as="li">
-                            <Nav.Link eventKey="third">Followers</Nav.Link>
+                            <Nav.Link eventKey="third" className="mb-0">Followers</Nav.Link>
                           </Nav.Item>
                         </Nav>
                       </div>
@@ -62,7 +62,7 @@ const ProfileBody = ({ profile, review, reviewProfile, commentOnReview, sellerIt
                           <h3 className="card-title mb-3 ">Personal Details</h3>
                           <ul className="usertab-list mb-4">
                             <li>
-                              <a href="/#" className="text-dark">
+                              <div className="text-dark">
                                 <span className="font-weight-semibold">
                                   Full Name :
                                 </span>{" "}
@@ -70,7 +70,7 @@ const ProfileBody = ({ profile, review, reviewProfile, commentOnReview, sellerIt
                                   {" "}
                                   {profile?.first_name} {profile?.last_name}
                                 </span>
-                              </a>
+                              </div>
                             </li>
                             <li>
                               <a href="/#" className="text-dark">
@@ -83,7 +83,7 @@ const ProfileBody = ({ profile, review, reviewProfile, commentOnReview, sellerIt
                                 </span>
                               </a>
                             </li>
-                            <li>
+                            {/* <li>
                               <a href="/#" className="text-dark">
                                 <span className="font-weight-semibold">
                                   Languages :
@@ -92,7 +92,7 @@ const ProfileBody = ({ profile, review, reviewProfile, commentOnReview, sellerIt
                                   English, German,Vehiclenish.
                                 </span>
                               </a>
-                            </li>
+                            </li> */}
                             <li>
                               <a href="/#" className="text-dark">
                                 <span className="font-weight-semibold">
@@ -165,7 +165,7 @@ const ProfileBody = ({ profile, review, reviewProfile, commentOnReview, sellerIt
                       >
                         {review?.loading ? <LoaderSpinner /> : review?.map((item, ind) => (
                           <SingleComment
-                            className="p-5"
+                            className="p-5 mt-0 border-bottom"
                             title={item.name}
                             image={CommentImage}
                             star={item.rating}
@@ -238,7 +238,7 @@ const ProfileBody = ({ profile, review, reviewProfile, commentOnReview, sellerIt
                             },
                           ]}
                         /> */}
-                        <div className="p-5 border-top">
+                        <div className="p-5">
                           <ReplayForm reviewProfile={reviewProfile} />
                         </div>
                       </Tab.Pane>

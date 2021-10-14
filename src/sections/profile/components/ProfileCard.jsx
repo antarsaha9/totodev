@@ -1,7 +1,8 @@
 import Image from "next/image";
 import React from "react";
 import UserImage from "../../../assets/images/users/male/2.jpg";
-
+import { parseISO, format } from 'date-fns';
+import StarRating from "~components/Widgets/StarRating";
 const ProfileCard = ({ profile }) => {
   console.log(profile);
 
@@ -22,7 +23,7 @@ const ProfileCard = ({ profile }) => {
       </div>
       <div className="card-body item-user text-center">
         <div className="ml-1">
-          <a href="userprofile.html" className="text-dark">
+          <div className="text-dark">
             <h4 className="mt-0 mb-2 d-flex align-items-center justify-content-center">
               {profile?.first_name} {profile?.last_name}
               <svg
@@ -54,40 +55,12 @@ const ProfileCard = ({ profile }) => {
                 />
               </svg>
             </h4>
-          </a>
-          <span className="text-muted">Member since May 2012</span>
+          </div>
+          <span className="text-muted">Member since {format(parseISO(profile.joined_at), 'MMM yyyy')}</span>
           <br />
           <div className="rating-stars d-inline-flex mb-2 mr-3 mt-2">
-            <input
-              type="number"
-              readOnly="readonly"
-              className="rating-value star"
-              name="rating-stars-value"
-              defaultValue={4}
-            />
-            <div className="rating-stars-container mr-2">
-              <div className="rating-star sm is--active">
-                {" "}
-                <i className="fa fa-star" />{" "}
-              </div>
-              <div className="rating-star sm is--active">
-                {" "}
-                <i className="fa fa-star" />{" "}
-              </div>
-              <div className="rating-star sm is--active">
-                {" "}
-                <i className="fa fa-star" />{" "}
-              </div>
-              <div className="rating-star sm ">
-                {" "}
-                <i className="fa fa-star" />{" "}
-              </div>
-              <div className="rating-star sm">
-                {" "}
-                <i className="fa fa-star" />{" "}
-              </div>
-            </div>
-            4.0
+            <StarRating rating={profile.overall_rating} editable={false} starSize="sm" />
+            {profile.overall_rating}
           </div>
           <h6 className="mt-2 mb-0">
             <a href="#" className="btn ripple  btn-secondary btn-sm">
