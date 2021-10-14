@@ -9,11 +9,12 @@ export const removeFromCart = function (currentData, itemIndex, dispatcher) {
     })
 }
 
-export const addToCart = function (currentData, itemId, dispatcher) {
+export const addToCart = function (currentData, itemId, dispatcher, callback) {
     dispatcher(appActions.setCart({ loading: true }));
     const updatedCartData = currentData.concat({ item_id: itemId, quantity: 1 });
     updateCart(updatedCartData).then(data => {
         reloadCart(dispatcher)
+        if (callback) callback()
     })
 }
 
@@ -23,4 +24,13 @@ export const reloadCart = function (callback) {
             callback(appActions.setCart(data.items));
         };
     });
+}
+
+export const paths = {
+    PageList:"/pagelist",
+    PageDetail:"/pageDetails",
+    UserProfile:"/profile",
+    // PageList:"/pagelist",
+    // PageList:"/pagelist",
+    // PageList:"/pagelist",
 }

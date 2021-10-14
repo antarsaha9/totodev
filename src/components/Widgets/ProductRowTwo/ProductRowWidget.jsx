@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { parseISO, format } from 'date-fns'
 import { Link } from "~components/core";
 import StarRating from "../StarRating";
+import LoadingButton from "~components/Buttons/LoadingButton";
 const DropdownWrapper = styled(Dropdown)`
   .dropdown-menu{
     /* transform:translateY(0)!important */
@@ -64,7 +65,7 @@ const ProductRow = ({ image, title, date, tag, price, item_id, downloadItem, rat
       </div>
       <div className="col-lg-3 col-md-12">
         <div className="card-body">
-          <Button onClick={downloadItem} variant="primary" class="ripple">Download Item</Button>
+          <LoadingButton type="button" onClick={downloadItem} variant="primary" className="ripple" >Download Item</LoadingButton>
         </div>
         {/* <DropdownWrapper className="card-body">
           <Dropdown.Toggle variant="success" id="dropdown-basic" className="btn ripple  btn-primary">

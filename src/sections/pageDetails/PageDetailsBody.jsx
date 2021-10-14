@@ -53,13 +53,15 @@ const PageDetailsBody = () => {
     }
   }
 
-  const addToCart = function () {
-    _addToCart(cart, product.id, dispatch);
+  const addToCart = function (callback) {
+    _addToCart(cart, product.id, dispatch, callback);
   }
 
-  const buyNow = function () {
-    _addToCart([], product.id, dispatch);
-    push('/cart');
+  const buyNow = function (callback) {
+    _addToCart([], product.id, dispatch, () => {
+      callback();
+      push('/cart');
+    });
   }
 
   useEffect(() => {

@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import Tooltip from "../Tooltip";
 import Carousel from 'react-bootstrap/Carousel'
 import productImageDefault from "../../assets/images/media/pictures/thumb-list/5.jpg"
 import StarRating from '~components/Widgets/StarRating';
 import Image from "next/image";
 import { Button } from "react-bootstrap";
+import { Link } from "~components/core";
+import { paths } from "src/helper";
+import LoadingButton from "~components/Buttons/LoadingButton";
 const ProductCardTwo = ({
   image = productImageDefault,
   tag,
@@ -17,6 +20,11 @@ const ProductCardTwo = ({
   className,
   buy
 }) => {
+  const [buying, setBuying] = useState(false);
+  const _buy = function () {
+    setBuying(true);
+    buy(() => setBuying(false));
+  }
   return (
     <div className={`card overflow-hidden ${className}`}>
       {badge ? <div className="power-ribbon power-ribbon-top-left text-warning">
@@ -91,9 +99,9 @@ const ProductCardTwo = ({
           {/* <a href="#" className="btn ripple  btn-primary mb-lg-0">
             Live Preview
           </a> */}
-          <Button variant="secondary" className="ripple mb-lg-0" onClick={buy}>
+          <LoadingButton variant="secondary" className="ripple mb-lg-0" loading={buying} onClick={_buy}>
             Buy Now
-          </Button>
+          </LoadingButton>
         </div>
       </div>
     </div>

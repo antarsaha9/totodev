@@ -1,7 +1,17 @@
-import React from "react";
-import { Button } from "react-bootstrap";
+import React, { useState } from "react";
+import LoadingButton from "~components/Buttons/LoadingButton";
 
 const SidebarBuyCard = ({ product, addToCart, buyNow }) => {
+  const [addingToCart, setAddingToCart] = useState(false);
+  const [buying, setBuying] = useState(false);
+  const _addToCart = function () {
+    setAddingToCart(true)
+    addToCart(() => setAddingToCart(false));
+  }
+  const _buy = function () {
+    setBuying(true);
+    buyNow(() => setBuying(false));
+  }
   return (
     <div className="card  mt-5 mt-lg-0">
       <div className="licence-niceselect pt-4 pl-4 pr-4 pb-0">
@@ -38,7 +48,7 @@ const SidebarBuyCard = ({ product, addToCart, buyNow }) => {
             </li>
           </ul>
         </div>
-        <div className="licence-content" id="extend">
+        {/* <div className="licence-content" id="extend">
           <span className="mb-0 ml-auto licence-price">$632</span>
           <ul className="list-unstyled widget-spec  mb-0">
             <li>
@@ -56,16 +66,16 @@ const SidebarBuyCard = ({ product, addToCart, buyNow }) => {
               <i className="fe fe-check" aria-hidden="true" /> Unlimted domain
             </li>
           </ul>
-        </div>
+        </div> */}
       </div>
       <div className="card-body item-user">
-        <Button variant="primary" className="ripple btn-block btn-lg" onClick={addToCart}>
+        <LoadingButton variant="primary" className="ripple btn-block" size="lg" onClick={_addToCart} loading={addingToCart}>
           <i className="fe fe-shopping-cart mr-1" />
           Add to Cart
-        </Button>
-        <Button variant="info" className="ripple btn-block btn-lg" onClick={buyNow}>
+        </LoadingButton>
+        <LoadingButton variant="info" className="ripple btn-block" size="lg" onClick={_buy} loading={buying}>
           Buy Now
-        </Button>
+        </LoadingButton>
       </div>
       <div className="p-3 border-top text-center bg-light">
         {/* <i className="payment payment-maestro mr-2" /> */}

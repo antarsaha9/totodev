@@ -54,10 +54,12 @@ const PageListBoady = () => {
 
   const dispatch = useDispatch();
   const { push } = useRouter();
-  const buyNow = function (item_id) {
+  const buyNow = function (item_id, callback) {
     console.log(item_id);
-    addToCart([], item_id, dispatch);
-    push('/cart');
+    addToCart([], item_id, dispatch, () => {
+      if (callback) callback();
+      push('/cart');
+    });
   }
   return (
     <section className="sptb">
@@ -130,7 +132,7 @@ const PageListBoady = () => {
                               className={category_name}
                               date={date}
                               key={"pl" + index}
-                              buy={() => buyNow(id)}
+                              buy={(callback) => buyNow(id, callback)}
                             />
                           );
                         }
@@ -166,7 +168,7 @@ const PageListBoady = () => {
                                   className={category_name}
                                   date={date}
                                   key={"pl" + index}
-                                  buy={() => buyNow(id)}
+                                  buy={(callback) => buyNow(id, callback)}
                                 />
                               </div>
                             );

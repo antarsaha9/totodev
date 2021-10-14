@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Tooltip from "../Tooltip";
 import Image from "next/image"
 
@@ -7,6 +7,8 @@ import productImageDefault from "../../assets/images/media/pictures/thumb-list/5
 import StarRating from "~components/Widgets/StarRating";
 import { Link } from "~components/core";
 import { Button } from "react-bootstrap";
+import LoadingButton from "~components/Buttons/LoadingButton";
+import { paths } from "src/helper";
 const ProductCardList = ({
   id,
   image = productImageDefault,
@@ -22,6 +24,11 @@ const ProductCardList = ({
   className,
   online
 }) => {
+  const [buying, setBuying] = useState(false);
+  const _buy = function () {
+    setBuying(true);
+    buy(() => setBuying(false));
+  }
   return (
     <div className={`card overflow-hidden card-list-item1 ${className}`}>
       <div className="power-ribbon power-ribbon-top-left text-warning">
@@ -88,7 +95,10 @@ const ProductCardList = ({
               <div className="footerimg-r ml-auto">
                 <div className="btn  btn-list">
                   {/* <a href="#" className="btn ripple  btn-primary"><i className="fe fe-airplay mr-1" />Live Preview</a> */}
-                  <Button variant="secondary" className="ripple" onClick={buy}><i className="fe fe-shopping-cart mr-1" />Buy Now</Button>
+                  <LoadingButton variant="secondary" className="ripple" onClick={_buy} loading={buying}>
+                    <i className="fe fe-shopping-cart mr-1" />
+                    Buy Now
+                  </LoadingButton>
                 </div>
               </div>
             </div>
