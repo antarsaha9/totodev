@@ -27,7 +27,7 @@ const ReplayForm = function (props) {
       }) => (
         <Form onSubmit={handleSubmit}>
           <h3 className="card-title">Leave a reply</h3>
-          <Form.Group>
+          {/* <Form.Group>
             <Form.Control
               placeholder="Your Name"
               value={values.name}
@@ -45,7 +45,7 @@ const ReplayForm = function (props) {
               name="email"
               type="email"
             />
-          </Form.Group>
+          </Form.Group> */}
           <Form.Group>
             <Form.Control
               as="textarea"
@@ -74,9 +74,9 @@ const ReplayForm = function (props) {
 const initialValue = {};
 
 const formSchema = yup.object().shape({
-  name: yup.string().required("${path} is required"),
+  name: yup.string(),
   review: yup.string().required("${path} is required"),
-  email: yup.string().email("Invalid email").required("${path} is required"),
+  email: yup.string().email("Invalid email"),
 });
 
 export default ReplayForm;

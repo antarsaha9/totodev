@@ -35,7 +35,7 @@ const CommentForm = (props) => {
           }) =>
             <Form onSubmit={handleSubmit}>
               {() => console.log(errors)}
-              <Form.Group>
+              {/* <Form.Group>
                 <Form.Control
                   placeholder="Your name"
                   name="name"
@@ -54,7 +54,7 @@ const CommentForm = (props) => {
                   onBlur={handleBlur}
                   isInvalid={touched.review && errors.review}
                 />
-              </Form.Group>
+              </Form.Group> */}
               <Form.Group>
                 <Form.Control
                   placeholder="Write your comment"

@@ -34,7 +34,7 @@ function CommentModal({ visible, show, submitHandler }) {
         }) =>
           <Form onSubmit={handleSubmit}>
             <Modal.Body>
-              <Form.Group>
+              {/* <Form.Group>
                 <Form.Control
                   placeholder="Your name"
                   name="name"
@@ -53,7 +53,7 @@ function CommentModal({ visible, show, submitHandler }) {
                   onBlur={handleBlur}
                   isInvalid={touched.review && errors.review}
                 />
-              </Form.Group>
+              </Form.Group> */}
               <Form.Group>
                 <Form.Control
                   placeholder="Write your comment"
