@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Dropdown } from "react-bootstrap";
 // import Image from "next/image";
 import styled from "styled-components";
@@ -14,6 +14,11 @@ const DropdownWrapper = styled(Dropdown)`
 `;
 
 const ProductRow = ({ image, title, date, tag, price, item_id, downloadItem, rating }) => {
+  const [downloading, setDownloading] = useState(false);
+  const _downloadItem = function () {
+    setDownloading(true)
+    downloadItem(() => setDownloading(false));
+  }
   return (
     <div className="row border-bottom ml-0 mr-0">
       <div className="col-lg-4 col-md-12">
@@ -65,7 +70,7 @@ const ProductRow = ({ image, title, date, tag, price, item_id, downloadItem, rat
       </div>
       <div className="col-lg-3 col-md-12">
         <div className="card-body">
-          <LoadingButton type="button" onClick={downloadItem} variant="primary" className="ripple" >Download Item</LoadingButton>
+          <LoadingButton type="button" loading={downloading} onClick={_downloadItem} variant="primary" className="ripple" >Download Item</LoadingButton>
         </div>
         {/* <DropdownWrapper className="card-body">
           <Dropdown.Toggle variant="success" id="dropdown-basic" className="btn ripple  btn-primary">

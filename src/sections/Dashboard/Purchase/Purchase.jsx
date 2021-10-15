@@ -11,15 +11,17 @@ const PurchaseSection = () => {
   const [loading, setLoading] = useState(true);
   const [productList, setProductList] = useState([]);
 
-  const downloadItem = function (order) {
+  const downloadItem = function (order, callback) {
     console.log(order);
     getDownloadUrl({ item_id: order.item_id, order_id: order.order_number }).then(res => {
       var link = document.createElement("a");
       link.download = order.item_name;
       link.href = res.url;
+      link.target = "_blank";
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      if (callback) callback();
     })
   }
 
@@ -52,7 +54,7 @@ const PurchaseSection = () => {
                   date={purchase_date}
                   item_id={item_id}
                   rating={rating}
-                  downloadItem={() => downloadItem(order)}
+                  downloadItem={(cb) => downloadItem(order, cb)}
                 />
               );
             }
