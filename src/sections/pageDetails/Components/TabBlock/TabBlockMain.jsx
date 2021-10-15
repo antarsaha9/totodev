@@ -63,7 +63,7 @@ const TabBlockMain = ({ product, reviews, comments, reviewItem, commentItem }) =
                   mollitia animi, id est laborum et dolorum fuga.`}
                   </p>
                 </div>
-                {features && features.length > 0 && <>
+                {/* {features && features.length > 0 && <>
                   <h4 className="card-title mb-3 ">Features</h4>
                   <div className="row">
                     <div className="col-xl-6 col-md-6">
@@ -87,7 +87,7 @@ const TabBlockMain = ({ product, reviews, comments, reviewItem, commentItem }) =
                       </ul>
                     </div>
                   </div>
-                </>}
+                </>} */}
                 {tags && <div className="row mt-6 mb-1">
                   {tags.split(',').map(tag =>
                     <div className="col-xl-4 col-md-6">

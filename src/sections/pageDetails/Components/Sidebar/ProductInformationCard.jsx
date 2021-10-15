@@ -29,7 +29,7 @@ const ProductInformationCard = ({ product }) => {
                 <a href="#">Corporate</a>, <a href="#">Classifieds</a>
               </span>
             </li>
-            <li className="pt-2">
+            {/* <li className="pt-2">
               <span className="w-40 font-weight-semibold text-dark">
                 High Resolution
               </span>
@@ -90,7 +90,7 @@ const ProductInformationCard = ({ product }) => {
                 <a href="#">HTML Files</a>, <a href="#">CSS Files</a>,{" "}
                 <a href="#">JS Files</a>
               </span>
-            </li>
+            </li> */}
             <li className="pt-2">
               <span className="w-40 font-weight-semibold text-dark">Tags</span>
               <span className="w-60 text-muted">
