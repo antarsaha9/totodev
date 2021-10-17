@@ -83,6 +83,6 @@ export const getItemDetails = async (item_id) => {
   return API.post("/getAnItem", { item_id });
 };
 
-export const getAdList = async () => {
-  return API.post("/getAdList");
+export const getAdList = async (values) => {
+  return API.post("/getAdList", values);
 };

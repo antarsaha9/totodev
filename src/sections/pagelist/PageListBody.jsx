@@ -5,10 +5,11 @@ import RightSidebar from "./components/RightSidebar";
 import ProductCardList from "~components/Cards/ProductCardList";
 import { getAdList } from "~services/itemService";
 import ProductCardTwo from "../../components/Cards/ProductCardTwo";
-import { Nav, Tab } from "react-bootstrap";
+import { Nav, Tab, Pagination } from "react-bootstrap";
 import { addToCart } from "src/helper";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
+import LoaderSpinner from "~components/Cards/LoaderSpinner";
 const SortSelectWrapper = styled.div`
   .rc-menu-button {
     width: 150px !important;
@@ -42,13 +43,33 @@ const TabNav = styled(Nav)`
 //     list-style: none;
 // `;
 const PageListBoady = () => {
-  const [data, setData] = useState([]);
-
+  const [data, setData] = useState({});
+  const [selected, setSelected] = useState("list");
+  const [pagination, setPaination] = useState({
+    totalPages: 0,
+    totalItems: 0,
+    itemsPerPage: 12,
+    currentPage: 1,
+    token: null
+  })
   useEffect(() => {
-    getAdList().then((data) => {
-      console.log(data);
-      setData(data?.items || []);
-      // setLoading(false);
+    setData({ 1: { loading: true } });
+    getAdList({
+      limit: pagination.itemsPerPage,
+      page_number: pagination.currentPage
+    }).then((data) => {
+      const pgn = {
+        ...pagination,
+        token: data?.next_token,
+        totalItems: data?.total_items,
+        totalPages: Math.ceil(data?.total_items / pagination.itemsPerPage),
+        // currentPage: 1
+      };
+      var pl = {};
+      Array.from({ length: pgn.totalPages }, (_, i) => pl[i + 1] = false);
+      pl[1] = data?.items || [];
+      setData(pl);
+      setPaination(pgn);
     })
   }, [])
 
@@ -61,28 +82,53 @@ const PageListBoady = () => {
       push('/cart');
     });
   }
+
+  const handlePageChange = function (page_number) {
+    if (data[page_number]) {
+      setPaination({
+        ...pagination,
+        currentPage: page_number
+      });
+    }
+    else {
+      const prevData = data;
+      setData({ ...prevData, page_number: { loading: true } });
+      setPaination({
+        ...pagination,
+        currentPage: page_number
+      });
+      getAdList({
+        next_token: pagination.token,
+        page_number: page_number,
+        limit: pagination.itemsPerPage
+      }).then((data) => {
+        setData({ ...prevData, [page_number]: (data?.items || []) });
+      })
+    }
+  }
+  const items = data?.[pagination.currentPage] || { loading: true };
   return (
     <section className="sptb">
       <div className="container">
-        <Tab.Container defaultActiveKey="list">
+        <Tab.Container defaultActiveKey={selected} onSelect={(selectedKey) => setSelected(selectedKey)}>
           <div className="row">
             <div className="col-xl-9 col-lg-8 col-md-12">
               <div className="mb-lg-0">
-                <div className="item2-gl ">
-                  <div className=" mb-0">
+                <div className="item2-gl">
+                  <div className="mb-0">
 
                     <div className="p-5 bg-white item2-gl-nav d-flex align-items-center flex-wrap">
                       <h6 className="mb-0 mt-2">
-                        Showing 1 to 10 of 30 entries
+                        {`Showing ${pagination.totalItems ? ((pagination.currentPage - 1) * pagination.itemsPerPage) + 1 : 0} to ${Math.min(pagination.currentPage * pagination.itemsPerPage, pagination.totalItems)} of ${pagination.totalItems} entries`}
                       </h6>
-                      <TabNav className=" item2-gl-menu ml-auto" as="ul">
+                      <TabNav className=" item2-gl-menu ml-auto" as="ul" >
                         <Nav.Item as="li">
-                          <Nav.Link title="List style" eventKey="list">
+                          <Nav.Link title="List style" eventKey="list" bsPrefix={`show${selected === "list" ? " active" : ""}`}>
                             <i className="fa fa-list" />
                           </Nav.Link>
                         </Nav.Item>
                         <Nav.Item as="li">
-                          <Nav.Link title="Grid" eventKey="grid">
+                          <Nav.Link title="Grid" eventKey="grid" bsPrefix={`show${selected === "grid" ? " active" : ""}`}>
                             <i className="fa fa-th" />
                           </Nav.Link>
                         </Nav.Item>
@@ -104,7 +150,7 @@ const PageListBoady = () => {
                   </div>
                   <Tab.Content className="Marketplace">
                     <Tab.Pane eventKey="list">
-                      {data.map(
+                      {items.loading ? <LoaderSpinner /> : items.map(
                         ({
                           image_url,
                           tags,
@@ -131,7 +177,7 @@ const PageListBoady = () => {
                               userId={seller_id}
                               saleCount={saleCount}
                               title={item_name}
-                              className={category_name}
+                              categoryName={category_name}
                               date={date}
                               key={"pl" + index}
                               buy={(callback) => buyNow(id, callback)}
@@ -142,7 +188,7 @@ const PageListBoady = () => {
                     </Tab.Pane>
                     <Tab.Pane eventKey="grid">
                       <div className="row">
-                        {data.map(
+                        {items.loading ? <LoaderSpinner /> : items.map(
                           ({
                             id,
                             image_url,
@@ -160,6 +206,7 @@ const PageListBoady = () => {
                             return (
                               <div className="col-lg-6 col-md-6 col-xl-4" key={"pld" + index}>
                                 <ProductCardTwo
+                                  id={id}
                                   image={image_url}
                                   tag={tags}
                                   star={overall_rating}
@@ -169,7 +216,7 @@ const PageListBoady = () => {
                                   userId={seller_id}
                                   saleCount={saleCount}
                                   title={item_name}
-                                  className={category_name}
+                                  categoryName={category_name}
                                   date={date}
                                   key={"pl" + index}
                                   buy={(callback) => buyNow(id, callback)}
@@ -183,33 +230,11 @@ const PageListBoady = () => {
                   </Tab.Content>
                 </div>
                 <div className="center-block text-center">
-                  <ul className="pagination mb-5 mb-lg-0">
-                    <li className="page-item page-prev disabled">
-                      <a className="page-link" href="#" tabIndex={-1}>
-                        Prev
-                      </a>
-                    </li>
-                    <li className="page-item active">
-                      <a className="page-link" href="#">
-                        1
-                      </a>
-                    </li>
-                    <li className="page-item">
-                      <a className="page-link" href="#">
-                        2
-                      </a>
-                    </li>
-                    <li className="page-item">
-                      <a className="page-link" href="#">
-                        3
-                      </a>
-                    </li>
-                    <li className="page-item page-next">
-                      <a className="page-link" href="#">
-                        Next
-                      </a>
-                    </li>
-                  </ul>
+                  <Pagination className="mb-5 mb-lg-0">
+                    <Pagination.Prev disabled={pagination.currentPage <= 1} onClick={() => handlePageChange(pagination.currentPage - 1)}>Prev</Pagination.Prev>
+                    {Array.from({ length: pagination.totalPages }, (_, i) => <Pagination.Item active={pagination.currentPage === (i + 1)} onClick={() => handlePageChange(i + 1)} disabled={pagination.currentPage === (i + 1)}>{(i + 1)}</Pagination.Item>)}
+                    <Pagination.Next disabled={pagination.currentPage >= pagination.totalPages} onClick={() => handlePageChange(pagination.currentPage + 1)}>Next</Pagination.Next>
+                  </Pagination>
                 </div>
               </div>
             </div>
