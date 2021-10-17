@@ -48,13 +48,19 @@ const PageListBoady = () => {
   const [pagination, setPaination] = useState({
     totalPages: 0,
     totalItems: 0,
-    itemsPerPage: 12,
+    itemsPerPage: 2,
     currentPage: 1,
     token: null
-  })
+  });
+  const dispatch = useDispatch();
+  const { push, query } = useRouter();
+  const payload = {
+    category_name: query.category_name
+  }
   useEffect(() => {
     setData({ 1: { loading: true } });
     getAdList({
+      ...payload,
       limit: pagination.itemsPerPage,
       page_number: pagination.currentPage
     }).then((data) => {
@@ -73,8 +79,7 @@ const PageListBoady = () => {
     })
   }, [])
 
-  const dispatch = useDispatch();
-  const { push } = useRouter();
+
   const buyNow = function (item_id, callback) {
     console.log(item_id);
     addToCart([], item_id, dispatch, () => {
@@ -98,6 +103,7 @@ const PageListBoady = () => {
         currentPage: page_number
       });
       getAdList({
+        ...payload,
         next_token: pagination.token,
         page_number: page_number,
         limit: pagination.itemsPerPage
