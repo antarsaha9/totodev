@@ -44,7 +44,7 @@ const ProductCardTwo = ({
               src={image}
               alt={title}
               width={514}
-              height={391}
+              height={350}
             />
           </Link>
         </div>
@@ -90,7 +90,7 @@ const ProductCardTwo = ({
           </div>
         </div>
       </div>
-      <div className="card-footer">
+      {buy && <div className="card-footer">
         <div className="btn ripple  btn-list m-md-0 p-md-0">
           {/* <a href="#" className="btn ripple  btn-primary mb-lg-0">
             Live Preview
@@ -99,7 +99,7 @@ const ProductCardTwo = ({
             Buy Now
           </LoadingButton>
         </div>
-      </div>
+      </div>}
     </div>
   );
 }

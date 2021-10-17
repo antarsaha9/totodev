@@ -6,12 +6,14 @@ import { parseISO, format } from 'date-fns'
 import { Link } from "~components/core";
 import StarRating from "../StarRating";
 import LoadingButton from "~components/Buttons/LoadingButton";
-const DropdownWrapper = styled(Dropdown)`
-  .dropdown-menu{
-    /* transform:translateY(0)!important */
-    margin-top: 0px!important;
-  }
-`;
+import ImageWrapper from "../Image";
+import { paths } from "src/helper";
+// const DropdownWrapper = styled(Dropdown)`
+//   .dropdown-menu{
+//     /* transform:translateY(0)!important */
+//     margin-top: 0px!important;
+//   }
+// `;
 
 const ProductRow = ({ image, title, date, tag, price, item_id, downloadItem, rating }) => {
   const [downloading, setDownloading] = useState(false);
@@ -35,15 +37,17 @@ const ProductRow = ({ image, title, date, tag, price, item_id, downloadItem, rat
             </label> */}
             <div className="media mt-0 mb-0">
               <div className="card-aside-img">
-                <img
+                <ImageWrapper
                   src={image}
-                  alt="img"
+                  alt={title}
+                  height={52}
+                  width={70}
                   className="br-4"
                 />
               </div>
               <div className="media-body">
                 <div className="card-item-desc ml-4 p-0">
-                  <Link to={"/pageDetails?id=" + item_id} className="text-dark">
+                  <Link to={{ pathname: paths.PageDetail, query: { id: item_id } }} className="text-dark">
                     <h4 className="text-over">{title}</h4>
                   </Link>
                   {date ? (

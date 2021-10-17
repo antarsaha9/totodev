@@ -30,7 +30,7 @@ function GridBlock({ items }) {
               <ProductCard
                 id={id}
                 image={image_url}
-                tag={tags}
+                categoryName={category_name}
                 star={overall_rating}
                 price={price}
                 userImage={seller_image}
@@ -38,7 +38,6 @@ function GridBlock({ items }) {
                 userId={seller_id}
                 saleCount={saleCount}
                 title={item_name}
-                className={category_name}
                 date={date}
                 key={"pl" + index}
               />
