@@ -167,7 +167,7 @@ const ProfileBody = ({ profile, review, reviewProfile, commentOnReview, sellerIt
                           <SingleComment
                             className="p-5 mt-0 border-bottom"
                             title={item.name}
-                            image={CommentImage}
+                            image={item.image_url}
                             star={item.rating}
                             date={format(new Date(item.created_at), "MMM do")}
                             time={format(new Date(item.created_at), "HH:mm")}
@@ -188,6 +188,7 @@ const ProfileBody = ({ profile, review, reviewProfile, commentOnReview, sellerIt
                               },
                             ]}
                             key={item.id}
+                            id={item.id}
                           >
                             {item.comments?.map((item, ind) => (
                               <SingleComment

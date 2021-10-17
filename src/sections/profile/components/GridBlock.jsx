@@ -16,22 +16,26 @@ function GridBlock({ items }) {
             price,
             seller_image,
             seller_name,
+            seller_id,
             saleCount,
             item_name,
             category_name,
             date,
+            id,
           },
           index
         ) => {
           return (
             <Col lg={6} md={6} xl={4}>
               <ProductCard
+                id={id}
                 image={image_url}
                 tag={tags}
                 star={overall_rating}
                 price={price}
                 userImage={seller_image}
                 userName={seller_name}
+                userId={seller_id}
                 saleCount={saleCount}
                 title={item_name}
                 className={category_name}

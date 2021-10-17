@@ -35,7 +35,7 @@ const SingleComment = ({
               <div className="d-md-flex align-items-center">
                 <h4 className="mb-2">{title}</h4>
                 <small className="text-muted ml-md-auto">
-                  <i className="fe fe-calendar mr-1" /> {format(parseISO(date), 'dd-MMM-yyyy')}
+                  <i className="fe fe-calendar mr-1" /> {format(parseISO(date), 'MMM-dd-yyyy')}
                 </small>
               </div>
 

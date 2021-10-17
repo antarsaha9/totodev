@@ -8,6 +8,7 @@ import { Button } from "react-bootstrap";
 import { Link } from "~components/core";
 import { paths } from "src/helper";
 import LoadingButton from "~components/Buttons/LoadingButton";
+import ImageWrapper from "~components/Widgets/Image";
 const ProductCardTwo = ({
   image = productImageDefault,
   tag,
@@ -20,6 +21,7 @@ const ProductCardTwo = ({
   className,
   buy,
   id,
+  categoryName,
   userId
 }) => {
   const [buying, setBuying] = useState(false);
@@ -37,56 +39,48 @@ const ProductCardTwo = ({
 
       <div className="item-card9-img">
         <div className="item-card9-imgs">
-          <Link to={{ pathname: paths.PageDetail, query: { id } }} />
-          {/* <Image
-            src={image}
-            alt="prodct"
-            className="cover-image"
-            // placeholder="blur"
-          /> */}
-          <Carousel indicators={false}>
-            <Carousel.Item>
-              <img
-                className="d-block w-100"
-                src={image}
-                alt="First slide"
-              />
-            </Carousel.Item>
-          </Carousel>
+          <Link to={{ pathname: paths.PageDetail, query: { id } }} >
+            <ImageWrapper
+              src={image}
+              alt={title}
+              width={514}
+              height={391}
+            />
+          </Link>
         </div>
-        <div className="item-card9-icons">
+        {/* <div className="item-card9-icons">
           <Tooltip className="item-card9-icons1 bg-pink mx-1" tip="Wishlist">
             <i className="fa fa fa-heart-o" />
           </Tooltip>
           <Tooltip className="item-card9-icons1 bg-purple mx-1" tip="Share">
             <i className="icon icon-share" />
           </Tooltip>
-        </div>
+        </div> */}
         <div className="item-card7-overlaytext">
-          <a href="#" className="text-white">
-            {tag}{" "}
-          </a>
-          <h4 className=" mb-0">${price}</h4>
+          <Link to={{ pathname: paths.PageList, query: { category_name: categoryName } }} className="text-white">
+            {categoryName}{" "}
+          </Link>
+          <h4 className="mb-0">${price}</h4>
         </div>
       </div>
       <div className="card-body">
         <div className="item-card9">
-          <a href="page-details.html" className="text-dark mt-2">
+          <Link to={{ pathname: paths.PageDetail, query: { id } }} className="text-dark mt-2" >
             <h4 className=" mt-0 mb-2">{title}</h4>
-          </a>
+          </Link>
           <div className="mt-0 fs-13 mb-4">
             by{" "}
             <Link to={{ pathname: paths.UserProfile, query: { id: userId } }} >
               {userName}
             </Link>{" "}
-            in{" "}
+            {/* in{" "}
             <Link to={{ pathname: paths.PageDetail, query: { id } }} >
               {title}
-            </Link>
+            </Link> */}
           </div>
           <div className="d-md-flex">
             <div className="rating-stars d-flex">
-              <StarRating rating={star} />
+              <StarRating rating={star} editable={false} />
             </div>
             {totalSales && <div className="ml-auto mt-1">
               <span className="text-muted fs-13">

@@ -1,5 +1,8 @@
 import React from "react";
 import Image from "next/image";
+import ImageWrapper from "~components/Widgets/Image";
+import { paths } from "src/helper";
+import { Link } from "~components/core";
 
 const SingleComment = ({
   children,
@@ -11,15 +14,22 @@ const SingleComment = ({
   text,
   tags,
   className,
-  star = "3",
+  star,
+  id,
   ...rest
 }) => {
   return (
     <div className={`media ${className}`}>
       <div className="d-flex mr-3">
-        <a href="/#" className="media-object">
-          <Image className="brround" alt="64x64" src={image} placeholder="blur"/>{" "}
-        </a>
+        <Link to={{ pathname: paths.UserProfile, query: { id } }} className="media-object">
+          <ImageWrapper
+            className="brround"
+            width={64}
+            height={64}
+            alt={title}
+            src={image}
+          />{" "}
+        </Link>
       </div>
       <div className="media-body">
         <h4 className="mt-0 mb-1 font-weight-semibold">
@@ -55,25 +65,25 @@ const SingleComment = ({
           <i className=" ml-3 fa fa-map-marker" /> {location}
         </small>
         <p className="font-13 fs-15 mb-2 mt-2">{text}</p>
-        {tags
-          ? tags.map(({text,active},index) => {
-              return (
-                <a
-                  href="/#"
-                  className="mr-2"
-                  data-toggle="modal"
-                  data-target="#Comment"
-                  key={index + "tag"}
+        {/* {tags
+          ? tags.map(({ text, active }, index) => {
+            return (
+              <a
+                href="/#"
+                className="mr-2"
+                data-toggle="modal"
+                data-target="#Comment"
+                key={index + "tag"}
+              >
+                <span
+                  className={`badge ${active ? "badge-primary" : "badge-default"}`}
                 >
-                  <span
-                    className={`badge ${active ? "badge-primary" : "badge-default" }`}
-                  >
-                    {text}
-                  </span>
-                </a>
-              );
-            })
-          : null}
+                  {text}
+                </span>
+              </a>
+            );
+          })
+          : null} */}
 
         {children}
       </div>
