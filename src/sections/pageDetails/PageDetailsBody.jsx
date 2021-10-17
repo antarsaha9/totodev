@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { getItemDetails } from "~services/itemService";
+import { getItemDetails, getAdList } from "~services/itemService";
 import { getItemComments, getItemReviews, addItemReview, addItemComment } from "~services/reviewService";
 import ProductOverviewCard from "./Components/Sidebar/ProductOverviewCard";
 import Sidebar from "./Components/Sidebar/Sidebar";
@@ -15,6 +15,7 @@ const PageDetailsBody = () => {
   const [product, setProduct] = useState({});
   const [reviews, setReviews] = useState([]);
   const [comments, setComments] = useState([]);
+  const [related, setRelated] = useState([]);
   const { cart } = useSelector((store) => store.app)
   const dispatch = useDispatch();
   const { query, push } = useRouter();
@@ -41,7 +42,13 @@ const PageDetailsBody = () => {
       setProduct({ loading: true });
       getItemDetails(id).then((data) => {
         console.log('loadData', data);
-        if (data && typeof (data) !== typeof ("")) setProduct(data);
+        if (data && typeof (data) !== typeof ("")) {
+          setProduct(data);
+          setRelated({ loading: true });
+          getAdList({ category_name: data.category_name }).then((res) => {
+            if (res) setRelated(res.items);
+          });
+        }
         else {
           push('/pagelist');
           NotificationManager.success("Item not found!");
@@ -55,6 +62,7 @@ const PageDetailsBody = () => {
       getItemComments(id).then((data) => {
         if (data) setComments(data.comments);
       });
+
     }
   }
 
@@ -82,7 +90,7 @@ const PageDetailsBody = () => {
             <TabBlockMain {...{ product, comments, reviews, reviewItem, commentItem }} />
             <h3 className="mb-5 mt-6">Related Posts</h3>
             {/*Related Posts*/}
-            <SliderBlock product={product} />
+            {related && related.loading ? <LoaderSpinner /> : <SliderBlock items={related} />}
             {/*/Related Posts*/}
           </div>
           {/*Right Side Content*/}

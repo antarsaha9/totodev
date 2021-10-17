@@ -31,7 +31,6 @@ export default function ImageWrapper({ width, height, src, alt, responsive, ...r
     };
     if (responsive)
         payload.layout = 'responsive';
-    console.log(alt);
     return (
         <Image {...payload} />
     )

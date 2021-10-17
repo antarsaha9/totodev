@@ -57,15 +57,15 @@ const SliderWrapper = styled(Slider)`
   }
 `;
 
-const SliderBlock = () => {
+const SliderBlock = ({ items }) => {
   const elSlider = React.useRef();
 
   const slickSettings = {
     slidesToShow: 2,
     slidesToScroll: 1,
-    // autoplay: true,
+    autoplay: true,
     swipe: true,
-    infinite: true,
+    infinite: items.length > 2,
     autoplaySpeed: 2000,
     arrows: true,
     responsive: [
@@ -87,31 +87,35 @@ const SliderBlock = () => {
   };
   return (
     <SliderWrapper ref={elSlider} {...slickSettings}>
-      {productData.map(
+      {items && items.map(
         (
           {
-            image,
-            title,
+            image_url,
+            item_name,
             text,
-            pricing,
-            star,
-            userName,
+            price,
+            overall_rating,
+            seller_name,
             cartCount,
-            userImage,
-            tag,
+            seller_image,
+            category_name,
+            seller_id,
+            id,
           },
           index
         ) => {
           return (
             <ProductCard
-              image={image}
-              title={title}
+              item_id={id}
+              image={image_url}
+              title={item_name}
               text={text}
-              pricing={pricing}
-              star={star}
-              tag={tag}
-              userName={userName}
-              userImage={userImage}
+              price={price}
+              star={overall_rating}
+              tag={category_name}
+              userId={seller_id}
+              userName={seller_name}
+              userImage={seller_image}
               cartCount={cartCount}
               className="mb-0"
               badge="flash"
