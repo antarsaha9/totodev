@@ -22,7 +22,7 @@ const ProfileCard = ({ product }) => {
           {/* <a href="userprofile.html"> */}
           <h3 className="mt-2 mb-1 text-dark">{name}</h3>
           {/* </a> */}
-          <span className="text-muted">Member since {date && format(parseISO(date), 'd LLLL yyyy')}</span>
+          <span className="text-muted">Member since {date && format(parseISO(date), 'do LLLL yyyy')}</span>
         </div>
         <div className=" item-user-icons mt-2 mb-5 text-center">
           <a href="#" className="facebook-bg mt-0 ">

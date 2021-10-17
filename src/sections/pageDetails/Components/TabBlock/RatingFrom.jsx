@@ -29,7 +29,6 @@ const RatingForm = function (props) {
         isSubmitting,
       }) =>
         <Form onSubmit={handleSubmit}>
-          {() => console.log(errors)}
           <div className="card mt-5">
             <div className="card-header">
               <h3 className="card-title">Item Rating</h3>

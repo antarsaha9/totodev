@@ -89,8 +89,8 @@ const TabBlockMain = ({ product, reviews, comments, reviewItem, commentItem }) =
                   </div>
                 </>} */}
                 {tags && <div className="row mt-6 mb-1">
-                  {tags.split(',').map(tag =>
-                    <div className="col-xl-4 col-md-6">
+                  {tags.split(',').map((tag, i) =>
+                    <div className="col-xl-4 col-md-6" key={"tag" + i}>
                       <div className="card text-center bg-light shadow-none mb-3">
                         <div className="card-body pt-3 pb-3">
                           <p>{tag}</p>
@@ -125,8 +125,9 @@ const TabBlockMain = ({ product, reviews, comments, reviewItem, commentItem }) =
                 <div className="border-left border-right p-5 bg-white border-bottom br-bl-3 br-br-3">
                   <div className="row">
                     <div className="col-md-12">
-                      {reviews.map(review =>
+                      {reviews.map((review, i) =>
                         <RatingCard
+                          key={'rating' + i}
                           title={review.review}
                           // text={review.review}
                           star={review.rating}

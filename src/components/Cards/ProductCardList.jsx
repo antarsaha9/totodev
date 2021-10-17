@@ -43,7 +43,7 @@ const ProductCardList = ({
                 src={image}
                 alt={title}
                 width={514}
-                height={391}
+                height={340}
               />
             </Link>
           </div>
