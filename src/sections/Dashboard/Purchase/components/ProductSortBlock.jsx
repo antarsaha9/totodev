@@ -13,10 +13,10 @@ const SortSelect = styled.div`
   }
 }
 `
-const ProductSortBlock = () => {
+const ProductSortBlock = ({ count }) => {
   return (
     <div className="p-5 bg-white item2-gl-nav d-flex">
-      <h6 className="mb-0 mt-1 card-title">12 Items Purchased</h6>
+      {Number.isInteger(count) && <h6 className="mb-0 mt-1 card-title">{count} Items Purchased</h6>}
       <div className="ml-auto">
         <SortSelect className="d-flex select2-sm text-left">
           <label className="mr-2 mt-1 mb-sm-1">Sort By:</label>

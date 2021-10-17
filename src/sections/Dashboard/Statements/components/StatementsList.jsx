@@ -26,7 +26,7 @@ const ProductList = ({
           {type}
         </Badge>
       </td>
-      <td className="font-weight-semibold fs-18">{price}</td>
+      <td className="font-weight-semibold fs-18">${price}</td>
       <td>
         <Badge classNamee={`badge ${badgeClassstatus}`} variant={badgeClassstatus}>
           {status}

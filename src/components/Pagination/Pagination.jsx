@@ -1,19 +1,18 @@
 import React from "react";
 import ReactPaginate from "react-paginate";
 
-const Pagination = ({ pageCount = "5", activeItem = "2", onPageChange }) => {
+const Pagination = ({ pageCount, activeItem = "2", onPageChange }) => {
   return (
     <ReactPaginate
-      previousLabel={"prev"}
-      nextLabel={"next"}
+      previousLabel={"Prev"}
+      nextLabel={"Next"}
       breakLabel={"..."}
-      breakClassName={"break-me"}
+      breakClassName={"page-item"}
+      breakLinkClassName="page-link"
       pageCount={pageCount}
       marginPagesDisplayed={2}
       pageRangeDisplayed={5}
-      onPageChange={(page) => {
-        console.log(page);
-      }}
+      onPageChange={onPageChange}
       containerClassName={"pagination justify-content-end"}
       pageClassName="page-item"
       pageLinkClassName="page-link"

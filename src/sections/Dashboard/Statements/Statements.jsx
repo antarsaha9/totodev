@@ -7,13 +7,59 @@ import { getStatement } from "~services/purchaseService";
 import LoaderSpinner from "~components/Cards/LoaderSpinner";
 const StatementsSection = () => {
   const [statement, setStatement] = useState([]);
-
+  const [pagination, setPagination] = useState({
+    totalPages: 0,
+    totalItems: 0,
+    itemsPerPage: 10,
+    currentPage: 1,
+    token: null
+  });
   useEffect(() => {
     setStatement({ loading: true });
-    getStatement().then(data => {
-      setStatement(data?.data || []);
+    getStatement({
+      limit: pagination.itemsPerPage,
+      page_number: pagination.currentPage
+    }).then(data => {
+      const pgn = {
+        ...pagination,
+        token: data?.next_token,
+        totalItems: data?.count,
+        totalPages: Math.ceil(data?.count / pagination.itemsPerPage),
+      };
+      var pl = {};
+      Array.from({ length: pgn.totalPages }, (_, i) => pl[i + 1] = false);
+      pl[1] = data?.data || [];
+      setStatement(pl);
+      setPagination(pgn);
     });
   }, []);
+
+  const handlePageChange = function ({ selected }) {
+    const page_number = selected + 1;
+    if (statement[page_number]) {
+      setPagination({
+        ...pagination,
+        currentPage: page_number
+      });
+    }
+    else {
+      const prevData = statement;
+      setStatement({ ...prevData, [page_number]: { loading: true } });
+      setPagination({
+        ...pagination,
+        currentPage: page_number
+      });
+      getStatement({
+        next_token: pagination.token,
+        page_number: page_number,
+        limit: pagination.itemsPerPage
+      }).then((data) => {
+        setStatement({ ...prevData, [page_number]: (data?.data || []) });
+      })
+    }
+  }
+
+  const rows = statement?.[pagination.currentPage] || { loading: true };
   return (
     <>
       <Container className="spb">
@@ -28,7 +74,7 @@ const StatementsSection = () => {
                   <StatementsRowHead />
                 </thead>
                 <tbody>
-                  {(statement === null || statement.loading) ? <LoaderSpinner /> : statement.map(
+                  {(rows === null || rows.loading) ? <LoaderSpinner /> : rows.map(
                     (
                       {
                         order_number,
@@ -73,7 +119,7 @@ const StatementsSection = () => {
               </table>
             </div>
             <div className="card-body mr-auto">
-              <Pagination count="3" />
+              <Pagination pageCount={pagination.totalPages} onPageChange={handlePageChange} />
             </div>
           </div>
         </div>

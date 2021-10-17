@@ -1,7 +1,7 @@
 import API from "./API";
 
-export const getPurchasedItems = async () => {
-  return API.post("/getPurchases");
+export const getPurchasedItems = async (values) => {
+  return API.post("/getPurchases", values);
 };
 
 export const checkout = function (values) {
@@ -16,6 +16,6 @@ export const getDownloadUrl = function (values) {
   return API.post("/getDownloadUrl", values);
 };
 
-export const getStatement = function () {
-  return API.post("/getStatement");
+export const getStatement = function (values) {
+  return API.post("/getStatement", values);
 };
