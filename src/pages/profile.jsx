@@ -1,14 +1,15 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { NotificationManager } from "react-notifications";
-import { getMyProfile, getSellerProfile } from "src/services/profileService";
-import { getSellerReviews, getMyReviews, addSellerReview } from "src/services/reviewService";
-import { getMyItems, getSellerItemList } from "src/services/itemService";
-import withAuth from "~components/Auth/withAuth";
+import { getSellerProfile } from "src/services/profileService";
+import { getSellerReviews, addSellerReview } from "src/services/reviewService";
+import { getSellerItemList } from "src/services/itemService";
 import NewsletterSection from "~sections/Innerpages/Newsletter/NewsletterSection";
 import ProfileBody from "~sections/profile/ProfileBody";
 import BreadcrumbSectionTwo from "../components/Breadcrumb/BreadcrumbSectionTwo";
 import PageWrapper from "../components/core/PageWrapper";
+import { paths } from "src/helper";
+import { useSelector } from "react-redux";
 
 const headerConfig = {
   bannerInner: (
@@ -25,7 +26,10 @@ const Profile = () => {
   const [profile, setProfile] = useState(null);
   const [review, setReview] = useState(null);
   const [items, setItems] = useState(null);
-  const user_id = (useRouter().query || {}).id;
+  const { query, replace, isReady } = useRouter();
+  const { user: isSignedIn } = useSelector((store) => store.auth);
+
+  const user_id = (query || {}).id;
   const loadData = function () {
     setProfile({ loading: true });
     setReview({ loading: true });
@@ -36,10 +40,8 @@ const Profile = () => {
       getSellerReviews(user_id).then(data => data && setReview(data.reviews));
       getSellerItemList(user_id).then(data => data && setItems(data.items));
     } else {
-      console.debug("Profile ==> getting own details");
-      getMyProfile().then(data => data && setProfile(data));
-      getMyReviews().then(data => data && setReview(data.reviews));
-      getMyItems().then(data => data && setItems(data.items));
+      console.log("replacing");
+      replace({ pathname: paths.MyProfile, query });
     }
   };
 
@@ -64,15 +66,16 @@ const Profile = () => {
   }
 
   useEffect(() => {
-    loadData();
+    if (isReady)
+      loadData();
   }, [user_id]);
 
   return (
     <PageWrapper themeConfig={headerConfig}>
-      <ProfileBody profile={profile} review={review} reviewProfile={reviewProfile} sellerItems={items} />
+      <ProfileBody profile={profile} review={review} reviewProfile={isSignedIn && reviewProfile} sellerItems={items} />
       <NewsletterSection profile={profile} />
     </PageWrapper>
   );
 };
 
-export default withAuth(Profile);
+export default Profile;

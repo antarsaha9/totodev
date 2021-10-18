@@ -30,7 +30,8 @@ export const paths = {
     PageList:"/pagelist",
     PageDetail:"/pageDetails",
     UserProfile:"/profile",
-    // PageList:"/pagelist",
+    MyProfile:"/myprofile",
+    Upload:"/dashboard/upload",
     // PageList:"/pagelist",
     // PageList:"/pagelist",
 }

@@ -37,13 +37,15 @@ const ProductRow = ({ image, title, date, tag, price, item_id, downloadItem, rat
             </label> */}
             <div className="media mt-0 mb-0">
               <div className="card-aside-img">
-                <ImageWrapper
-                  src={image}
-                  alt={title}
-                  height={52}
-                  width={70}
-                  className="br-4"
-                />
+                <Link to={{ pathname: paths.PageDetail, query: { id: item_id } }}>
+                  <ImageWrapper
+                    src={image}
+                    alt={title}
+                    height={52}
+                    width={70}
+                    className="br-4"
+                  />
+                </Link>
               </div>
               <div className="media-body">
                 <div className="card-item-desc ml-4 p-0">

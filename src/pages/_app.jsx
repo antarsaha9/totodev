@@ -7,14 +7,13 @@ import "../assets/scss/style.scss";
 import Layout from "~components/core/Layout";
 import Loader from "../components/Loader";
 import { GlobalHeaderProvider } from "../context/GlobalHeaderContext";
-import { getCart } from "~services/cartService";
 import { useDispatch, useSelector } from "react-redux";
-import { appActions } from "~redux/appSlice";
 import { reloadCart } from "src/helper";
 
 const App = ({ Component, pageProps }) => {
   const [loader, setLoader] = useState(false);
-  const { cart } = useSelector((store) => store.app)
+  const { cart } = useSelector((store) => store.app);
+  const { user } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -30,23 +29,15 @@ const App = ({ Component, pageProps }) => {
   }, []);
 
   useEffect(() => {
-    reloadCart(dispatch)
-      // dispatch(appActions.setCart({ loading: true }));
-      // getCart().then((data) => {
-      //   if (data) {
-      //     dispatch(appActions.setCart(data.items));
-      //   };
-      // });
+    if (user)
+      reloadCart(dispatch)
   }, []);
-
-  if (loader) {
-    return <Loader show={loader} />;
-  }
 
   return (
     <Auth>
       <GlobalHeaderProvider>
         <Layout cart={cart}>
+          {loader && <Loader show={loader} />}
           <Component {...pageProps} cart={cart} />
         </Layout>
       </GlobalHeaderProvider>

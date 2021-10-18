@@ -239,9 +239,9 @@ const ProfileBody = ({ profile, review, reviewProfile, commentOnReview, sellerIt
                             },
                           ]}
                         /> */}
-                        <div className="p-5">
+                        {reviewProfile && <div className="p-5">
                           <ReplayForm reviewProfile={reviewProfile} />
-                        </div>
+                        </div>}
                       </Tab.Pane>
                       <Tab.Pane eventKey="third">
                         <div className="p-5">

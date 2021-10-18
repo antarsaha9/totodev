@@ -48,7 +48,7 @@ const PageListBoady = () => {
   const [pagination, setPaination] = useState({
     totalPages: 0,
     totalItems: 0,
-    itemsPerPage: 2,
+    itemsPerPage: 10,
     currentPage: 1,
     token: null
   });

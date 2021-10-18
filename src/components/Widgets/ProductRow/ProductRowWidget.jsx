@@ -1,5 +1,6 @@
 import React from "react";
 import { Dropdown } from "react-bootstrap";
+import { paths } from "src/helper";
 import styled from "styled-components";
 import { Link } from "~components/core";
 
@@ -24,10 +25,10 @@ const ProductRow = ({
   price,
   item_status,
   id,
-  handleItemStatusChange = () => () => {},
+  handleItemStatusChange = () => () => { },
 }) => {
   const badge = item_status === "PUBLISHED" ? "success" : "danger";
-
+  const linkto = item_status === "PUBLISHED" ? paths.PageDetail : paths.Upload;
   return (
     <div className="row ml-0 mr-0 border-top">
       <div className="col-md-6 col-sm-6">
@@ -43,10 +44,12 @@ const ProductRow = ({
               <span className="custom-control-label" />
             </label>
             <div className="media mt-0 mb-0">
-              <ProductImage src={image_url} />
+              <Link to={{ pathname: linkto, query: { id } }}>
+                <ProductImage src={image_url} />
+              </Link>
               <div className="media-body">
                 <div className="card-item-desc ml-4 p-0">
-                  <Link to={`/template/${id}`} className="text-dark">
+                  <Link to={{ pathname: linkto, query: { id } }} className="text-dark">
                     <h4 className="text-over">{item_name}</h4>
                   </Link>
                   {date ? (
@@ -68,7 +71,7 @@ const ProductRow = ({
       </div>
       <div className="col-md-2 col-sm-6">
         <div className="card-body">
-          <h3 className="fs-20">{price}</h3>
+          <h3 className="fs-20">${price}</h3>
         </div>
       </div>
       <div className="col-md-2 col-sm-6">
@@ -81,7 +84,7 @@ const ProductRow = ({
           <div className="btn-list d-flex">
             <Link
               className="btn ripple  btn-secondary btn-sm text-white"
-              to={{ pathname: "/dashboard/upload", query: { id } }}
+              to={{ pathname: paths.Upload, query: { id } }}
             >
               <i className="fa fa-pencil" />
             </Link>
