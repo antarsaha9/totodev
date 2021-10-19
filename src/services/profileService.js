@@ -2,8 +2,8 @@ import API from "./API";
 import { setAPIHeader } from "./authService";
 import { getUploadUrl, uploadFile } from "./uploadService";
 
-export const getMyProfile = (idToken) => {
-  setAPIHeader(idToken);
+export const getMyProfile = () => {
+  setAPIHeader();
   return API.post("/getMyProfile");
 };
 

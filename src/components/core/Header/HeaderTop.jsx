@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import React, { Fragment } from "react";
 import { Dropdown } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { signOut } from "src/services/authService";
+import { paths, signOut } from "src/helper";
 import { Link } from "..";
 
 const HeaderTop = () => {
@@ -10,8 +10,7 @@ const HeaderTop = () => {
   const { user } = useSelector((store) => store.auth);
 
   const handleSignOut = async () => {
-    await signOut();
-    router.push("/");
+    signOut(router);
   };
 
   return (
@@ -267,12 +266,12 @@ const HeaderTop = () => {
                 {!!!user ? (
                   <Fragment>
                     <li>
-                      <Link to="/register" className="text-dark">
+                      <Link to={paths.Register} className="text-dark">
                         <i className="fa fa-user mr-1" /> <span>Register</span>
                       </Link>
                     </li>
                     <li>
-                      <Link to="/login" className="text-dark">
+                      <Link to={paths.Login} className="text-dark">
                         <i className="fa fa-sign-in mr-1" /> <span>Login</span>
                       </Link>
                     </li>
@@ -294,11 +293,11 @@ const HeaderTop = () => {
                       align="right"
                       className="dropdown-menu dropdown-menu-right dropdown-menu-arrow"
                     >
-                      <Link to="/profile" className="dropdown-item">
+                      <Link to={paths.MyProfile} className="dropdown-item">
                         <i className="dropdown-icon icon icon-user" /> My
                         Profile
                       </Link>
-                      <a className="dropdown-item" href="#">
+                      {/* <a className="dropdown-item" href="#">
                         <i className="dropdown-icon icon icon-speech" /> Inbox
                       </a>
                       <a className="dropdown-item" href="#">
@@ -308,13 +307,14 @@ const HeaderTop = () => {
                       <a href="/" className="dropdown-item">
                         <i className="dropdown-icon  icon icon-settings" />{" "}
                         Account Settings
-                      </a>
-                      <a
+                      </a> */}
+                      <Dropdown.Item
+                        as="button"
                         className="dropdown-item cursor-pointer"
                         onClick={handleSignOut}
                       >
                         <i className="dropdown-icon icon icon-power" /> Log out
-                      </a>
+                      </Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>
                 )}

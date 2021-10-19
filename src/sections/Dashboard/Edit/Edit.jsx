@@ -16,10 +16,14 @@ import * as yup from "yup";
 import LoadingButton from "~components/Buttons/LoadingButton";
 import SelectBox from "~components/Forms/SelectBox";
 import Dropdown from "~components/Forms/DropdownFilter";
+import { loadProfile } from "src/helper";
+import { useDispatch, useSelector } from "react-redux";
 
 const EditSection = () => {
-  const [profile, setProfile] = useState(null);
+  // const [profile, setProfile] = useState(null);
   const [progress, setProgress] = useState(0);
+  const { profile } = useSelector((store) => store.app);
+  const dispatch = useDispatch();
 
   const handleFormSubmit = async (values, { resetForm }) => {
     const data = await updateProfile(values, setProgress);
@@ -37,9 +41,10 @@ const EditSection = () => {
   };
 
   const load = () => {
-    getMyProfile().then((data) => {
-      setProfile(data);
-    });
+    loadProfile(dispatch);
+    //   getMyProfile().then((data) => {
+    //     setProfile(data);
+    //   });
   }
   useEffect(() => {
     load();

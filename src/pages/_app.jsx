@@ -8,13 +8,17 @@ import Layout from "~components/core/Layout";
 import Loader from "../components/Loader";
 import { GlobalHeaderProvider } from "../context/GlobalHeaderContext";
 import { useDispatch, useSelector } from "react-redux";
-import { reloadCart } from "src/helper";
+import { loadProfile, reloadCart } from "src/helper";
 
 const App = ({ Component, pageProps }) => {
   const [loader, setLoader] = useState(false);
   const { cart } = useSelector((store) => store.app);
   const { user } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
+
+  const isLoggedIn = function () {
+    return !!user;
+  }
 
   useEffect(() => {
     Router.onRouteChangeStart = (url) => {
@@ -29,14 +33,16 @@ const App = ({ Component, pageProps }) => {
   }, []);
 
   useEffect(() => {
-    if (user)
-      reloadCart(dispatch)
+    if (user) {
+      reloadCart(dispatch);
+      loadProfile(dispatch);
+    }
   }, [user]);
 
   return (
     <Auth>
       <GlobalHeaderProvider>
-        <Layout cart={cart}>
+        <Layout {...{ isLoggedIn, cart }}>
           {loader && <Loader show={loader} />}
           <Component {...pageProps} cart={cart} />
         </Layout>

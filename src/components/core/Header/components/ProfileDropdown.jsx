@@ -1,46 +1,52 @@
 import { useRouter } from "next/router";
 import React from "react";
 import { Dropdown } from "react-bootstrap";
-import { signOut } from "src/services/authService";
+import { useSelector } from "react-redux";
+import { paths, signOut } from "src/helper";
 import styled from "styled-components";
+import { Link } from "~components/core";
 
 const dropdownItems = [
   {
     icon: "ti-write",
     title: "Edit Profile",
+    link: paths.EditProfile
   },
   {
     icon: "fe fe-codepen",
     title: "My Itmes",
+    link: paths.MyProfile
   },
-  {
-    icon: "ti-heart",
-    title: "My Favorite",
-  },
+  // {
+  //   icon: "ti-heart",
+  //   title: "My Favorite",
+  // },
   {
     icon: "ti-palette",
     title: "Managed Items",
+    link: paths.ManageItems
   },
-  {
-    icon: "ti-credit-card",
-    title: "Payments",
-  },
-  {
-    icon: "ti-shopping-cart",
-    title: "Orders",
-  },
+  // {
+  //   icon: "ti-credit-card",
+  //   title: "Payments",
+  // },
+  // {
+  //   icon: "ti-shopping-cart",
+  //   title: "Orders",
+  // },
   {
     icon: "ti-filter",
     title: "Statements",
+    link: paths.Statement
   },
-  {
-    icon: "ti-harddrive",
-    title: "Safety Tips",
-  },
-  {
-    icon: "ti-settings",
-    title: "Settings",
-  },
+  // {
+  //   icon: "ti-harddrive",
+  //   title: "Safety Tips",
+  // },
+  // {
+  //   icon: "ti-settings",
+  //   title: "Settings",
+  // },
 ];
 
 const ProfileDropdown = styled.div`
@@ -74,21 +80,21 @@ const ProfileDropdown = styled.div`
   }
 `;
 
-const DropdownItem = ({ icon, title }) => {
+const DropdownItem = ({ icon, title, link = '' }) => {
   return (
-    <a className="dropdown-item" href="mydash.html">
+    <Link className="dropdown-item" to={link}>
       <i className={`dropdown-icon ${icon}`} />
       {title}
-    </a>
+    </Link>
   );
 };
 
 const ProfileDropdownBlock = () => {
   const router = useRouter();
+  const { profile } = useSelector((store) => store.app);
 
   const handleSignOut = async () => {
-    await signOut();
-    router.push("/");
+    signOut(router);
   };
 
   return (
@@ -103,22 +109,22 @@ const ProfileDropdownBlock = () => {
       >
         <div className="drop-heading">
           <div className="text-center">
-            <h5 className="text-dark mb-1">Jacob Smith</h5>
-            <small className="text-muted fs-16 text-primary font-weight-semibold">
+            <h5 className="text-dark mb-1">{profile && (`${profile.first_name} ${profile.last_name}`.trim())}</h5>
+            {/* <small className="text-muted fs-16 text-primary font-weight-semibold">
               $478.99
-            </small>
+            </small> */}
           </div>
         </div>
         <div className="dropdown-divider m-0"></div>
-        {dropdownItems.map(({ icon, title }, index) => {
+        {dropdownItems.map((payload, index) => {
           return (
-            <DropdownItem icon={icon} title={title} key={index + "prdr"} />
+            <DropdownItem {...payload} key={index + "prdr"} />
           );
         })}
         <div className="dropdown-divider mt-0" />
-        <a className="dropdown-item cursor-pointer" onClick={handleSignOut}>
+        <Dropdown.Item as="button" className="cursor-pointer" onClick={handleSignOut}>
           <i className="dropdown-icon ti-unlock" /> Logout
-        </a>
+        </Dropdown.Item>
       </Dropdown.Menu>
     </ProfileDropdown>
   );

@@ -1,5 +1,7 @@
 import { appActions } from "~redux/appSlice";
 import { updateCart, getCart } from "~services/cartService";
+import { signOut as _signOut } from "~services/authService";
+import { getMyProfile } from "~services/profileService";
 
 export const removeFromCart = function (currentData, itemIndex, dispatcher) {
     dispatcher(appActions.setCart({ loading: true }));
@@ -26,12 +28,30 @@ export const reloadCart = function (callback) {
     });
 }
 
+export const loadProfile = function (callback) {
+    getMyProfile().then((data) => {
+        if (data) {
+            callback(appActions.setProfile(data));
+        };
+    });
+}
+
+export const signOut = function (router) {
+    _signOut().then(() => {
+        if (router)
+            router.push("/");
+    });
+}
+
 export const paths = {
-    PageList:"/pagelist",
-    PageDetail:"/pageDetails",
-    UserProfile:"/profile",
-    MyProfile:"/myprofile",
-    Upload:"/dashboard/upload",
-    // PageList:"/pagelist",
-    // PageList:"/pagelist",
+    PageList: "/pagelist",
+    PageDetail: "/pageDetails",
+    UserProfile: "/profile",
+    MyProfile: "/myprofile",
+    Upload: "/dashboard/upload",
+    EditProfile:"/dashboard",
+    ManageItems:"/dashboard/managed",
+    Statement:"/dashboard/statements",
+    Login:"/login",
+    Register:"/register",
 }
