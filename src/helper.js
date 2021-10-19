@@ -37,7 +37,7 @@ export const loadProfile = function (callback) {
 }
 
 export const signOut = function (router) {
-    _signOut().then(() => {
+    _signOut().then(function () {
         if (router)
             router.push("/");
     });
@@ -49,9 +49,9 @@ export const paths = {
     UserProfile: "/profile",
     MyProfile: "/myprofile",
     Upload: "/dashboard/upload",
-    EditProfile:"/dashboard",
-    ManageItems:"/dashboard/managed",
-    Statement:"/dashboard/statements",
-    Login:"/login",
-    Register:"/register",
+    EditProfile: "/dashboard",
+    ManageItems: "/dashboard/managed",
+    Statement: "/dashboard/statements",
+    Login: "/login",
+    Register: "/register",
 }

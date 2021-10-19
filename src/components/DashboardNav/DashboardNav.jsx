@@ -1,8 +1,14 @@
+import { useRouter } from "next/router";
 import React from "react";
 import { Container, Navbar, Row } from "react-bootstrap";
+import { signOut } from "src/helper";
 import ActiveLink from "../core/Link/ActiveLink";
 
 const MenuNav = () => {
+  const router = useRouter();
+  const handleSignOut = () => {
+    signOut(router);
+  };
   return (
     <section className="pt-7">
       <Container>
@@ -100,7 +106,7 @@ const MenuNav = () => {
                       </li>
                     </ActiveLink>
                     <li className="nav-item">
-                      <a href="#" className="nav-link">
+                      <a onClick={handleSignOut} className="nav-link">
                         <i className="fe fe-power nav-icon" />
                         Logout
                       </a>
