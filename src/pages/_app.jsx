@@ -31,7 +31,7 @@ const App = ({ Component, pageProps }) => {
   useEffect(() => {
     if (user)
       reloadCart(dispatch)
-  }, []);
+  }, [user]);
 
   return (
     <Auth>
