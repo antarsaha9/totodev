@@ -36,8 +36,8 @@ const ProductRow = ({ image, title, date, tag, price, item_id, downloadItem, rat
               <span className="custom-control-label" />
             </label> */}
             <div className="media mt-0 mb-0">
-              <div className="card-aside-img">
-                <Link to={{ pathname: paths.PageDetail, query: { id: item_id } }}>
+              <Link to={{ pathname: paths.PageDetail, query: { id: item_id } }}>
+                <div className="card-aside-img">
                   <ImageWrapper
                     src={image}
                     alt={title}
@@ -45,8 +45,8 @@ const ProductRow = ({ image, title, date, tag, price, item_id, downloadItem, rat
                     width={70}
                     className="br-4"
                   />
-                </Link>
-              </div>
+                </div>
+              </Link>
               <div className="media-body">
                 <div className="card-item-desc ml-4 p-0">
                   <Link to={{ pathname: paths.PageDetail, query: { id: item_id } }} className="text-dark">
