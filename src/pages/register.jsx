@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useRouter } from "next/router";
 import LoginComponent from "~components/Auth/LoginComponent";
 import BreadCrumbSection from "~sections/Innerpages/BreadCrumb/BreadCrumbSection";
 import PageWrapper from "../components/core/PageWrapper";
 import NewsLetterSection from "../sections/Innerpages/Newsletter";
 import RegisterBodySection from "../sections/register/RegisterBody";
+import { paths } from "src/helper";
 
 // import "../assets/scss/colors6.scss"
 const headerConfig = {
@@ -11,7 +13,14 @@ const headerConfig = {
   bannerClasses: "bg-background3",
 };
 
-const Register = () => {
+const Register = ({ isLoggedIn }) => {
+  const router = useRouter();
+  const logged_in = isLoggedIn();
+  useEffect(() => {
+    if (logged_in) {
+      router.push(paths.EditProfile);
+    }
+  }, [logged_in]);
   return (
     <PageWrapper themeConfig={headerConfig}>
       {/* <RegisterBodySection /> */}

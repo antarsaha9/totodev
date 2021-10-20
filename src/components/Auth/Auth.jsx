@@ -19,6 +19,7 @@ const Auth = ({ children }) => {
             email: user.email,
             displayName: user.displayName,
             seller_id,
+            logged_in: !!(!!seller_id & !!user.uid)
           };
 
           setAPIHeader();

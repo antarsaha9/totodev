@@ -21,16 +21,18 @@ export const addToCart = function (currentData, itemId, dispatcher, callback) {
 }
 
 export const reloadCart = function (callback) {
+    if (callback) callback(appActions.setCart({ loading: true }));
     getCart().then((data) => {
-        if (data) {
+        if (data && callback) {
             callback(appActions.setCart(data.items));
         };
     });
 }
 
 export const loadProfile = function (callback) {
+    if (callback) callback(appActions.setProfile({ loading: true }));
     getMyProfile().then((data) => {
-        if (data) {
+        if (data && callback) {
             callback(appActions.setProfile(data));
         };
     });
@@ -38,9 +40,16 @@ export const loadProfile = function (callback) {
 
 export const signOut = function (router) {
     _signOut().then(function () {
+        localStorage.removeItem('seller_id');
+
         if (router)
             router.push("/");
     });
+}
+
+export const postLoginAction = function (callback) {
+    reloadCart(callback);
+    loadProfile(callback);
 }
 
 export const paths = {
