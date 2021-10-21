@@ -11,12 +11,11 @@ export const updateProfile = async (values, setProgress) => {
   setAPIHeader();
 
   if (values.img) {
-    const { url: uploadUrl } = await getUploadUrl(values.img);
+    const { url: uploadUrl, access_url } = await getUploadUrl(values.img);
 
     await uploadFile(uploadUrl, values.img, setProgress);
 
-    const temp = new URL(uploadUrl);
-    values.image_url = `http://${temp.host}${temp.pathname}`;
+    values.image_url = access_url;
   }
 
   return API.post("/updateProfile", values);

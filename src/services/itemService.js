@@ -59,11 +59,10 @@ export const updateSellerItem = async (
   values.tags = values.tags.split(",").filter((tag) => !!tag.trim());
 
   if (img) {
-    const { url: uploadUrl } = await getUploadUrl(img);
+    const { url: uploadUrl, access_url } = await getUploadUrl(img);
     await uploadFile(uploadUrl, img);
 
-    const temp = new URL(uploadUrl);
-    values.image_url = `http://${temp.host}${temp.pathname}`;
+    values.image_url = access_url;
   }
 
   if (file) {
