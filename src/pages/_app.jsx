@@ -34,7 +34,8 @@ const App = ({ Component, pageProps }) => {
   }, []);
 
   useEffect(() => {
-    postLoginAction(dispatch);
+    if (logged_in)
+      postLoginAction(dispatch);
   }, [logged_in]);
 
   return (
