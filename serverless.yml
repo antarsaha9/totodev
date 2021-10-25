@@ -1,0 +1,6 @@
+totodev-UI:
+  component: "@sls-next/serverless-component@3.4.0"
+  inputs:
+    bucketRegion: us-east-2
+    memory: 256
+    domain: ["alpha", "wunandev.com"]
