@@ -1,17 +1,19 @@
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import { NotificationManager } from "react-notifications";
 import { useDispatch, useSelector } from "react-redux";
 import { paths } from "src/helper";
 import { signInToAWS } from "src/services/authService";
 import { firebaseApp, firebaseAuth } from "src/services/firebase";
+import LoaderSpinner from "~components/Cards/LoaderSpinner";
 import { authActions } from "~redux/authSlice";
 
 const LoginComponent = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const { user: previousUserData } = useSelector((store) => store.auth);
+  const [loading, setLoading] = useState(false);
 
   const uiConfig = {
     signInFlow: "popup",
@@ -37,7 +39,7 @@ const LoginComponent = () => {
         user.getIdToken().then((idToken) => {
           localStorage.setItem("idToken", idToken);
           document.cookie = `idToken=${idToken}; path=/`;
-
+          setLoading(true);
           signInToAWS(userObject, idToken).then((data) => {
             if (data) {
               localStorage.setItem("seller_id", data.id);
@@ -54,7 +56,7 @@ const LoginComponent = () => {
                 document.referrer.indexOf(window.location.host) !== -1
               ) {
                 router.back();
-              } 
+              }
               // =========== Route replacement will be done by login/register page ==============
               // else {
               //   router.replace(paths.EditProfile);
@@ -69,7 +71,10 @@ const LoginComponent = () => {
   };
 
   return (
-    <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebaseAuth} />
+    <>
+      <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebaseAuth} />
+      {loading && <LoaderSpinner />}
+    </>
   );
 };
 
