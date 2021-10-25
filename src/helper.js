@@ -63,4 +63,8 @@ export const paths = {
     Statement: "/dashboard/statements",
     Login: "/login",
     Register: "/register",
+    PurchasedItems: "/dashboard/purchase",
+    Credits: "/dashboard/credits",
+    Settings: "/dashboard/settings",
+    Withdrawls: "/dashboard/withdrawals",
 }

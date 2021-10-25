@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import BraintreeWebDropIn from "braintree-web-drop-in";
-import { Button } from "react-bootstrap";
+import { Button as _button } from "react-bootstrap";
 
 export default class DropIn extends React.Component {
     static displayName = "BraintreeWebDropIn";
@@ -86,4 +86,12 @@ export default class DropIn extends React.Component {
             {/* {this.props.children} */}
         </>;
     }
+}
+function Button({ onClick, ...rest }) {
+    const [disabled, disable] = useState(false);
+    function click(params) {
+        disable(true);
+        onClick(params);
+    }
+    return < _button onClick={click} disabled={disabled} {...rest} > Buy</_button >
 }

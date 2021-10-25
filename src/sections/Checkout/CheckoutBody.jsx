@@ -6,7 +6,7 @@ import CreditCardForm from "./Components/CreditCardForm";
 import FormBlock from "./Components/FormBlock";
 import DropIn from "~components/Widgets/PaypalDropIn";
 
-const CheckoutBody = ({ checkoutData, confirmPayment }) => {
+const CheckoutBody = ({ checkoutData, confirmPayment, purchase }) => {
   const [instance, setInstance] = useState(null)
   const handleBuy = function (res) {
     console.log(res);
@@ -24,7 +24,7 @@ const CheckoutBody = ({ checkoutData, confirmPayment }) => {
                 <h3 className="card-title">Billing Information</h3>
               </div>
               <div className="card-body">
-                <FormBlock />
+                <FormBlock submit={purchase} />
               </div>
             </div>
           </div>
@@ -35,7 +35,7 @@ const CheckoutBody = ({ checkoutData, confirmPayment }) => {
               </div>
               <Tab.Container defaultActiveKey="second">
                 <div className="card-body">
-                  {(!checkoutData || checkoutData.loading) ? <LoaderSpinner /> : <div className="card-pay">
+                  {!checkoutData ? "Please fill the form first!" : checkoutData.loading ? <LoaderSpinner /> : <div className="card-pay">
                     <Nav className="tabs-menu nav" as="ul">
                       {/* <Nav.Item as="li">
                         <Nav.Link eventKey="first">

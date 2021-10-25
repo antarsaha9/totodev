@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
-import Dropdown from 'react-bootstrap/Dropdown';
+import BootstrapDropdown from 'react-bootstrap/Dropdown';
 import { BsFillCaretDownFill, BsFillCaretUpFill } from "react-icons/bs";
 
-export default function _dropdown(props) {
-  const { data, selected, className = "", ariaLabel, handleChange, name } = props;
+export default function Dropdown(props) {
+  const { data, selected, className = "", ariaLabel, handleChange, name, disabled } = props;
   const CustomToggle = React.forwardRef(({ children, onClick, ...props }, ref) => (
     <InputGroup>
       <Form.Control
@@ -17,6 +17,7 @@ export default function _dropdown(props) {
           e.preventDefault();
           onClick(e);
         }}
+        disabled={disabled}
       >
         {children}
       </Form.Control>
@@ -49,16 +50,16 @@ export default function _dropdown(props) {
   // const [selected, setSelected] = useState('');
   // useEffect(() => { setSelected(defaultValue) }, [defaultValue]);
   return (
-    <Dropdown
+    <BootstrapDropdown
       onSelect={e => { handleChange(e) }}
       {...{ name, className }}>
-      <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
+      <BootstrapDropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
         {selected || ariaLabel || "--Select--"}
-      </Dropdown.Toggle>
+      </BootstrapDropdown.Toggle>
 
-      <Dropdown.Menu as={CustomMenu}>
-        {data.map(o => <Dropdown.Item style={{ padding: "6px" }} eventKey={o} active={selected === o}>{o}</Dropdown.Item>)}
-      </Dropdown.Menu>
-    </Dropdown>
+      <BootstrapDropdown.Menu as={CustomMenu}>
+        {data.map(o => <BootstrapDropdown.Item style={{ padding: "6px" }} eventKey={o} active={selected === o}>{o}</BootstrapDropdown.Item>)}
+      </BootstrapDropdown.Menu>
+    </BootstrapDropdown>
   );
 }

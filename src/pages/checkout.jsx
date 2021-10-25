@@ -9,8 +9,7 @@ import NewsLetterSection from "../sections/Innerpages/Newsletter";
 import { NotificationManager } from "react-notifications";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
-import { getCart } from "~services/cartService";
-import { appActions } from "~redux/appSlice";
+import { paths, reloadCart } from "src/helper";
 
 
 const Checkout = ({ cart }) => {
@@ -19,31 +18,29 @@ const Checkout = ({ cart }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!cart || cart.loading) {
+    if (cart && !cart.loading && cart.length === 0) {
+      router.push(paths.PageList);
+    }
+    // else {
+    // }
+  }, [cart]);
 
-    }
-    else {
-      setCheckoutData({ loading: true });
-      checkout({ items: cart }).then(data => {
-        console.log(data);
-        setCheckoutData(data);
-      })
-    }
-  }, [cart])
+  const purchase = function (params, cb) {
+    setCheckoutData({ loading: true });
+    checkout({ items: cart, billing_info: params }).then(data => {
+      console.log(data);
+      setCheckoutData(data);
+      if (cb) cb();
+    });
+  }
 
   const confirmPayment = function (values) {
     completePayment(values).then(data => {
       console.log(data);
-      NotificationManager.success("payment successful!");
-      NotificationManager.success(JSON.stringify(data));
+      NotificationManager.success("Payment successful!");
       setTimeout(() => {
-        dispatch(appActions.setCart({ loading: true }));
-        getCart().then((data) => {
-          if (data) {
-            dispatch(appActions.setCart(data.items));
-          };
-        });
-        router.push('/dashboard/purchase');
+        reloadCart(dispatch);
+        router.push(paths.PurchasedItems);
       }, 2000);
       // setCheckoutData(data);
     })
@@ -52,7 +49,7 @@ const Checkout = ({ cart }) => {
     <>
       <PageWrapper>
         <BreadCrumbSection />
-        <CheckoutBody checkoutData={checkoutData} confirmPayment={confirmPayment} />
+        <CheckoutBody checkoutData={checkoutData} confirmPayment={confirmPayment} purchase={purchase} />
         <NewsLetterSection />
       </PageWrapper>
     </>
