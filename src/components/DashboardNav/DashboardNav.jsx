@@ -1,117 +1,45 @@
+import React, { useState } from "react";
 import { useRouter } from "next/router";
-import React from "react";
-import { Container, Navbar, Row } from "react-bootstrap";
-import { signOut } from "src/helper";
-import ActiveLink from "../core/Link/ActiveLink";
+import Link from "next/link";
+import { Container, Nav, Navbar, Row } from "react-bootstrap";
+import { paths, signOut } from "src/helper";
 
 const MenuNav = () => {
+  const [expanded, setExpanded] = useState(false);
   const router = useRouter();
   const handleSignOut = () => {
     signOut(router);
   };
+  const collapse = () => setExpanded(false);
+
   return (
     <section className="pt-7">
       <Container>
         <Row>
           <div className="col-xl-12 col-lg-12 col-md-12">
             <div className="hor-menu-nav">
-              <Navbar className="navbar-light p-0" expand="lg">
+              <Navbar expanded={expanded} onToggle={setExpanded} className="navbar-light p-0" expand="lg">
                 <Navbar.Toggle aria-controls="basic-navbar-nav">
                   Dashboard-Menu
                   <i className="fe fe-align-left" />
                 </Navbar.Toggle>
                 <Navbar.Collapse id="basic-navbar-nav">
-                  <ul className="navbar-nav">
-                    <ActiveLink activeClassName="active" href="/dashboard">
-                      <li className="nav-item">
-                        <a className="nav-link">
-                          <i className="fe fe-user nav-icon" /> Edit Profile
-                        </a>
-                      </li>
-                    </ActiveLink>
-                    <ActiveLink
-                      activeClassName="active"
-                      href="/dashboard/upload"
-                    >
-                      <li className="nav-item">
-                        <a className="nav-link">
-                          <i className="fe fe-download nav-icon" /> Upload Items
-                        </a>
-                      </li>
-                    </ActiveLink>
-                    <ActiveLink
-                      activeClassName="active"
-                      href="/dashboard/managed"
-                    >
-                      <li className="nav-item">
-                        <a className="nav-link">
-                          <i className="fe fe-folder-plus nav-icon" />
-                          Managed Items
-                        </a>
-                      </li>
-                    </ActiveLink>
-                    <ActiveLink
-                      activeClassName="active"
-                      href="/dashboard/purchase"
-                    >
-                      <li className="nav-item">
-                        <a className="nav-link">
-                          <i className="fe fe-shopping-cart nav-icon" />
-                          Purchase
-                        </a>
-                      </li>
-                    </ActiveLink>
-                    <ActiveLink
-                      activeClassName="active"
-                      href="/dashboard/credits"
-                    >
-                      <li className="nav-item">
-                        <a className="nav-link">
-                          <i className="fe fe-credit-card nav-icon" />
-                          Credits
-                        </a>
-                      </li>
-                    </ActiveLink>
-                    <ActiveLink
-                      activeClassName="active"
-                      href="/dashboard/statements"
-                    >
-                      <li className="nav-item">
-                        <a className="nav-link">
-                          <i className="fe fe-edit nav-icon" />
-                          Statements
-                        </a>
-                      </li>
-                    </ActiveLink>
-                    <ActiveLink
-                      activeClassName="active"
-                      href="/dashboard/settings"
-                    >
-                      <li className="nav-item">
-                        <a className="nav-link">
-                          <i className="fe fe-settings nav-icon" />
-                          Settings
-                        </a>
-                      </li>
-                    </ActiveLink>
-                    <ActiveLink
-                      activeClassName="active"
-                      href="/dashboard/withdrawals"
-                    >
-                      <li className="nav-item">
-                        <a className="nav-link">
-                          <i className="fe fe-edit nav-icon" />
-                          Withdrawals
-                        </a>
-                      </li>
-                    </ActiveLink>
+                  <Nav as="ul">
+                    <NavLink to={paths.EditProfile} name="Edit profile" icon="fe fe-user nav-icon" onClick={collapse} />
+                    <NavLink to={paths.Upload} name="Upload Items" icon="fe fe-download nav-icon" onClick={collapse} />
+                    <NavLink to={paths.ManageItems} name="Managed Items" icon="fe fe-folder-plus nav-icon" onClick={collapse} />
+                    <NavLink to={paths.PurchasedItems} name="Purchase" icon="fe fe-shopping-cart nav-icon" onClick={collapse} />
+                    <NavLink to={paths.Credits} name="Credits" icon="fe fe-credit-card nav-icon" onClick={collapse} />
+                    <NavLink to={paths.Statement} name="Statements" icon="fe fe-edit nav-icon" onClick={collapse} />
+                    <NavLink to={paths.Settings} name="Settings" icon="fe fe-settings nav-icon" onClick={collapse} />
+                    <NavLink to={paths.Withdrawls} name="Withdrawals" icon="fe fe-edit nav-icon" onClick={collapse} />
                     <li className="nav-item">
                       <a onClick={handleSignOut} className="nav-link">
                         <i className="fe fe-power nav-icon" />
                         Logout
                       </a>
                     </li>
-                  </ul>
+                  </Nav>
                 </Navbar.Collapse>
               </Navbar>
             </div>
@@ -121,4 +49,23 @@ const MenuNav = () => {
     </section>
   );
 };
+
+function NavLink({ to, name, icon, onClick }) {
+  const { asPath } = useRouter();
+
+  return (
+    <Link href={to} scroll={false}>
+      <Nav.Item
+        as={'li'}
+        onClick={onClick}
+        className={asPath === to ? 'active' : ''}
+      >
+        <a className="nav-link">
+          <i className={icon} />{name}
+        </a>
+      </Nav.Item>
+    </Link>
+  )
+}
+
 export default MenuNav;
