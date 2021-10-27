@@ -4,7 +4,7 @@ import CommentModal from "~components/Widgets/CommentModal";
 import CommentCard from "./CommentCard";
 import CommentForm from "./CommentForm";
 
-function CommentTab({ comments, submitComment }) {
+function CommentTab({ comments, submitComment, logged_in }) {
   const [visible, show] = useState(false);
   const commentHandler = function (values) {
     console.log(values);
@@ -37,8 +37,10 @@ function CommentTab({ comments, submitComment }) {
             onComment={commentHandler}
           />)}
       </div>
-      <CommentForm submitHandler={commentHandler} />
-      <CommentModal {...{ show, visible, submitHandler: commentHandler }} />
+      {logged_in && <>
+        <CommentForm submitHandler={commentHandler} />
+        <CommentModal {...{ show, visible, submitHandler: commentHandler }} />
+      </>}
     </>
   )
 }

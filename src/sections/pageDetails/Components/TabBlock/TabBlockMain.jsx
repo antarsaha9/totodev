@@ -23,7 +23,7 @@ const features = [
   'Shoping Cart'
 ];
 
-const TabBlockMain = ({ product, reviews, comments, reviewItem, commentItem }) => {
+const TabBlockMain = ({ product, reviews, comments, reviewItem, commentItem, logged_in }) => {
   const { item_description, tags, } = product;
   return (
     <Tab.Container defaultActiveKey="details">
@@ -154,11 +154,11 @@ const TabBlockMain = ({ product, reviews, comments, reviewItem, commentItem }) =
                     </div>
                   </div>
                 </div>
-                <RatingForm reviewItem={reviewItem} />
+                {logged_in && <RatingForm reviewItem={reviewItem} />}
               </>}
           </Tab.Pane>
           <Tab.Pane eventKey="comments">
-            <CommentTab comments={comments} submitComment={commentItem} />
+            <CommentTab comments={comments} submitComment={commentItem} logged_in={logged_in} />
 
           </Tab.Pane>
           <Tab.Pane eventKey="support">
