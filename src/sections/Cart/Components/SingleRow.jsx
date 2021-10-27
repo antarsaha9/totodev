@@ -1,6 +1,6 @@
 import React from "react";
-import Image from "next/image"
 import { Button } from "react-bootstrap";
+import ImageWrapper from "~components/Widgets/Image";
 const SingleRow = ({ image, title, price, remove }) => {
   // const [count, setCount] = React.useState(0);
   // const uinpt =  React.useRef()
@@ -8,14 +8,13 @@ const SingleRow = ({ image, title, price, remove }) => {
     <tr>
       <td>
         {/* <div className="h-8 "> */}
-        <Image
+        <ImageWrapper
           src={image}
           alt="cart-image"
           layout="fixed"
           width="64"
-          height="64"
+          height="48"
           className="br-4"
-        // placeholder="blur"
         />
         {/* </div> */}
       </td>
@@ -48,7 +47,7 @@ const SingleRow = ({ image, title, price, remove }) => {
         </div>
       </td> */}
       <td>
-        <a
+        {/* <a
           href="/#"
           className="btn btn-danger btn-sm mr-2"
           data-toggle="tooltip"
@@ -56,7 +55,7 @@ const SingleRow = ({ image, title, price, remove }) => {
           title="Save for Washlist"
         >
           <i className="icon icon-heart" />
-        </a>
+        </a> */}
         <Button
           variant="info"
           className="btn-sm"

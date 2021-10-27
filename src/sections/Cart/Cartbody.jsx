@@ -3,7 +3,7 @@ import SingleRow from './Components/SingleRow'
 import cartImage from "../../assets/images/media/pictures/small/01.jpg"
 import LoaderSpinner from '~components/Cards/LoaderSpinner'
 import { Link } from '~components/core'
-import { removeFromCart } from 'src/helper'
+import { paths, removeFromCart } from 'src/helper'
 import { useDispatch } from 'react-redux'
 const CardtBody = ({ cart }) => {
   const dispatch = useDispatch();
@@ -66,8 +66,8 @@ const CardtBody = ({ cart }) => {
                 </div>
               </div>
               <div className="card-footer text-right">
-                <Link to="/pagelist" className="btn btn-primary"><i className="fa fa-arrow-left mr-1" />Continue Shopping</Link>
-                <Link to="/checkout" className="btn btn-success">Check out<i className="fa fa-arrow-right ml-1" /></Link>
+                <Link to={paths.PageList} className="btn btn-primary"><i className="fa fa-arrow-left mr-1" />Continue Shopping</Link>
+                <Link to={paths.Checkout} className="btn btn-success">Check out<i className="fa fa-arrow-right ml-1" /></Link>
               </div>
             </div>
           </div>
