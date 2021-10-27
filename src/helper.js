@@ -2,12 +2,14 @@ import { appActions } from "~redux/appSlice";
 import { updateCart, getCart } from "~services/cartService";
 import { signOut as _signOut } from "~services/authService";
 import { getMyProfile } from "~services/profileService";
+import { getDownloadUrl } from "~services/purchaseService";
 
-export const removeFromCart = function (currentData, itemIndex, dispatcher) {
+export const removeFromCart = function (currentData, itemIndex, dispatcher, cb) {
     dispatcher(appActions.setCart({ loading: true }));
     const updatedCartData = currentData.filter((_, index) => index !== itemIndex);
     updateCart(updatedCartData).then(() => {
         reloadCart(dispatcher)
+        if (cb) cb()
     })
 }
 
@@ -52,6 +54,19 @@ export const postLoginAction = function (callback) {
     loadProfile(callback);
 }
 
+export const downloadItem = function ({item_id, order_number, item_name}, callback) {
+    getDownloadUrl({ item_id, order_id: order_number }).then(res => {
+      var link = document.createElement("a");
+      link.download = item_name;
+      link.href = res.url;
+      link.target = "_blank";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      if (callback) callback();
+    })
+  }
+
 export const paths = {
     PageList: "/pagelist",
     PageDetail: "/pageDetails",
@@ -67,4 +82,6 @@ export const paths = {
     Credits: "/dashboard/credits",
     Settings: "/dashboard/settings",
     Withdrawls: "/dashboard/withdrawals",
+    Cart: "/cart",
+    Checkout: "/checkout",
 }

@@ -82,6 +82,10 @@ export const getItemDetails = async (item_id) => {
   return API.post("/getAnItem", { item_id });
 };
 
+export const isItemPurchased = async (item_id) => {
+  return API.post("/isItemPurchased", { item_id });
+};
+
 export const getAdList = async (values) => {
   return API.post("/getAdList", values);
 };

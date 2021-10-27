@@ -1,16 +1,31 @@
-import React, { useState } from "react";
-import LoadingButton from "~components/Buttons/LoadingButton";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { downloadItem, removeFromCart } from "src/helper";
+import LoadingButton from "~components/Buttons/UncontrolledLoadingButton";
 
 const SidebarBuyCard = ({ product, addToCart, buyNow }) => {
-  const [addingToCart, setAddingToCart] = useState(false);
-  const [buying, setBuying] = useState(false);
-  const _addToCart = function () {
-    setAddingToCart(true)
-    addToCart(() => setAddingToCart(false));
+  const { cart } = useSelector((store) => store.app);
+  const [itemInCartIndex, setItemInCartIndex] = useState(-1);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!product.purchased && cart && !cart.loading) {
+      const found = cart.findIndex(item => item.item_id === product.id);
+      setItemInCartIndex(found);
+    }
+  }, [cart]);
+
+  const _removeFromCart = function (cb) {
+    removeFromCart(cart, itemInCartIndex, dispatch, cb);
   }
-  const _buy = function () {
-    setBuying(true);
-    buyNow(() => setBuying(false));
+
+  const download = function (cb) {
+    downloadItem({
+      item_id: product.id,
+      item_name: product.item_name,
+      order_number: product.order_number,
+    });
+    if (cb) cb();
   }
   return (
     <div className="card  mt-5 mt-lg-0">
@@ -69,13 +84,26 @@ const SidebarBuyCard = ({ product, addToCart, buyNow }) => {
         </div> */}
       </div>
       <div className="card-body item-user">
-        <LoadingButton variant="primary" className="ripple btn-block" size="lg" onClick={_addToCart} loading={addingToCart}>
-          <i className="fe fe-shopping-cart mr-1" />
-          Add to Cart
-        </LoadingButton>
-        <LoadingButton variant="info" className="ripple btn-block" size="lg" onClick={_buy} loading={buying}>
-          Buy Now
-        </LoadingButton>
+        {product.purchased ?
+          <LoadingButton variant="success" className="ripple btn-block" size="lg" onClick={download}>
+            Download
+          </LoadingButton> :
+          <>{itemInCartIndex >= 0 ?
+            <LoadingButton variant="warning" className="ripple btn-block" size="lg" onClick={_removeFromCart}>
+              <i className="fe fe-shopping-cart mr-1" />
+              Remove from cart
+            </LoadingButton> :
+            <>
+              <LoadingButton variant="primary" className="ripple btn-block" size="lg" onClick={addToCart}>
+                <i className="fe fe-shopping-cart mr-1" />
+                Add to Cart
+              </LoadingButton>
+              <LoadingButton variant="info" className="ripple btn-block" size="lg" onClick={buyNow}>
+                Buy Now
+              </LoadingButton>
+            </>
+          }
+          </>}
       </div>
       <div className="p-3 border-top text-center bg-light">
         {/* <i className="payment payment-maestro mr-2" /> */}

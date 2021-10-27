@@ -8,6 +8,7 @@ import Pagination from "../../../components/Pagination";
 import { getPurchasedItems, getDownloadUrl } from "~services/purchaseService";
 import Loader from "~components/Loader";
 import LoaderSpinner from "~components/Cards/LoaderSpinner";
+import { downloadItem } from "src/helper";
 const PurchaseSection = () => {
   const [loading, setLoading] = useState(true);
   const [productList, setProductList] = useState([]);
@@ -18,19 +19,6 @@ const PurchaseSection = () => {
     currentPage: 1,
     token: null
   });
-  const downloadItem = function (order, callback) {
-    console.log(order);
-    getDownloadUrl({ item_id: order.item_id, order_id: order.order_number }).then(res => {
-      var link = document.createElement("a");
-      link.download = order.item_name;
-      link.href = res.url;
-      link.target = "_blank";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      if (callback) callback();
-    })
-  }
 
   useEffect(() => {
     getPurchasedItems({
