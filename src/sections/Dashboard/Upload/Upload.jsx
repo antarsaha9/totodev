@@ -1,7 +1,8 @@
 import { Formik } from "formik";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
+  Badge,
   Container,
   FormControl,
   FormGroup,
@@ -22,6 +23,8 @@ import {
   getMyItem,
   updateSellerItem,
 } from "~services/itemService";
+import { paths } from "src/helper";
+import LoaderSpinner from "~components/Cards/LoaderSpinner";
 
 const ProductImageBox = styled.img`
   height: 240px;
@@ -33,7 +36,10 @@ const ProductImageBox = styled.img`
 `;
 
 const UploadSection = () => {
-  const [product, setProduct] = useState(initialValues);
+  const intervalRef = useRef();
+  const ppcRef = useRef();
+  const [product, setProduct] = useState({ loading: false, data: initialValues });
+  const [postProcess, setPostProcess] = useState({ loading: false, data: null });
   const [progress, setProgress] = useState(0);
 
   const { query, ...router } = useRouter();
@@ -44,37 +50,96 @@ const UploadSection = () => {
     } else NotificationManager.error(`Couldn't ${actionName} item`);
   };
 
+  function loadPostProcess() {
+    // console.log("Post processing triggered");
+    setPostProcess({ loading: true, data: {} })
+    getMyItem(query.id)
+      .then((data) => {
+        if (data) {
+          setPostProcess({ loading: false, data: data.file_scan_result });
+          if (data.file_scan_result.result && data.file_scan_result.result.length > 0) {
+            clearInterval(intervalRef.current);
+            if (data.file_scan_result.result === 'GOOD') {
+              NotificationManager.success('Item added successfully!');
+              setTimeout(() => {
+                router.push(paths.ManageItems);
+              }, 3000);
+            }
+            else {
+              NotificationManager.error('Uploaded file failed post processing test!');
+            }
+          }
+        }
+      });
+  }
+  function startPostProcess(data) {
+    setPostProcess({ loading: false, data: data.file_scan_result });
+    if (!data.file_scan_result.result) {
+      const id = setInterval(loadPostProcess, 60000);
+      intervalRef.current = id;
+      ppcRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
+  function load() {
+    if (query.flow && query.flow === 'continuous') {
+      setPostProcess({ loading: true, data: {} });
+      getMyItem(query.id)
+        .then((data) => {
+          if (data) {
+            startPostProcess(data);
+          }
+          else router.push(paths.Upload);
+        });
+    }
+    else {
+      setProduct({ loading: true, data: {} });
+      getMyItem(query.id)
+        .then((data) => {
+          if (data) {
+            setProduct({ loading: false, data });
+            startPostProcess(data);
+          }
+          else router.push(paths.Upload);
+        });
+    }
+  }
+
   const handleFormSubmit = async (values, { resetForm }) => {
     // update item
     if (values.id) {
       const data = await updateSellerItem(values, setProgress);
       showNotification(data, "update");
+      setTimeout(() => {
+        setProgress(0);
+        load();
+      }, 3000);
     }
     // add item
     else {
       const data = await addSellerItem(values, setProgress);
-      showNotification(data, "add");
+      // showNotification(data, "add");
       // resetForm();
       setProgress(0);
-      router.push("/dashboard/managed");
+      router.push({ pathname: paths.Upload, query: { id: data.item_id, flow: 'continuous' } }, undefined, { shallow: true });
+      // setTimeout(() => {
+      // }, 3000);
     }
   };
 
   // handle update if item already exists
   useEffect(() => {
     if (query.id) {
-      getMyItem(query.id).then((data) => {
-        if (data) setProduct(data);
-        else router.push("/dashboard/upload");
-      });
+      load();
     }
+    if (intervalRef.current)
+      return () => clearInterval(intervalRef.current);
   }, [query]);
 
   return (
     <Container>
-      <Formik
-        initialValues={product}
-        validationSchema={product.id ? updateFormSchema : formSchema}
+      {product.loading ? <LoaderSpinner /> : <Formik
+        initialValues={product.data}
+        validationSchema={product.data.id ? updateFormSchema : formSchema}
         enableReinitialize={true}
         onSubmit={handleFormSubmit}
       >
@@ -110,7 +175,7 @@ const UploadSection = () => {
                             /> */}
 
                             <Dropdown
-                              data={categoryList} 
+                              data={categoryList}
                               // className="form-control" 
                               ariaLabel="Select Category"
                               defaultValue={values.category_name}
@@ -212,6 +277,7 @@ const UploadSection = () => {
                             </FormLabel>
                             <FormControl
                               type="number"
+                              step="0.01"
                               placeholder="Price"
                               name="price"
                               value={values.price}
@@ -260,6 +326,25 @@ const UploadSection = () => {
                           variant="primary"
                         />
                       )}
+                      {postProcess.loading ? <>Refreshing post processing state...</> : postProcess.data &&
+                        <div ref={ppcRef}>
+                          <div>
+                            <h5>Post processing state: {postProcess.data.state}
+                            </h5>
+                          </div>
+                          {!postProcess.data.result && <div>
+                            <h5>Estimated time: 3 minutes</h5>
+                          </div>}
+                          <div>
+                            <h5>Progress: {postProcess.data.progress}%</h5>
+                          </div>
+                          {postProcess.data.result && <div>
+                            <h5>Result: <Badge variant={postProcess.data.result === "GOOD" ? "success" : "danger"}>{postProcess.data.result}</Badge>
+                            </h5>
+                          </div>
+                          }
+                        </div>
+                      }
                     </div>
 
                     <div className="card-footer text-right">
@@ -329,7 +414,7 @@ const UploadSection = () => {
             </form>
           );
         }}
-      </Formik>
+      </Formik>}
     </Container>
   );
 };
